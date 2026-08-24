@@ -12,6 +12,17 @@ type Day = {
   detail?: string;
 };
 
+type RoutePhoto = {
+  src: string;
+  stop: string;
+  title: string;
+  alt: string;
+  note: string;
+  credit: string;
+  license: string;
+  source: string;
+};
+
 const utahDays: Day[] = [
   {
     date: 'Fri · Dec 18',
@@ -269,6 +280,162 @@ const coastDays: Day[] = [
   },
 ];
 
+const utahPhotoStory: RoutePhoto[] = [
+  {
+    src: 'utah-donner.jpg',
+    stop: 'Dec 21 · Donner Lake',
+    title: 'The first weather gate',
+    alt: 'Snow-covered mountains surrounding Donner Lake in the Sierra Nevada',
+    note: 'A clear-day pause before crossing the Sierra to Reno.',
+    credit: 'Samir Mahendra',
+    license: 'CC BY 2.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Donner_Lake_in_winter.jpg',
+  },
+  {
+    src: 'utah-bonneville.jpg',
+    stop: 'Dec 23 · Bonneville',
+    title: 'Salt, sky, and almost no horizon',
+    alt: 'Bonneville Salt Flats sign in front of white salt flats and distant mountains',
+    note: 'The Great Basin opens up just before Salt Lake City.',
+    credit: 'Dietmar Rabich',
+    license: 'CC BY-SA 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Wendover_(UT,_USA),_Bonneville_Salt_Flats_--_2022_--_2705.jpg',
+  },
+  {
+    src: 'utah-antelope.jpg',
+    stop: 'Dec 24 · Antelope Island',
+    title: 'A flexible airport-day escape',
+    alt: 'Bison on Antelope Island above the Great Salt Lake at sunset',
+    note: 'Use it only if everyone’s flight timing leaves enough winter daylight.',
+    credit: 'Matthew Dillon',
+    license: 'CC BY 2.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Antelope_Island_State_Park,_Great_Salt_Lake_(49408253886).jpg',
+  },
+  {
+    src: 'utah-canyonlands.jpg',
+    stop: 'Dec 27 · Canyonlands',
+    title: 'One last immense Moab view',
+    alt: 'Layered red canyons seen from Grand View Point in Canyonlands National Park',
+    note: 'Island in the Sky works as a morning detour before the drive to Torrey.',
+    credit: 'Myrabella',
+    license: 'CC BY-SA 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Canyonlands_NP_Grand_View_Point_Overlook.jpg',
+  },
+  {
+    src: 'utah-capitol-reef.jpg',
+    stop: 'Dec 28 · Capitol Reef',
+    title: 'Red rock under winter snow',
+    alt: 'Snowy desert valley and Chimney Rock in Capitol Reef National Park',
+    note: 'A full park day from Torrey, with room to adjust to ice and short daylight.',
+    credit: 'National Park Service',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:Chimney_Rock_Loop_in_Winter_(9d1158db-8cb4-4db0-ba52-897559007cc4).JPG',
+  },
+  {
+    src: 'utah-highway12.jpg',
+    stop: 'Dec 29 · Highway 12',
+    title: 'The road is the centerpiece',
+    alt: 'A wide view across colorful mountains from Scenic Byway 12 near Boulder Mountain',
+    note: 'Take the high route only when the forecast and pavement both cooperate.',
+    credit: 'S. Clyde / NARA',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:Scenic_Byway_12_-_A_Sweeping_View_from_Boulder_Mountain_-_NARA_-_7721710.jpg',
+  },
+  {
+    src: 'utah-toadstools.jpg',
+    stop: 'Dec 30 · Grand Staircase',
+    title: 'The quieter Kanab choice',
+    alt: 'Red and white hoodoo formations at Toadstool Hoodoos in southern Utah',
+    note: 'A low-commitment alternative when Zion is busy or the higher country is icy.',
+    credit: 'Chris06',
+    license: 'CC BY-SA 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:2015_Toadstool_Hoodoos_Utah_(1).jpg',
+  },
+];
+
+const coastPhotoStory: RoutePhoto[] = [
+  {
+    src: 'coast-point-lobos.jpg',
+    stop: 'Dec 21 · Point Lobos',
+    title: 'The coast begins close to Menlo',
+    alt: 'Rocky coves and blue Pacific water at Point Lobos State Natural Reserve',
+    note: 'A strong first hike without turning arrival day into a long haul.',
+    credit: 'Brocken Inaglory',
+    license: 'CC BY-SA 3.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Point_Lobos_3.jpg',
+  },
+  {
+    src: 'coast-pinnacles.jpg',
+    stop: 'Dec 22 · Pinnacles',
+    title: 'A day inland among volcanic spires',
+    alt: 'Jagged rock formations rising above chaparral in Pinnacles National Park',
+    note: 'Cool winter hiking, with route length set by cave access and daylight.',
+    credit: 'Brocken Inaglory',
+    license: 'CC BY-SA 3.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Rock_formations_at_Pinnacles_National_Park_2.jpg',
+  },
+  {
+    src: 'coast-bixby.jpg',
+    stop: 'Dec 23 · Big Sur',
+    title: 'Highway 1 without betting on a through-drive',
+    alt: 'Bixby Creek Bridge spanning a steep canyon above the Pacific Ocean',
+    note: 'Use the open northern coast, then return to Menlo for Christmas Eve.',
+    credit: 'Diliff',
+    license: 'CC BY-SA 3.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Bixby_Creek_Bridge,_California,_USA_-_May_2013.jpg',
+  },
+  {
+    src: 'coast-avenue-giants.jpg',
+    stop: 'Dec 27 · Avenue of the Giants',
+    title: 'The long drive earns its name',
+    alt: 'A narrow road passing between towering redwoods on Avenue of the Giants',
+    note: 'Make this the major stop between Mendocino and the Humboldt coast.',
+    credit: 'Dougtone',
+    license: 'CC BY-SA 2.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Avenue_of_the_Giants_-_California_-_7402263454.jpg',
+  },
+  {
+    src: 'coast-prairie-creek.jpg',
+    stop: 'Dec 28 · Prairie Creek',
+    title: 'A full day beneath the canopy',
+    alt: 'Lush green ferns and enormous redwood trunks in Prairie Creek Redwoods State Park',
+    note: 'The forest remains the main event even when rain closes secondary roads.',
+    credit: 'California State Parks',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:Prairie_Creek_Redwoods_State_Park.jpg',
+  },
+  {
+    src: 'coast-boardman.jpg',
+    stop: 'Dec 29 · Samuel H. Boardman',
+    title: 'Oregon arrives in fog and sea stacks',
+    alt: 'Forested cliffs and sea stacks in fog along the southern Oregon coast',
+    note: 'Choose a few viewpoints rather than racing every pullout before dark.',
+    credit: 'Dougtone',
+    license: 'CC BY-SA 2.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Samuel_H._Boardman_State_Scenic_Corridor_-_Oregon_-_7405365820.jpg',
+  },
+  {
+    src: 'coast-cape-perpetua.jpg',
+    stop: 'Dec 30 · Cape Perpetua',
+    title: 'Forest meets an exposed winter ocean',
+    alt: 'High viewpoint over forested Cape Perpetua and the Oregon coastline',
+    note: 'Use overlooks and sheltered walks according to wind and surf conditions.',
+    credit: 'U.S. Forest Service',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:Cape_Perpetua_Whispering_Spruce_View_4.jpg',
+  },
+  {
+    src: 'coast-yachats.jpg',
+    stop: 'Dec 30 · Yachats',
+    title: 'A final night at the Pacific edge',
+    alt: 'Sun breaking through winter clouds over waves and dark rocks near Yachats, Oregon',
+    note: 'Keep well back from exposed rocks when swell and sneaker-wave risk are high.',
+    credit: 'Little Mountain 5',
+    license: 'CC BY-SA 4.0',
+    source: 'https://commons.wikimedia.org/wiki/File:Coast_near_Yachats,_Oregon_1.JPG',
+  },
+];
+
 const sources = [
   ['Caltrans chain requirements', 'https://dot.ca.gov/travel/winter-driving-tips/chain-requirements'],
   ['Nevada winter driving', 'https://www.dot.nv.gov/safety/safe-winter-driving'],
@@ -312,6 +479,51 @@ function Itinerary({ days, tone }: { days: Day[]; tone: 'utah' | 'coast' }) {
         </li>
       ))}
     </ol>
+  );
+}
+
+function RoutePhotoAtlas({
+  photos,
+  tone,
+  heading,
+  description,
+}: {
+  photos: RoutePhoto[];
+  tone: 'utah' | 'coast';
+  heading: string;
+  description: string;
+}) {
+  return (
+    <section className={`photo-atlas photo-atlas-${tone}`} aria-label={`${heading} photo guide`}>
+      <header className="atlas-header">
+        <p className="kicker">The route in pictures</p>
+        <h3>{heading}</h3>
+        <p>{description}</p>
+      </header>
+      <div className="atlas-grid">
+        {photos.map((photo) => (
+          <figure className="atlas-photo" key={photo.src}>
+            <div className="atlas-image">
+              <img
+                src={`${siteBasePath}/photos/${photo.src}`}
+                alt={photo.alt}
+                loading="lazy"
+                decoding="async"
+              />
+              <span>{photo.stop}</span>
+            </div>
+            <figcaption>
+              <strong>{photo.title}</strong>
+              <span>{photo.note}</span>
+              <small>
+                Photo: {photo.credit}, {photo.license}.{' '}
+                <a href={photo.source} target="_blank" rel="noreferrer">Source ↗</a>
+              </small>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -419,6 +631,13 @@ export default function Home() {
 
           <Itinerary days={utahDays} tone="utah" />
 
+          <RoutePhotoAtlas
+            photos={utahPhotoStory}
+            tone="utah"
+            heading="From Sierra snow to sculpted desert."
+            description="Seven more views follow the road in order, so the landscape changes with the itinerary instead of appearing as a disconnected gallery."
+          />
+
           <div className="photo-grid">
             <figure className="photo-tall">
               <img src={`${siteBasePath}/photos/utah-bryce.jpg`} alt="Snow around the hoodoos at Bryce Canyon National Park" />
@@ -481,6 +700,13 @@ export default function Home() {
           </div>
 
           <Itinerary days={coastDays} tone="coast" />
+
+          <RoutePhotoAtlas
+            photos={coastPhotoStory}
+            tone="coast"
+            heading="From granite coves to Oregon surf."
+            description="Eight more views trace the coastal route north, with the forest becoming denser and the shoreline wilder after Mendocino."
+          />
 
           <div className="photo-grid coast-photos">
             <figure className="photo-tall">

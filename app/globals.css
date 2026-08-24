@@ -113,6 +113,7 @@ figure { margin: 0; }
 .section-intro h2,
 .route-header h2,
 .route-summary-grid h3,
+.atlas-header h3,
 .compressed-plan h3,
 .recommendation h3,
 .checklist-section h2,
@@ -335,6 +336,103 @@ figcaption {
 .day-logistics dt { color: var(--ink-soft); }
 .day-logistics dd { margin: 5px 0 0; font-size: 13px; font-weight: 700; line-height: 1.4; }
 
+.photo-atlas {
+  margin-top: clamp(105px, 12vw, 180px);
+  padding-top: clamp(42px, 5vw, 72px);
+  border-top: 1px solid var(--ink);
+}
+
+.atlas-header {
+  margin-bottom: clamp(46px, 6vw, 82px);
+  display: grid;
+  grid-template-columns: .55fr 1.15fr .85fr;
+  gap: clamp(28px, 5vw, 78px);
+  align-items: end;
+}
+
+.atlas-header .kicker { align-self: start; }
+.atlas-header h3 { font-size: clamp(44px, 5.6vw, 82px); line-height: .96; }
+.atlas-header > p:last-child { margin: 0; font-size: 17px; line-height: 1.55; }
+
+.atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 42px) clamp(16px, 2.2vw, 30px);
+}
+
+.atlas-photo { min-width: 0; grid-column: span 6; }
+.atlas-photo:nth-child(1) { grid-column: 1 / span 7; }
+.atlas-photo:nth-child(2) { grid-column: 8 / -1; }
+.atlas-photo:nth-child(3) { grid-column: 1 / span 4; }
+.atlas-photo:nth-child(4) { grid-column: 5 / -1; }
+.atlas-photo:nth-child(5) { grid-column: 1 / span 6; }
+.atlas-photo:nth-child(6) { grid-column: 7 / -1; }
+.atlas-photo:nth-child(7) { grid-column: 1 / span 6; }
+.atlas-photo:nth-child(8) { grid-column: 7 / -1; }
+
+.atlas-image {
+  position: relative;
+  overflow: hidden;
+  background: rgba(26, 36, 32, .1);
+}
+
+.atlas-image img {
+  height: clamp(330px, 35vw, 510px);
+  object-fit: cover;
+  transition: transform 420ms ease;
+}
+
+.atlas-photo:nth-child(3) .atlas-image img,
+.atlas-photo:nth-child(4) .atlas-image img { height: clamp(300px, 30vw, 430px); }
+.atlas-photo:nth-child(n+5) .atlas-image img { height: clamp(320px, 32vw, 460px); }
+.atlas-photo:hover .atlas-image img { transform: scale(1.018); }
+
+.atlas-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, .28), transparent 34%);
+  pointer-events: none;
+}
+
+.atlas-image > span {
+  position: absolute;
+  z-index: 1;
+  top: 16px;
+  left: 16px;
+  padding: 8px 10px;
+  background: rgba(242, 238, 228, .93);
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.photo-atlas-utah .atlas-image > span { border-left: 4px solid var(--utah); }
+.photo-atlas-coast .atlas-image > span { border-left: 4px solid var(--coast); }
+
+.atlas-photo figcaption {
+  min-height: 112px;
+  padding: 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--ink);
+}
+
+.atlas-photo figcaption strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(19px, 1.75vw, 26px);
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+}
+
+.atlas-photo figcaption > span { max-width: 680px; font-size: 13px; color: var(--ink-soft); }
+.atlas-photo figcaption small { margin-top: auto; font-size: 9px; color: var(--ink-soft); }
+
 .photo-grid {
   margin-top: clamp(90px, 10vw, 145px);
   display: grid;
@@ -446,6 +544,8 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .leaflet-map { min-height: 560px; }
   .route-header { grid-template-columns: .5fr 1.5fr; }
   .route-header .route-deck { grid-column: 2; }
+  .atlas-header { grid-template-columns: .5fr 1.5fr; }
+  .atlas-header > p:last-child { grid-column: 2; }
   .day-card { grid-template-columns: 46px 110px 1fr; }
   .day-logistics { grid-column: 3; grid-template-columns: 1fr 1fr; }
   .decision-section .section-intro { grid-template-columns: .5fr 1.5fr; }
@@ -466,6 +566,7 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .brief-section,
   .route-header,
   .route-summary-grid,
+  .atlas-header,
   .compressed-plan,
   .decision-section .section-intro,
   .checklist-section,
@@ -473,6 +574,7 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .brief-section { gap: 30px; }
   .constraint-grid,
   .route-header .route-deck,
+  .atlas-header > p:last-child,
   .decision-section .section-intro > p:last-child { grid-column: auto; }
   .map-section { padding-left: 14px; padding-right: 14px; }
   .map-section .section-intro { padding: 0 8px; }
@@ -486,6 +588,14 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .day-logistics { grid-column: 2; grid-template-columns: 1fr; }
   .day-heading { display: block; }
   .group-pill { display: inline-block; margin-top: 13px; }
+  .atlas-grid { grid-template-columns: 1fr; gap: 38px; }
+  .atlas-photo,
+  .atlas-photo:nth-child(n) { grid-column: auto; }
+  .atlas-image img,
+  .atlas-photo:nth-child(3) .atlas-image img,
+  .atlas-photo:nth-child(4) .atlas-image img,
+  .atlas-photo:nth-child(n+5) .atlas-image img { height: 390px; }
+  .atlas-photo figcaption { min-height: 0; }
   .photo-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
   .photo-grid .photo-tall,
   .photo-grid .weather-card { grid-column: auto; grid-row: auto; }
@@ -506,9 +616,14 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .constraint-grid div { min-height: 120px; }
   .route-stats { grid-template-columns: 1fr; }
   .leaflet-map { min-height: 460px; }
+  .atlas-image img,
+  .atlas-photo:nth-child(3) .atlas-image img,
+  .atlas-photo:nth-child(4) .atlas-image img,
+  .atlas-photo:nth-child(n+5) .atlas-image img { height: 310px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero-choice { transition: none; }
+  .hero-choice,
+  .atlas-image img { transition: none; }
 }
