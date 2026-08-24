@@ -16,6 +16,7 @@
 /.next/
 /.vinext/
 /out/
+/versions/
 
 # misc
 .DS_Store

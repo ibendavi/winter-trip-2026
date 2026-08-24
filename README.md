@@ -5,7 +5,8 @@ A family winter-break planner comparing two detailed road trips for December 18,
 - Menlo Park through Reno, Salt Lake City, and Utah’s national parks to Las Vegas
 - Menlo Park through Mendocino, the redwoods, and the Oregon coast to Portland
 
-The published site is [ibendavi.github.io](https://ibendavi.github.io/).
+The published site is [ibendavi.github.io/winter-trip-2026](https://ibendavi.github.io/winter-trip-2026/).
+The original root-domain publication remains preserved as the predecessor version.
 
 ## Local development
 

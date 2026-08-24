@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Two Roads West | Winter Break 2026',
     description: 'Two detailed family road-trip options from Menlo Park: Utah parks or the Northern California and Oregon coast.',
-    url: 'https://ibendavi.github.io/',
+    url: 'https://ibendavi.github.io/winter-trip-2026/',
     siteName: 'Two Roads West',
     images: [
       {
-        url: '/og.png',
+        url: '/winter-trip-2026/og.png',
         width: 1730,
         height: 909,
         alt: 'Two Roads West, Winter Break 2026',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Two Roads West | Winter Break 2026',
     description: 'Utah parks or the Pacific coast: two detailed family road-trip plans.',
-    images: ['/og.png'],
+    images: ['/winter-trip-2026/og.png'],
   },
 };
 

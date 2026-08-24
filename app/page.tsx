@@ -1,5 +1,7 @@
 import RouteMap from './RouteMap';
 
+const siteBasePath = '/winter-trip-2026';
+
 type Day = {
   date: string;
   title: string;
@@ -400,7 +402,7 @@ export default function Home() {
           </div>
 
           <figure className="panorama panorama-utah">
-            <img src="/photos/utah-arches.jpg" alt="Delicate Arch surrounded by winter snow in Arches National Park" />
+            <img src={`${siteBasePath}/photos/utah-arches.jpg`} alt="Delicate Arch surrounded by winter snow in Arches National Park" />
             <figcaption>Arches after snow. Photo: Guyyoung1966, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Delicate_Arch_in_Arches_National_Park_draped_in_a_winter_snow.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
           </figure>
 
@@ -419,11 +421,11 @@ export default function Home() {
 
           <div className="photo-grid">
             <figure className="photo-tall">
-              <img src="/photos/utah-bryce.jpg" alt="Snow around the hoodoos at Bryce Canyon National Park" />
+              <img src={`${siteBasePath}/photos/utah-bryce.jpg`} alt="Snow around the hoodoos at Bryce Canyon National Park" />
               <figcaption>Bryce Canyon in winter. Photo: Bigwiggy, CC BY 4.0. <a href="https://commons.wikimedia.org/wiki/File:Bryce_Canyon_National_Park,_Utah,_In_winter.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
             </figure>
             <figure>
-              <img src="/photos/utah-zion.jpg" alt="Snowy red cliffs on the east side of Zion National Park" />
+              <img src={`${siteBasePath}/photos/utah-zion.jpg`} alt="Snowy red cliffs on the east side of Zion National Park" />
               <figcaption>Zion’s east side in winter. Photo: Zion National Park. <a href="https://commons.wikimedia.org/wiki/File:Winter_on_the_East_Side_(6888172987).jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
             </figure>
             <aside className="weather-card">
@@ -463,7 +465,7 @@ export default function Home() {
           </div>
 
           <figure className="panorama panorama-coast">
-            <img src="/photos/coast-redwoods.jpg" alt="Fog filtering through a dense old-growth redwood forest" />
+            <img src={`${siteBasePath}/photos/coast-redwoods.jpg`} alt="Fog filtering through a dense old-growth redwood forest" />
             <figcaption>Fog in Redwood National Park. Photo: Michael Schweppe, CC BY-SA 2.0. <a href="https://commons.wikimedia.org/wiki/File:Redwood_National_Park,_fog_in_the_forest.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
           </figure>
 
@@ -482,11 +484,11 @@ export default function Home() {
 
           <div className="photo-grid coast-photos">
             <figure className="photo-tall">
-              <img src="/photos/coast-mendocino.jpg" alt="Late sunset over the rocky Mendocino coast" />
+              <img src={`${siteBasePath}/photos/coast-mendocino.jpg`} alt="Late sunset over the rocky Mendocino coast" />
               <figcaption>Mendocino coast at sunset. Photo: Nelson Minar, CC BY-SA 2.0. <a href="https://commons.wikimedia.org/wiki/File:Mendocino_coast,_late_sunset.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
             </figure>
             <figure>
-              <img src="/photos/coast-bandon.jpg" alt="Sea stacks along Bandon Beach on the Oregon coast" />
+              <img src={`${siteBasePath}/photos/coast-bandon.jpg`} alt="Sea stacks along Bandon Beach on the Oregon coast" />
               <figcaption>Bandon sea stacks. Photo: Gary Halvorson, Oregon State Archives, CC BY 4.0. <a href="https://commons.wikimedia.org/wiki/File:Sea_Stacks,_Bandon_Beach,_Bandon_-_DPLA_-_d530ab00036474a60d9b7d6c1ea48a8e.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
             </figure>
             <aside className="weather-card">
