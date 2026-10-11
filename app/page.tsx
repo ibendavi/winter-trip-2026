@@ -1,490 +1,46 @@
-import RouteMap from './RouteMap';
+import LiveForecast from './LiveForecast';
+import TripMap from './TripMap';
+import { daylight, days, photos, stayBlocks, weatherKeys, type Day, type Link } from './trip-data';
+import { placeWeather, weatherAnalogWinters, weatherNormalWinters, type PlaceWeather } from './weather-data';
 
 const siteBasePath = '/winter-trip-2026';
 
-type Tone = 'yellowstone' | 'oregon' | 'utah';
+function mapsUrl(nav: NonNullable<Day['navigate']>) {
+  const params = new URLSearchParams({ api: '1', origin: nav.from, destination: nav.to, travelmode: 'driving' });
+  if (nav.via?.length) params.set('waypoints', nav.via.join('|'));
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
 
-type Day = {
-  date: string;
-  title: string;
-  drive: string;
-  stay: string;
-  group: 'Parents visit' | 'Before the girls' | 'All six';
-  description: string;
-  detail?: string;
-};
+function degrees(value: number) {
+  return `${Math.round(value)}°`;
+}
 
-type RoutePhoto = {
-  src: string;
-  stop: string;
-  title: string;
-  alt: string;
-  note: string;
-  credit: string;
-  license: string;
-  source: string;
-};
+function inches(value: number) {
+  return value < 0.5 ? '< 1″' : `${Math.round(value)}″`;
+}
 
-const parentsVisit: Day = {
-  date: 'Fri–Sun · Dec 18–20',
-  title: 'With the grandparents in Menlo Park',
-  drive: 'No planned drive',
-  stay: 'Menlo Park · nights 1 to 3',
-  group: 'Parents visit',
-  description: 'Your time with the grandparents comes first, so the road trip can start the moment Ayelet and Tal land. Fly out of SFO on the morning of Dec 21.',
-};
+function elNinoNote(place: PlaceWeather) {
+  const dHigh = Math.round(place.analog.high - place.normal.high);
+  const dLow = Math.round(place.analog.low - place.normal.low);
+  const sign = (n: number) => (n >= 0 ? '+' : '−');
+  const snow = place.analog.snow - place.normal.snow;
+  const snowNote = Math.abs(snow) >= 0.5 ? `, snow ${snow > 0 ? 'above' : 'below'} normal` : '';
+  return `${sign(dHigh)}${Math.abs(dHigh)}° highs, ${sign(dLow)}${Math.abs(dLow)}° lows${snowNote}`;
+}
 
-const yellowstoneDays: Day[] = [
-  parentsVisit,
-  {
-    date: 'Mon · Dec 21',
-    title: 'Fly to Bozeman, soak in Paradise Valley',
-    drive: 'SFO → BZN flight · about 2¼ hr, then ≈ 60 mi · 1¼ hr',
-    stay: 'Chico Hot Springs · 1 night',
-    group: 'Before the girls',
-    description: 'You fly out of SFO in the morning while Ayelet and Tal land in Bozeman. Collect the rental and drive south through Paradise Valley to the hot springs, with the Absaroka range on one side and the Yellowstone River on the other.',
-    detail: 'Winter daylight is short, so plan to be at the springs by dusk. Pack for real cold: single-digit nights are normal.',
-  },
-  {
-    date: 'Tue · Dec 22',
-    title: 'Mammoth Hot Springs and the Lamar Valley',
-    drive: '≈ 40 mi · 1 hr, plus ≈ 55 mi round trip to Lamar',
-    stay: 'Mammoth Hot Springs · night 1 of 2',
-    group: 'Before the girls',
-    description: 'Enter at Gardiner and walk the snow-covered Mammoth terraces, then drive the one road that stays open to cars into the Lamar Valley for wildlife at dusk.',
-    detail: 'Only the road from Gardiner through Mammoth to Cooke City is open to ordinary cars in winter. Keep 25 yards from bison and elk and 100 yards from wolves and bears.',
-  },
-  {
-    date: 'Wed · Dec 23',
-    title: 'A dawn in the Lamar Valley',
-    drive: 'Local · ≈ 55 mi round trip',
-    stay: 'Mammoth Hot Springs · night 2 of 2',
-    group: 'Before the girls',
-    description: 'Wolves, bison, elk, bighorn sheep, and coyotes are most active at first light, and a quiet valley is the point. Spend the afternoon on a short terrace walk and keep the evening unscheduled.',
-    detail: 'A guided wildlife tour from Gardiner adds spotting scopes and knowledge. Book it before the holiday week fills.',
-  },
-  {
-    date: 'Thu · Dec 24',
-    title: 'Girls arrive in Bozeman',
-    drive: '≈ 90 mi · 1¾ to 2 hr',
-    stay: 'Bozeman · 1 night',
-    group: 'All six',
-    description: 'Drive north out of the park to collect Shelly and Maia at BZN, then spend Christmas Eve in Bozeman with a main-street dinner.',
-    detail: 'Bozeman Pass on I-90 and the Paradise Valley road can ice over in storms. Check the Montana road report before leaving Mammoth.',
-  },
-  {
-    date: 'Fri · Dec 25',
-    title: 'Bozeman to West Yellowstone',
-    drive: '≈ 90 mi · 2 hr',
-    stay: 'West Yellowstone · 1 night',
-    group: 'All six',
-    description: 'Drive up the Gallatin Canyon along the Gallatin River to West Yellowstone, the gateway for the snowcoach. A quiet Christmas afternoon, with food bought in Bozeman because services are limited.',
-    detail: 'US-191 through Gallatin Canyon has avalanche closures after heavy snow. Leave early and check conditions.',
-  },
-  {
-    date: 'Sat · Dec 26',
-    title: 'Snowcoach to Old Faithful',
-    drive: 'Snowcoach · about 2 hr each way',
-    stay: 'Old Faithful Snow Lodge · night 1 of 2',
-    group: 'All six',
-    description: 'A heated snowcoach carries you through the Madison valley, with bison and steam along the river. Check in at the Snow Lodge, then walk the plowed Upper Geyser Basin boardwalks at dusk.',
-    detail: 'The lodge opens Dec 16 and is reachable in winter only by snowcoach or snowmobile. It sells out for holiday week, so confirm it before anything else.',
-  },
-  {
-    date: 'Sun · Dec 27',
-    title: 'Old Faithful and the geyser basins',
-    drive: 'Snowcoach and boardwalk only',
-    stay: 'Old Faithful Snow Lodge · night 2 of 2',
-    group: 'All six',
-    description: 'See Old Faithful erupt against snow in the morning, and spend the day on the boardwalks. If the group is up for a long day, the park lodges offer a snowcoach day trip to the Grand Canyon of the Yellowstone.',
-    detail: 'Daytime highs near freezing and nights well below are typical. Layer, and keep hands and faces covered near the steam.',
-  },
-  {
-    date: 'Mon · Dec 28',
-    title: 'Snowcoach out, then to Bozeman',
-    drive: 'Snowcoach about 2 hr, then ≈ 90 mi · 2 hr',
-    stay: 'Bozeman · night 1 of 2',
-    group: 'All six',
-    description: 'Ride the snowcoach back to West Yellowstone, collect the car, and drive to Bozeman for a long, easy evening with indoor options.',
-  },
-  {
-    date: 'Tue · Dec 29',
-    title: 'Museum of the Rockies and a frozen canyon',
-    drive: 'Local · ≈ 40 mi',
-    stay: 'Bozeman · night 2 of 2',
-    group: 'All six',
-    description: 'The Museum of the Rockies has one of the largest dinosaur collections in the country, and Hyalite Canyon has frozen waterfalls for those who want a short winter walk.',
-    detail: 'Check the museum’s holiday hours and the Hyalite road condition before going.',
-  },
-  {
-    date: 'Wed · Dec 30',
-    title: 'Back to Paradise Valley',
-    drive: '≈ 50 mi · 1 hr',
-    stay: 'Chico Hot Springs · night 1 of 2',
-    group: 'All six',
-    description: 'Drive south through Livingston and Paradise Valley to the hot springs for a quiet day of soaking, with a short drive to Gardiner if the group wants one more wildlife morning.',
-  },
-  {
-    date: 'Thu · Dec 31',
-    title: 'New Year’s Eve at the hot springs',
-    drive: 'Local only',
-    stay: 'Chico Hot Springs · night 2 of 2',
-    group: 'All six',
-    description: 'A deliberately empty day. Soak, walk the river, and celebrate in a resort with few other agendas.',
-  },
-  {
-    date: 'Fri · Jan 1',
-    title: 'Chico to Bozeman',
-    drive: '≈ 50 mi · 1 hr',
-    stay: 'Bozeman airport hotel · 1 night',
-    group: 'All six',
-    description: 'A short, easy drive to the airport hotel. Keep the rest of the day free, because this is the slack day before the flight.',
-    detail: 'Bozeman Pass and the Paradise Valley road can ice over. Leave early if snow is forecast.',
-  },
-  {
-    date: 'Sat · Jan 2',
-    title: 'Fly home from BZN',
-    drive: 'Hotel → airport',
-    stay: 'Trip complete',
-    group: 'All six',
-    description: 'Return the rental at BZN, where the trip started. There is no spare day after this one, so keep Jan 1 loose.',
-  },
-];
+function perDay(monthlyVisits: number) {
+  const daily = monthlyVisits / 31;
+  const step = daily >= 1000 ? 100 : 10;
+  return (Math.round(daily / step) * step).toLocaleString('en-US');
+}
 
-const oregonDays: Day[] = [
-  parentsVisit,
-  {
-    date: 'Mon · Dec 21',
-    title: 'Fly to Redmond, settle in Bend',
-    drive: 'SFO → RDM flight · about 1¾ hr, then ≈ 20 mi',
-    stay: 'Bend · night 1 of 4',
-    group: 'Before the girls',
-    description: 'You fly out of SFO in the morning while Ayelet and Tal land in Redmond. Collect the rental, check in, and walk the Deschutes River trail in the afternoon.',
-  },
-  {
-    date: 'Tue · Dec 22',
-    title: 'Smith Rock and the high desert',
-    drive: 'Local · ≈ 50 mi round trip',
-    stay: 'Bend · night 2 of 4',
-    group: 'Before the girls',
-    description: 'Walk the Smith Rock canyon rim above the Crooked River in cold, clear air, then return to Bend for the High Desert Museum’s wildlife and history exhibits.',
-    detail: 'Trails can be icy in shade after cold nights. Bring traction and keep to the lower paths.',
-  },
-  {
-    date: 'Wed · Dec 23',
-    title: 'Lava, rivers, and an easy day',
-    drive: 'Local touring',
-    stay: 'Bend · night 3 of 4',
-    group: 'Before the girls',
-    description: 'Use the Deschutes River falls near Bend and the volcanic landscape around Newberry as a loose agenda, and keep the evening free for packing and a good dinner.',
-    detail: 'Forest roads into the Newberry caldera close in winter. Stay on plowed highways.',
-  },
-  {
-    date: 'Thu · Dec 24',
-    title: 'Girls arrive in Redmond',
-    drive: '≈ 20 mi',
-    stay: 'Bend · night 4 of 4',
-    group: 'All six',
-    description: 'Collect Shelly and Maia at RDM, then enjoy Christmas Eve in Bend with an unhurried dinner.',
-  },
-  {
-    date: 'Fri · Dec 25',
-    title: 'Bend to Summer Lake Hot Springs',
-    drive: '≈ 130 mi · 3¼ hr',
-    stay: 'Summer Lake Hot Springs · 1 night',
-    group: 'All six',
-    description: 'Drive south through the high desert past Fort Rock, a volcanic tuff ring rising from the sagebrush, to remote hot springs on the edge of a dry lake. A quiet, warm Christmas night.',
-    detail: 'Lodging at the springs is limited and should be reserved well ahead. The area has no services after dark, so carry food and fuel.',
-  },
-  {
-    date: 'Sat · Dec 26',
-    title: 'Summer Lake to Klamath Falls',
-    drive: '≈ 100 mi · 3¼ hr',
-    stay: 'Klamath Falls · night 1 of 2',
-    group: 'All six',
-    description: 'Cross to the Klamath Basin and look for wintering bald eagles at the wildlife refuges near the California line in the late afternoon.',
-    detail: 'Rural roads are lightly plowed. Carry chains and check TripCheck before leaving.',
-  },
-  {
-    date: 'Sun · Dec 27',
-    title: 'Crater Lake in the snow',
-    drive: '≈ 125 mi round trip · 3¼ hr',
-    stay: 'Klamath Falls · night 2 of 2',
-    group: 'All six',
-    description: 'Drive the plowed southern road to the rim for a view of the lake under snow. Keep it to overlooks and short walks, and a ranger-led snowshoe walk if one is running that week.',
-    detail: 'The north entrance and Rim Drive are closed to cars in winter, and there is no winter lodging or fuel inside the park. Storms can close the Rim Village road. Carry chains.',
-  },
-  {
-    date: 'Mon · Dec 28',
-    title: 'Klamath Falls to Bend',
-    drive: '≈ 135 mi · 2¾ hr',
-    stay: 'Bend · 1 night',
-    group: 'All six',
-    description: 'A straightforward drive north on US-97 back to Bend, with a stop at Lava Butte or a long dinner as the day’s only agenda.',
-  },
-  {
-    date: 'Tue · Dec 29',
-    title: 'Bend to Hood River',
-    drive: '≈ 155 mi · 3½ hr',
-    stay: 'Hood River · night 1 of 2',
-    group: 'All six',
-    description: 'Cross the high desert to the Columbia River Gorge at Hood River, with views of Mount Hood on the way.',
-    detail: 'Winter ice storms occasionally close I-84 through the Gorge. Check TripCheck before leaving Bend.',
-  },
-  {
-    date: 'Wed · Dec 30',
-    title: 'Waterfalls of the Gorge',
-    drive: 'Local touring · ≈ 60 mi',
-    stay: 'Hood River · night 2 of 2',
-    group: 'All six',
-    description: 'Walk to Multnomah Falls and the other falls along the Historic Columbia River Highway, with lunch in Hood River. Pick short walks, because trails ice over after cold snaps.',
-    detail: 'Ice on the Multnomah Falls trail and the Historic Highway is common in winter. Bring traction and keep to the lower trails.',
-  },
-  {
-    date: 'Thu · Dec 31',
-    title: 'Hood River to Portland',
-    drive: '≈ 60 mi · 1¼ hr',
-    stay: 'Portland · night 1 of 2',
-    group: 'All six',
-    description: 'A short drive into Portland for New Year’s Eve in a real city, with restaurants and plenty of indoor choices.',
-  },
-  {
-    date: 'Fri · Jan 1',
-    title: 'Portland slack day',
-    drive: 'Local only',
-    stay: 'Portland airport hotel · 1 night',
-    group: 'All six',
-    description: 'Keep the day loose, and move to the airport hotel by evening. Slack here absorbs a delay from any earlier storm.',
-  },
-  {
-    date: 'Sat · Jan 2',
-    title: 'Fly home from PDX',
-    drive: 'Hotel → airport',
-    stay: 'Trip complete',
-    group: 'All six',
-    description: 'Return the one-way rental at PDX. There is no spare day after this one, so keep Jan 1 loose.',
-  },
-];
-
-const utahDays: Day[] = [
-  parentsVisit,
-  {
-    date: 'Mon · Dec 21',
-    title: 'Fly to Las Vegas, drive to Zion',
-    drive: 'SFO → LAS flight · about 1½ hr, then ≈ 160 mi · 3¼ hr',
-    stay: 'Springdale · night 1 of 3',
-    group: 'Before the girls',
-    description: 'You fly out of SFO in the morning while Ayelet and Tal land in Las Vegas. Collect the one-way rental, shop before leaving the city, and drive to Springdale at the foot of Zion Canyon.',
-    detail: 'Aim to land by about noon so the drive finishes before dark.',
-  },
-  {
-    date: 'Tue · Dec 22',
-    title: 'Zion Canyon in winter',
-    drive: 'Park touring only',
-    stay: 'Springdale · night 2 of 3',
-    group: 'Before the girls',
-    description: 'Walk the Riverside Walk and the Pa’rus Trail, and choose Emerald Pools or the Watchman Trail by ice and daylight.',
-    detail: 'Check NPS for Zion Canyon shuttle and road status, and avoid narrow canyons when rain or snowmelt creates flood risk.',
-  },
-  {
-    date: 'Wed · Dec 23',
-    title: 'Zion’s quieter edges',
-    drive: 'About 1 to 2 hr, depending on choice',
-    stay: 'Springdale · night 3 of 3',
-    group: 'Before the girls',
-    description: 'Choose Kolob Canyons for a quiet drive and short walks, or Snow Canyon State Park near St. George for red sand and lava rock.',
-  },
-  {
-    date: 'Thu · Dec 24',
-    title: 'Girls arrive in St. George, drive to Bryce',
-    drive: '≈ 190 mi · about 4 hr',
-    stay: 'Bryce Canyon area · night 1 of 2',
-    group: 'All six',
-    description: 'Collect Shelly and Maia at the St. George airport, then continue to Bryce for Christmas Eve on the rim at sunset.',
-    detail: 'St. George has limited flights. If the girls can only reach Las Vegas, the group meets them there on Dec 24 and ends the day in Springdale, which adds a night and drops Kolob and Snow Canyon.',
-  },
-  {
-    date: 'Fri · Dec 25',
-    title: 'Christmas at Bryce Canyon',
-    drive: 'Park touring only',
-    stay: 'Bryce Canyon area · night 2 of 2',
-    group: 'All six',
-    description: 'Walk the rim between Sunrise and Sunset Points and, if the paths are clear, drop into the amphitheater for a short loop among the hoodoos.',
-    detail: 'Bryce sits above 8,000 ft. Winter storms bring ice and short closures. Carry traction gear the rental permits.',
-  },
-  {
-    date: 'Sat · Dec 26',
-    title: 'Highway 12 to Torrey',
-    drive: '≈ 115 mi · about 3 hr before stops',
-    stay: 'Torrey · night 1 of 2',
-    group: 'All six',
-    description: 'The scenic centerpiece: Grand Staircase country and Boulder Mountain on the way to Torrey.',
-    detail: 'This is the trip’s main weather gate. Highway 12 reaches roughly 9,600 ft near Boulder Mountain. Use US-89 alternatives if the pass is unsafe.',
-  },
-  {
-    date: 'Sun · Dec 27',
-    title: 'A full day in Capitol Reef',
-    drive: 'Local park touring',
-    stay: 'Torrey · night 2 of 2',
-    group: 'All six',
-    description: 'Explore Fruita, the petroglyphs, Scenic Drive, and Grand Wash as conditions allow. It is the day to sacrifice if Highway 12 slips.',
-  },
-  {
-    date: 'Mon · Dec 28',
-    title: 'Torrey to Moab',
-    drive: '≈ 155 mi · 3¼ hr',
-    stay: 'Moab · night 1 of 3',
-    group: 'All six',
-    description: 'Cross the San Rafael desert to Moab, with the afternoon left for Dead Horse Point or a Moab walk.',
-  },
-  {
-    date: 'Tue · Dec 29',
-    title: 'Arches in winter',
-    drive: 'Park touring only',
-    stay: 'Moab · night 2 of 3',
-    group: 'All six',
-    description: 'Build the day from short stops at the Windows and Balanced Rock, then choose Delicate Arch or Devils Garden according to ice and daylight.',
-    detail: 'Microspikes add options after snow, but turn around when sandstone or exposed slickrock is icy.',
-  },
-  {
-    date: 'Wed · Dec 30',
-    title: 'Canyonlands, Island in the Sky',
-    drive: '≈ 70 mi round trip',
-    stay: 'Moab · night 3 of 3',
-    group: 'All six',
-    description: 'Spend the day at the Island in the Sky overlooks above the Colorado and Green River canyons, with a short walk to Mesa Arch.',
-  },
-  {
-    date: 'Thu · Dec 31',
-    title: 'Moab to Salt Lake City',
-    drive: '≈ 235 mi · 4½ hr',
-    stay: 'Salt Lake City · night 1 of 2',
-    group: 'All six',
-    description: 'A long final transfer on good highway. Start by 9 am and reach the city well before dark on New Year’s Eve.',
-    detail: 'US-6 over Soldier Summit can ice during storms. Check UDOT before leaving Moab.',
-  },
-  {
-    date: 'Fri · Jan 1',
-    title: 'Salt Lake City slack day',
-    drive: 'Local · optional day trip',
-    stay: 'Salt Lake City · night 2 of 2',
-    group: 'All six',
-    description: 'Keep the day loose. Antelope Island and the Great Salt Lake are the easy outing, and the slack absorbs a delay from any earlier storm.',
-  },
-  {
-    date: 'Sat · Jan 2',
-    title: 'Fly home from SLC',
-    drive: 'Hotel → airport',
-    stay: 'Trip complete',
-    group: 'All six',
-    description: 'Return the one-way rental at SLC. The airport is a short ride from downtown.',
-  },
-];
-
-const yellowstonePhotoStory: RoutePhoto[] = [
-  {
-    src: 'yellowstone-mammoth.jpg',
-    stop: 'Dec 22 · Mammoth Hot Springs',
-    title: 'Steam rising from the terraces',
-    alt: 'Steam drifting over snow-covered travertine terraces at Mammoth Hot Springs',
-    note: 'The one hot-spring area you can reach by car in winter.',
-    credit: 'Yellowstone National Park / NPS',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:Steamy,_winter_morning_at_the_Mammoth_Hot_Springs_Terraces_(52559000847).jpg',
-  },
-  {
-    src: 'yellowstone-bison.jpg',
-    stop: 'Dec 23 · Lamar Valley',
-    title: 'A quiet valley, a lone bison',
-    alt: 'A bison grazing on a snowy slope below Specimen Ridge in Yellowstone',
-    note: 'Dawn and dusk are the best hours for wildlife, so plan around them.',
-    credit: 'Jacob W. Frank / NPS',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:Bison_with_Specimen_Ridge_Backdrop_(6b848ec7-023e-4f4e-94bb-1d458560a1e3).jpg',
-  },
-  {
-    src: 'yellowstone-snowcoach.jpg',
-    stop: 'Dec 26 · The snowcoach road',
-    title: 'The way in is the experience',
-    alt: 'A yellow snowcoach on a snowy road below snow-covered mountains at Swan Lake Flat',
-    note: 'Old Faithful is reached by snowcoach or snowmobile, not a car.',
-    credit: 'Neal Herbert / NPS',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:Snowcoach_on_Swan_Lake_Flat_(23814044045).jpg',
-  },
-  {
-    src: 'yellowstone-falls.jpg',
-    stop: 'Dec 27 · Grand Canyon of the Yellowstone',
-    title: 'A frozen Upper Falls',
-    alt: 'A partly frozen waterfall in a snowy forest in the Grand Canyon of the Yellowstone',
-    note: 'Reached on the optional snowcoach day trip from Old Faithful.',
-    credit: 'YellowstoneNPS',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:A_snowy_Upper_Falls_in_Grand_Canyon_of_the_Yellowstone_(54364374807).jpg',
-  },
-];
-
-const utahPhotoStory: RoutePhoto[] = [
-  {
-    src: 'utah-zion.jpg',
-    stop: 'Dec 22 · Zion',
-    title: 'Snow-dusted cliffs',
-    alt: 'Snowy red cliffs on the east side of Zion National Park',
-    note: 'The first all-park day, and the warmest of the trip.',
-    credit: 'Zion National Park',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:Winter_on_the_East_Side_(6888172987).jpg',
-  },
-  {
-    src: 'utah-bryce.jpg',
-    stop: 'Dec 24 · Bryce Canyon',
-    title: 'Hoodoos under snow',
-    alt: 'Snow around the hoodoos at Bryce Canyon National Park',
-    note: 'Reach the rim for Christmas Eve sunset.',
-    credit: 'Bigwiggy',
-    license: 'CC BY 4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Bryce_Canyon_National_Park,_Utah,_In_winter.jpg',
-  },
-  {
-    src: 'utah-highway12.jpg',
-    stop: 'Dec 26 · Highway 12',
-    title: 'The road is the centerpiece',
-    alt: 'A wide view across colorful mountains from Scenic Byway 12 near Boulder Mountain',
-    note: 'Take the high route only when the forecast and pavement both cooperate.',
-    credit: 'S. Clyde / NARA',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:Scenic_Byway_12_-_A_Sweeping_View_from_Boulder_Mountain_-_NARA_-_7721710.jpg',
-  },
-  {
-    src: 'utah-capitol-reef.jpg',
-    stop: 'Dec 27 · Capitol Reef',
-    title: 'Red rock under winter snow',
-    alt: 'Snowy desert valley and Chimney Rock in Capitol Reef National Park',
-    note: 'A full park day from Torrey, with room to adjust to ice and short daylight.',
-    credit: 'National Park Service',
-    license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:Chimney_Rock_Loop_in_Winter_(9d1158db-8cb4-4db0-ba52-897559007cc4).JPG',
-  },
-  {
-    src: 'utah-canyonlands.jpg',
-    stop: 'Dec 30 · Canyonlands',
-    title: 'One last immense Moab view',
-    alt: 'Layered red canyons seen from Grand View Point in Canyonlands National Park',
-    note: 'Island in the Sky is a full-day outing from Moab.',
-    credit: 'Myrabella',
-    license: 'CC BY-SA 4.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Canyonlands_NP_Grand_View_Point_Overlook.jpg',
-  },
-  {
-    src: 'utah-antelope.jpg',
-    stop: 'Jan 1 · Antelope Island',
-    title: 'The easy outing on the slack day',
-    alt: 'Bison on Antelope Island above the Great Salt Lake at sunset',
-    note: 'Use it only if everyone’s energy and the winter daylight allow.',
-    credit: 'Matthew Dillon',
-    license: 'CC BY 2.0',
-    source: 'https://commons.wikimedia.org/wiki/File:Antelope_Island_State_Park,_Great_Salt_Lake_(49408253886).jpg',
-  },
+// December 2024 recreation visits (NPS counts, via publiclandsdata.com). Share is of each park's busiest month.
+const crowdRows: Array<{ park: string; visits: number; share: number; feel: string }> = [
+  { park: 'Zion', visits: 235404, share: 38, feel: 'The busy one. About 7,600 a day on average, with December nearly twice January, and the holiday week above that. Go at sunrise.' },
+  { park: 'Bryce Canyon', visits: 65379, share: 18, feel: 'Quiet, with a crowd at the rim at sunset.' },
+  { park: 'Arches', visits: 48845, share: 25, feel: 'Quiet, with more people at Delicate Arch around sunset. No timed entry in 2026.' },
+  { park: 'Capitol Reef', visits: 43772, share: 21, feel: 'Quiet. Fruita and Scenic Drive have room.' },
+  { park: 'Canyonlands', visits: 20062, share: 17, feel: 'Very quiet. Overlooks are mostly empty, except Mesa Arch at sunrise.' },
 ];
 
 const ninoStats = [
@@ -494,228 +50,367 @@ const ninoStats = [
   ['Above-normal precipitation odds near the California coast, Dec–Feb', '50–60%'],
 ];
 
-const ninoRows = [
-  [
-    'Yellowstone in winter',
-    'NOAA leans drier across the interior Northwest and warmer across the northern tier, with 50 to 60% odds of above-normal temperatures in the interior Northwest. Private forecasters put northwest Wyoming on the dry side of the El Niño split, but NOAA’s text does not name Yellowstone itself.',
-    'Cold-air outbreaks, which NOAA says remain possible across the northwestern states, can bring nights well below zero. Blizzards can close Bozeman Pass and US-191 in Gallatin Canyon, and snowcoaches cancel in bad weather. Rooms inside the park are limited and likely to sell out.',
-    'Lowest',
-  ],
-  [
-    'Central Oregon',
-    'Inside the interior Northwest dry tilt, and milder than Montana. The Cascades are the least reliable part of the El Niño pattern, so storms can still arrive.',
-    'Freezing rain and ice on passes and in the Gorge, chains at Crater Lake, closures of the Rim Village road in storms, and warmer air turning Cascade snow into rain.',
-    'Low',
-  ],
-  [
-    'Utah red rock',
-    'Southern Utah is at the edge of the Four Corners wet tilt. The outlook text names the Four Corners rather than Utah itself, so check the CPC map before relying on it.',
-    'Snow and ice at Bryce, Boulder Mountain, and Highway 12 on Dec 24 to 26. Flash floods in desert washes. Ice on US-6 over Soldier Summit on Dec 31.',
-    'Moderate',
-  ],
+const ninoRows: Array<[string, string, string, string]> = [
+  ['Grand Canyon West', 'Dec 21–22', 'Rain or ice on the access road, wind at the rim, and attractions that close for weather. Northwest Arizona is near the Southwest wet tilt.', 'Swap days: do Hoover Dam and Lake Mead first and the rim on Dec 23 morning, or skip the Skywalk.'],
+  ['Hoover Dam and Boulder City', 'Dec 23', 'Low risk. Southern Nevada is the driest stop.', 'None needed.'],
+  ['Las Vegas to Springdale', 'Dec 24', 'Ice or rockfall in the Virgin River Gorge on I-15 during storms.', 'Leave earlier, or sleep in St. George or Mesquite and finish in the morning.'],
+  ['Zion', 'Dec 24–25', 'Rain, snow, and flash floods in canyons. Southern Utah is at the edge of the Four Corners wet tilt.', 'Kolob Canyons or Snow Canyon State Park for dry short walks; stay out of narrow canyons.'],
+  ['Zion to Bryce', 'Dec 26', 'Snow on the Zion–Mount Carmel Highway and US-89. Bryce is above 8,000 ft.', 'Wait a few hours for the plows, or hold a night in Springdale.'],
+  ['Highway 12', 'Dec 27', 'The main weather gate: Boulder Mountain reaches about 9,600 ft, with ice and closures.', 'Hold a night in Bryce and sacrifice the Capitol Reef day, or take a US-89 alternative.'],
+  ['Capitol Reef and Moab', 'Dec 28–30', 'Dry on average, but slickrock is dangerous when icy and washes flood when it rains.', 'Overlooks and short walks instead of Delicate Arch.'],
+  ['Moab to Salt Lake City', 'Dec 31', 'Ice on US-6 over Soldier Summit, and storms along the Wasatch.', 'Start at 9 am, or leave Dec 30 evening if a storm is forecast.'],
 ];
 
 const ninoDates = [
-  ['Now', 'Check Yellowstone lodging and snowcoach availability before anything else. Holiday week sells out first, and the answer decides whether option 01 is possible.'],
-  ['Oct 15', 'CPC releases its next seasonal outlooks. Check whether the northern-tier dry and warm tilt holds, and whether California and Southwest odds rose.'],
-  ['Nov 12', 'CPC’s next ENSO update. Pick a route and book flights soon after: the three options use different first airports (BZN, RDM, LAS), so flights commit the choice. Prefer changeable fares until then.'],
-  ['Dec 17', 'CPC’s December outlook, and a first look at the 8 to 14 day outlook for Dec 21 to 31. Use it to settle cold gear, car class, and traction, not to change airports.'],
+  ['Oct 15', 'NOAA releases its next seasonal outlooks. Check whether the Southwest and Four Corners wet tilt strengthens.'],
+  ['Nov 12', 'NOAA’s next ENSO update. Book flights, the rental, and lodging with free cancellation soon after.'],
+  ['Dec 5', 'The 16-day forecast reaches Dec 21. The live forecast on this page starts filling in.'],
+  ['Dec 17', 'NOAA’s December outlook, and a first look at the 8 to 14 day outlook for Dec 21 to 31. Use it to settle traction gear and which days are slack.'],
+  ['Dec 20', 'Last look before you leave Menlo. If a storm hits the Southwest on Dec 21 to 23, swap the order of the Hualapai and Hoover Dam days.'],
 ];
 
-function perDay(monthlyVisits: number) {
-  const daily = monthlyVisits / 31;
-  const step = daily >= 1000 ? 100 : 10;
-  return (Math.round(daily / step) * step).toLocaleString('en-US');
-}
-
-// December 2024 recreation visits (NPS counts, via publiclandsdata.com). Share is of each park's busiest month.
-const crowdRows: Array<{ route: string; park: string; visits: number; share: number; feel: string }> = [
-  { route: '01', park: 'Yellowstone', visits: 30410, share: 3, feel: 'Very quiet. Oversnow travel starts Dec 15 and cars reach only the northern road, so capacity (rooms and snowcoach seats) is the limit, not crowds.' },
-  { route: '02', park: 'Crater Lake', visits: 5005, share: 3, feel: 'Nearly empty. The count was 11,432 in 2023, so it swings with snow and road closures.' },
-  { route: '03', park: 'Zion', visits: 235404, share: 38, feel: 'The busy one. About 7,600 a day on average, with December nearly twice January, and the holiday week above that.' },
-  { route: '03', park: 'Bryce Canyon', visits: 65379, share: 18, feel: 'Quiet, with a crowd at the rim at sunset.' },
-  { route: '03', park: 'Arches', visits: 48845, share: 25, feel: 'Quiet, with more people at Delicate Arch around sunset.' },
-  { route: '03', park: 'Capitol Reef', visits: 43772, share: 21, feel: 'Quiet. Fruita and Scenic Drive have room.' },
-  { route: '03', park: 'Canyonlands', visits: 20062, share: 17, feel: 'Very quiet. Overlooks are mostly empty.' },
+const bookingSteps: Array<[string, string]> = [
+  ['This week', 'Hold lodging with free cancellation: Cabins at Grand Canyon West, Boulder Dam Hotel, Zion Lodge or Springdale, Ruby’s Inn, Red Sands, the Dead Horse Point yurts, and Hotel Monaco. Holiday week fills first, and the Dead Horse yurts and Zion Lodge fill earliest.'],
+  ['By mid-November', 'Book flights: you SFO to LAS and Ayelet and Tal to LAS on Dec 21; Shelly and Maia to LAS on Dec 24; everyone SLC home on Jan 2. Book one six-person vehicle for LAS to SLC and compare one-way fees, winter tires, and the traction policy.'],
+  ['Before Dec 21', 'Buy Grand Canyon West tickets online, and check Hoover Dam, the Zion shuttle schedule, and Temple Square dates. An America the Beautiful pass usually covers the five national park fees, so compare it with the per-vehicle fees.'],
+  ['Dec 5 and Dec 17', 'Check the live forecast on this page, then NOAA’s outlook, and set the slack-day plan.'],
 ];
 
-const sources = [
-  ['NPS visitor use statistics', 'https://irma.nps.gov/STATS/'],
-  ['Monthly park visitation data (public mirror of NPS counts)', 'https://publiclandsdata.com/national-park-visitation/zion/2024'],
+const planCards: Array<{ title: string; items: string[] }> = [
+  {
+    title: 'Time zones',
+    items: [
+      'Las Vegas, Boulder City, and Hoover Dam are on Pacific time.',
+      'Grand Canyon West keeps Arizona time, which is Mountain Standard in winter, one hour ahead of Las Vegas.',
+      'Utah is on Mountain Standard Time, so Arizona and Utah match in December.',
+    ],
+  },
+  {
+    title: 'Driving',
+    items: [
+      'One-way rental from LAS to SLC. Carry chains or traction devices the rental allows.',
+      'Fuel up before Bryce, Highway 12, and Hanksville. Services are thin in winter.',
+      'The Zion–Mount Carmel tunnel has NPS size limits (about 11 ft 4 in tall and 7 ft 10 in wide) for large vehicles.',
+      'Cell coverage is patchy on Highway 12, around Capitol Reef, and on the Hualapai Reservation. Download offline maps.',
+      'Deer and wildlife are active on Highway 12 and US-89 at dusk.',
+    ],
+  },
+  {
+    title: 'Pack for the cold',
+    items: [
+      'Layers that work from 15 °F nights to 45 °F days, plus hats, gloves, and hand warmers.',
+      'Microspikes or similar traction for icy trails, and trekking poles.',
+      'A headlamp: the sun sets before 5:30 pm everywhere.',
+      'A cooler, water, and snacks, because many park-town restaurants close for winter.',
+    ],
+  },
+  {
+    title: 'Rules worth knowing',
+    items: [
+      'Grand Canyon West: no phones or cameras on the Skywalk and no alcohol on the property.',
+      'Hoover Dam’s visitor center and tours close on Christmas Day.',
+      'Arches has no timed-entry system in 2026, but parking can still fill.',
+      'Stay out of slot canyons and washes when rain is forecast anywhere upstream.',
+    ],
+  },
+];
+
+const sources: Array<[string, string]> = [
   ['NOAA ENSO diagnostic discussion, Oct 8 2026', 'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'],
   ['NOAA seasonal outlook discussion, Sept 17 2026', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/fxus05.html'],
   ['NOAA seasonal outlook maps', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/'],
   ['NOAA 8 to 14 day outlook', 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/'],
-  ['Yellowstone winter lodging and snowcoach', 'https://www.yellowstonenationalparklodges.com/winter/'],
-  ['Yellowstone current conditions', 'https://www.nps.gov/yell/planyourvisit/conditions.htm'],
-  ['Yellowstone wildlife and winter safety', 'https://www.nps.gov/yell/planyourvisit/safety.htm'],
-  ['Montana road conditions', 'https://www.mdt.mt.gov/travinfo/'],
-  ['NWS Billings forecast', 'https://www.weather.gov/byz/'],
-  ['Chico Hot Springs', 'https://www.chicohotsprings.com/'],
-  ['Museum of the Rockies', 'https://www.museumoftherockies.org/'],
-  ['Oregon road conditions (TripCheck)', 'https://tripcheck.com/'],
-  ['Oregon winter driving', 'https://www.oregon.gov/odot/Pages/Winter-Driver-Responsibilities.aspx'],
-  ['Crater Lake conditions', 'https://www.nps.gov/crla/planyourvisit/conditions.htm'],
-  ['Summer Lake Hot Springs', 'https://www.summerlakehotsprings.com/'],
-  ['High Desert Museum', 'https://www.highdesertmuseum.org/'],
-  ['NWS Pendleton forecast', 'https://www.weather.gov/pdt/'],
-  ['Zion seasons and weather', 'https://home.nps.gov/zion/planyourvisit/seasons.htm'],
+  ['NWS Las Vegas forecast', 'https://www.weather.gov/vef/'],
+  ['NWS Salt Lake City forecast', 'https://www.weather.gov/slc/'],
+  ['NWS Grand Junction forecast (Moab)', 'https://www.weather.gov/gjt/'],
+  ['Grand Canyon West hours and tickets', 'https://grandcanyonwest.com/plan-your-visit/'],
+  ['Hoover Dam', 'https://www.usbr.gov/lc/hooverdam/'],
+  ['Zion shuttle and conditions', 'https://www.nps.gov/zion/planyourvisit/zion-canyon-shuttle-system.htm'],
   ['Bryce Canyon in winter', 'https://www.nps.gov/brca/planyourvisit/winter.htm'],
-  ['Capitol Reef Scenic Drive', 'https://www.nps.gov/care/planyourvisit/scenicdrive.htm'],
+  ['Capitol Reef hours', 'https://www.nps.gov/care/planyourvisit/hours.htm'],
   ['Capitol Reef directions and Highway 12', 'https://home.nps.gov/care/planyourvisit/directions.htm'],
-  ['Arches winter guide', 'https://www.nps.gov/arch/planyourvisit/winter.htm'],
-  ['Southern Utah parks in winter', 'https://www.nps.gov/articles/000/national-parks-in-southern-utah.htm'],
+  ['Arches conditions', 'https://www.nps.gov/arch/planyourvisit/conditions.htm'],
+  ['Canyonlands conditions', 'https://www.nps.gov/cany/planyourvisit/conditions.htm'],
+  ['Dead Horse Point State Park', 'https://stateparks.utah.gov/parks/dead-horse/'],
+  ['Temple Square', 'https://www.templesquare.com/'],
   ['Utah road conditions (UDOT)', 'https://www.udottraffic.utah.gov/'],
-  ['Nevada winter driving', 'https://www.dot.nv.gov/safety/safe-winter-driving'],
+  ['Arizona road conditions', 'https://az511.com/'],
+  ['NPS passes', 'https://www.nps.gov/planyourvisit/passes.htm'],
+  ['NPS visitor use statistics', 'https://irma.nps.gov/STATS/'],
+  ['Monthly park visitation data (public mirror of NPS counts)', 'https://publiclandsdata.com/national-park-visitation/zion/2024'],
 ];
 
-function Itinerary({ days, tone }: { days: Day[]; tone: Tone }) {
+function DayCard({ day, index }: { day: Day; index: number }) {
+  const place = day.weather ? placeWeather[day.weather] : undefined;
+  const links: Link[] = day.links ?? [];
   return (
-    <ol className={`timeline timeline-${tone}`}>
-      {days.map((day, index) => (
-        <li className="day-card" key={`${tone}-${day.date}`}>
-          <div className="day-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
-          <div className="day-date">{day.date}</div>
-          <div className="day-main">
-            <div className="day-heading">
-              <h3>{day.title}</h3>
-              <span className={`group-pill ${day.group === 'All six' ? 'all-six' : ''}`}>{day.group}</span>
-            </div>
-            <p>{day.description}</p>
-            {day.detail && <p className="day-detail">Watch point: {day.detail}</p>}
+    <li className="day-card" id={day.id}>
+      <div className="day-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
+      <div className="day-date">{day.date}</div>
+      <div className="day-main">
+        <div className="day-heading">
+          <h3>{day.title}</h3>
+          <span className={`group-pill ${day.group === 'All six' ? 'all-six' : ''}`}>{day.group}</span>
+        </div>
+        <p>{day.description}</p>
+        {day.detail && <p className="day-detail">Watch point: {day.detail}</p>}
+        {(place || links.length > 0 || day.navigate) && (
+          <div className="day-extras">
+            {place && (
+              <span className="weather-chip" title={`Typical weather at ${place.label} for Dec 21 to Jan 2`}>
+                Typical at {place.label}: {degrees(place.normal.high)} / {degrees(place.normal.low)}
+                {place.normal.snow >= 0.5 ? `, ${inches(place.normal.snow)} snow over 13 days` : ''}
+              </span>
+            )}
+            {day.navigate && (
+              <a href={mapsUrl(day.navigate)} target="_blank" rel="noreferrer">Directions ↗</a>
+            )}
+            {links.map((link) => (
+              <a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} ↗</a>
+            ))}
           </div>
-          <dl className="day-logistics">
-            <div>
-              <dt>Drive</dt>
-              <dd>{day.drive}</dd>
-            </div>
-            <div>
-              <dt>Sleep</dt>
-              <dd>{day.stay}</dd>
-            </div>
-          </dl>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function RoutePhotoAtlas({
-  photos,
-  tone,
-  heading,
-  description,
-}: {
-  photos: RoutePhoto[];
-  tone: Tone;
-  heading: string;
-  description: string;
-}) {
-  return (
-    <section className={`photo-atlas photo-atlas-${tone}`} aria-label={`${heading} photo guide`}>
-      <header className="atlas-header">
-        <p className="kicker">The route in pictures</p>
-        <h3>{heading}</h3>
-        <p>{description}</p>
-      </header>
-      <div className="atlas-grid">
-        {photos.map((photo) => (
-          <figure className="atlas-photo" key={photo.src}>
-            <div className="atlas-image">
-              <img
-                src={`${siteBasePath}/photos/${photo.src}`}
-                alt={photo.alt}
-                loading="lazy"
-                decoding="async"
-              />
-              <span>{photo.stop}</span>
-            </div>
-            <figcaption>
-              <strong>{photo.title}</strong>
-              <span>{photo.note}</span>
-              <small>
-                Photo: {photo.credit}, {photo.license}.{' '}
-                <a href={photo.source} target="_blank" rel="noreferrer">Source ↗</a>
-              </small>
-            </figcaption>
-          </figure>
-        ))}
+        )}
       </div>
-    </section>
+      <dl className="day-logistics">
+        <div>
+          <dt>Drive</dt>
+          <dd>{day.drive}</dd>
+        </div>
+        <div>
+          <dt>Sleep</dt>
+          <dd>{day.stay}</dd>
+        </div>
+      </dl>
+    </li>
   );
 }
 
 export default function Home() {
+  const weatherPlaces = weatherKeys.map((key) => ({ key, ...placeWeather[key] }));
+
   return (
     <main>
-      <a className="skip-link" href="#main-content">Skip to trip options</a>
+      <a className="skip-link" href="#main-content">Skip to the trip</a>
 
       <section className="hero">
         <nav className="topline" aria-label="Trip navigation">
           <a href="#top" className="wordmark">Ben-David winter break</a>
           <div className="nav-links">
             <a href="#map">Map</a>
+            <a href="#itinerary">Itinerary</a>
+            <a href="#stays">Stays</a>
+            <a href="#weather">Weather</a>
             <a href="#elnino">El Niño</a>
             <a href="#crowds">Crowds</a>
-            <a href="#yellowstone">Yellowstone</a>
-            <a href="#oregon">Oregon</a>
-            <a href="#utah">Utah</a>
-            <a href="#decision">Compare</a>
+            <a href="#plan">Plan</a>
           </div>
           <span>Dec 21, 2026 · Jan 2, 2027</span>
         </nav>
 
         <div className="hero-copy" id="top">
-          <p className="kicker">Three airports, three roads</p>
-          <h1>One family.<br />Three wild directions.</h1>
+          <p className="kicker">Winter break 2026 · Las Vegas to Salt Lake City</p>
+          <h1>West rim<br />to red rock.</h1>
           <p className="lede">
-            See the grandparents first. Meet Ayelet and Tal at a western airport on Dec 21, gather all six by Christmas Eve,
-            then choose Yellowstone in winter, the Oregon high desert, or Utah’s red rock, with a very strong El Niño now shaping the odds.
+            Thirteen days from the Hualapai canyon rim at Grand Canyon West, past Hoover Dam, through Zion, Bryce,
+            Capitol Reef, Arches, and Canyonlands, to Salt Lake City. Six travelers from Dec 24, one one-way rental.
           </p>
         </div>
 
-        <div className="hero-choices" aria-label="Route summaries">
-          <a className="hero-choice hero-yellowstone" href="#yellowstone">
-            <span>01 · Dry side · coldest</span>
-            <strong>BZN → Mammoth → Old Faithful → BZN</strong>
-          </a>
-          <a className="hero-choice hero-oregon" href="#oregon">
-            <span>02 · Dry side · milder</span>
-            <strong>RDM → Crater Lake → PDX</strong>
-          </a>
-          <a className="hero-choice hero-utah" href="#utah">
-            <span>03 · Warmest · most exposed</span>
-            <strong>LAS → Zion → Moab → SLC</strong>
-          </a>
+        <div className="hero-facts" aria-label="Trip at a glance">
+          <div><strong>12</strong><span>nights on the road</span></div>
+          <div><strong>≈ 1,150</strong><span>miles of driving</span></div>
+          <div><strong>7</strong><span>stays to book</span></div>
+          <div><strong>LAS → SLC</strong><span>fly in, fly out</span></div>
         </div>
       </section>
 
       <div id="main-content">
         <section className="brief-section" aria-labelledby="brief-heading">
-          <div className="section-label">The fixed pieces</div>
+          <div className="section-label">The shape of it</div>
           <div className="brief-copy">
-            <h2 id="brief-heading">The route bends around the family calendar.</h2>
+            <h2 id="brief-heading">Two canyons, five parks, one road north.</h2>
             <p>
-              You spend Dec 18 to 20 with the grandparents, then fly from SFO on Dec 21 to meet Ayelet and Tal
-              at the route’s first airport. Shelly and Maia join Dec 24, and everyone flies home Jan 2.
-              All three options avoid places you have already been, and none includes a winter sport.
+              You spend Dec 18 to 20 with the grandparents, then fly from SFO on Dec 21 to meet Ayelet and Tal at Las Vegas.
+              The first three days are the Hualapai canyon rim and Hoover Dam, with no time in the city. Shelly and Maia land at
+              the Las Vegas airport on Dec 24 and all six drive north through Utah, ending in Salt Lake City for New Year’s Eve.
+              Everyone flies home from there on Jan 2.
             </p>
           </div>
           <div className="constraint-grid">
             <div><strong>6</strong><span>travelers after Dec 24</span></div>
-            <div><strong>3–4h</strong><span>normal driving target</span></div>
+            <div><strong>4½h</strong><span>longest drive</span></div>
             <div><strong>0</strong><span>ski days</span></div>
-            <div><strong>High</strong><span>nature + solitude</span></div>
+            <div><strong>2</strong><span>slack days built in</span></div>
           </div>
         </section>
 
-        <section className="map-section" id="map" aria-labelledby="map-heading">
+        <section className="map-section map-section-wide" id="map" aria-labelledby="map-heading">
           <div className="section-intro light">
-            <p className="kicker">Shared route map</p>
-            <h2 id="map-heading">Three roads, three starting airports.</h2>
-            <p>Tap a route to isolate it. Scroll-wheel zoom stays off so the page remains easy to navigate; use the map controls to zoom.</p>
+            <p className="kicker">The detailed map</p>
+            <h2 id="map-heading">Every leg, stay, and stop.</h2>
+            <p>Switch layers on and off, or zoom to a single day. Tap any pin for the details and a link. Scroll-wheel zoom stays off so the page remains easy to navigate; use the map controls to zoom.</p>
           </div>
-          <RouteMap />
+          <TripMap />
+        </section>
+
+        <section className="route-section utah-section" id="itinerary" aria-labelledby="itinerary-heading">
+          <header className="route-header">
+            <div>
+              <p className="route-number">Day by day</p>
+              <p className="kicker">Dec 18 · Jan 2</p>
+            </div>
+            <h2 id="itinerary-heading">The itinerary.</h2>
+            <p className="route-deck">
+              Each day lists the drive, the night’s stay, typical weather, and the official links. Typical weather is a 30-year
+              average, not a forecast: the live forecast fills in from Dec 5.
+            </p>
+          </header>
+
+          <div className="route-stats" aria-label="Route statistics">
+            <div><span>Planning distance</span><strong>≈ 1,150 mi</strong></div>
+            <div><span>Longest normal leg</span><strong>4½ hr</strong></div>
+            <div><span>Full-family bases</span><strong>4 + SLC</strong></div>
+            <div><span>Airports</span><strong>SFO · LAS · SLC</strong></div>
+          </div>
+
+          <figure className="panorama panorama-utah">
+            <img src={`${siteBasePath}/photos/utah-arches.jpg`} alt="Delicate Arch surrounded by winter snow in Arches National Park" />
+            <figcaption>Arches after snow. Photo: Guyyoung1966, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Delicate_Arch_in_Arches_National_Park_draped_in_a_winter_snow.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
+          </figure>
+
+          <ol className="timeline timeline-utah">
+            {days.map((day, index) => (
+              <DayCard key={day.id} day={day} index={index} />
+            ))}
+          </ol>
+
+          <aside className="compressed-plan">
+            <div>
+              <p className="kicker">If a storm closes Highway 12</p>
+              <h3>Hold in Bryce, not on the pass.</h3>
+            </div>
+            <p>If Boulder Mountain is closed on Dec 27, stay another night at Bryce, then take a US-89 alternative to Torrey when roads allow. Capitol Reef is the day to sacrifice: you still reach Moab on Dec 29, and the Jan 1 slack in Salt Lake City absorbs the rest.</p>
+          </aside>
+        </section>
+
+        <section className="stays-section" id="stays" aria-labelledby="stays-heading">
+          <header className="nino-header">
+            <div>
+              <p className="route-number">Where to sleep</p>
+              <p className="kicker">Seven stays · top pick and alternatives</p>
+            </div>
+            <h2 id="stays-heading">Cool places to spend the night.</h2>
+            <p className="route-deck">
+              One memorable top pick for each stop, with alternatives if it is full. All are listed as open in winter by their owners or
+              listings, but I could not confirm December 2026 availability, so check before booking, and book with free cancellation.
+            </p>
+          </header>
+
+          {stayBlocks.map((block) => (
+            <div className="stay-block" key={block.id}>
+              <div className="stay-head">
+                <p className="kicker">{block.dates} · {block.nights}</p>
+                <h3>{block.headline}</h3>
+                <p className="stay-area">{block.area}</p>
+                {block.note && <p className="stay-note">{block.note}</p>}
+              </div>
+              <div className="stay-options">
+                {block.options.map((option) => (
+                  <article className={`stay-card ${option.pick ? 'stay-pick' : ''}`} key={option.name}>
+                    <p className="stay-tag">{option.pick ? 'Top pick' : 'Alternative'}</p>
+                    <h4>{option.name}</h4>
+                    <p>{option.blurb}</p>
+                    <p className="stay-status">{option.status}</p>
+                    {option.url && (
+                      <a href={option.url} target="_blank" rel="noreferrer">Website ↗</a>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section className="weather-section" id="weather" aria-labelledby="weather-heading">
+          <header className="nino-header">
+            <div>
+              <p className="route-number">Weather</p>
+              <p className="kicker">Typical conditions · Dec 21 to Jan 2</p>
+            </div>
+            <h2 id="weather-heading">What to expect at each stop.</h2>
+            <p className="route-deck">
+              No forecast reaches Dec 21 yet. Until the 16-day forecast opens on Dec 5, these are the typical conditions for the
+              trip dates over the last 30 winters, and how the three strongest El Niño winters compared.
+              The live forecast loads below once it exists.
+            </p>
+          </header>
+
+          <div className="weather-group">
+            <div className="weather-table" role="table" aria-label="Typical weather by stop">
+              <div className="comparison-row comparison-head" role="row">
+                <div role="columnheader">Stop</div>
+                <div role="columnheader">Typical high / low</div>
+                <div role="columnheader">Coldest night</div>
+                <div role="columnheader">Snow, 13 days</div>
+                <div role="columnheader">Wet days of 13</div>
+                <div role="columnheader">In the big El Niños</div>
+                <div role="columnheader">Forecast</div>
+              </div>
+              {weatherPlaces.map((place) => (
+                <div className="comparison-row" role="row" key={place.key}>
+                  <div role="rowheader">{place.label}<small>{place.elevationFt.toLocaleString('en-US')} ft</small></div>
+                  <div role="cell">{degrees(place.normal.high)} / {degrees(place.normal.low)}</div>
+                  <div role="cell">{degrees(place.normal.coldest)}</div>
+                  <div role="cell">{inches(place.normal.snow)}</div>
+                  <div role="cell">{Math.round(place.normal.wetDays)}</div>
+                  <div role="cell">{elNinoNote(place)}</div>
+                  <div role="cell">
+                    <a href={`https://forecast.weather.gov/MapClick.php?lat=${place.lat}&lon=${place.lon}`} target="_blank" rel="noreferrer">NWS ↗</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <LiveForecast
+              places={weatherPlaces.map((place) => ({ key: place.key, label: place.label, lat: place.lat, lon: place.lon, elevationFt: place.elevationFt }))}
+            />
+          </div>
+
+          <div className="nino-grid">
+            <div>
+              <p className="kicker">What the history says</p>
+              <ul className="nino-list">
+                <li>Typical days are cold: highs in the 30s and 40s and lows in the teens and 20s from Zion to Salt Lake City, with Bryce and Torrey the coldest. The Las Vegas and Hoover Dam days are the mildest, in the 50s.</li>
+                <li>Over this exact window in the three biggest El Niño winters, highs ran about 3 to 6 degrees below normal along the route, and 2015–16 was snowier (about 7 inches at Springdale and 5 at Moab), while 1997–98 was mild and dry. Late December is early in the El Niño storm season.</li>
+                <li>Plan for cold first, then for a possible storm. Snow totals here are model estimates over 13 days, and a single storm can matter more than the average.</li>
+              </ul>
+            </div>
+            <div>
+              <p className="kicker">Daylight (sunrise – sunset)</p>
+              <div className="daylight-table" role="table" aria-label="Sunrise and sunset">
+                <div className="daylight-row daylight-head" role="row">
+                  <div role="columnheader">Place</div>
+                  <div role="columnheader">Dec 21</div>
+                  <div role="columnheader">Jan 2</div>
+                </div>
+                {daylight.map((row) => (
+                  <div className="daylight-row" role="row" key={row.place}>
+                    <div role="rowheader">{row.place}{row.note ? <small>{row.note}</small> : null}</div>
+                    <div role="cell">{row.dec21}</div>
+                    <div role="cell">{row.jan2}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="weather-method">
+            Typical means the average of the Dec 21 to Jan 2 windows in {weatherNormalWinters}. The big El Niños are {weatherAnalogWinters.join(', ')}, the
+            three events NOAA compares this one with; with only three winters, treat the differences as hints, not predictions.
+            Numbers come from ERA5-based reanalysis (a model of past weather on a grid about 10 to 25 km wide, adjusted to each stop’s
+            elevation), not station records, so canyon bottoms and high passes are approximate, and the model tends to run a few degrees
+            colder than station normals. Wet days have at least 0.04 inches of precipitation, and snow is a model estimate.
+            Sunrise and sunset are calculated for the stated time zone.
+          </p>
         </section>
 
         <section className="nino-section" id="elnino" aria-labelledby="nino-heading">
@@ -724,7 +419,7 @@ export default function Home() {
               <p className="route-number">The forecast</p>
               <p className="kicker">NOAA Climate Prediction Center · Oct 8, 2026</p>
             </div>
-            <h2 id="nino-heading">A very strong El Niño is building. Go where the storms are not.</h2>
+            <h2 id="nino-heading">A very strong El Niño is building. Stop by stop, here is what it means.</h2>
             <p className="route-deck">
               NOAA says El Niño is still strengthening. Dec 21 to Jan 2 falls in the Nov–Jan window where
               it gives 70% odds of a record-strength event. The odds describe a three-month average, not these 13 days.
@@ -741,33 +436,33 @@ export default function Home() {
             <div>
               <p className="kicker">What the outlook says for the West</p>
               <ul className="nino-list">
-                <li>Wetter than normal is favored across the southern half of California and the Four Corners. California odds rise toward the coast through winter and may reach central Oregon, or farther north.</li>
-                <li>The interior Northwest leans drier than normal, and most of the West leans warmer, with the highest odds of warmth (50 to 60%) in the interior Northwest and along the northern tier. The warm tilt over the Southwest fades to equal chances as winter goes on.</li>
-                <li>NOAA warns that one or more cold-air outbreaks remain possible across the northwestern states, though they should not change the three-month average much. A negative Pacific Decadal Oscillation may also dampen the usual El Niño effects in places.</li>
+                <li>Wetter than normal is favored across the southern half of California and the Four Corners. This route sits near the northern edge of that wet tilt, and NOAA’s text does not name Nevada, Arizona, or Utah itself, so check the CPC map before relying on it.</li>
+                <li>Most of the West leans warmer, and the warm tilt over the Southwest fades to equal chances as winter goes on.</li>
+                <li>A negative Pacific Decadal Oscillation may dampen the usual El Niño effects in places. NOAA says impacts are more likely, though not guaranteed.</li>
               </ul>
             </div>
             <div>
               <p className="kicker">How to use it</p>
               <div className="prose-stack">
                 <p>A strong El Niño tilts the storm track south. It does not schedule storms, and most winter precipitation arrives in a few large systems with dry stretches between them.</p>
-                <p>That makes the northern Rockies and the interior Northwest the safer bets: the storms that matter, atmospheric rivers and flooding, mostly miss them. The trade-off is cold and snow, which are predictable and plowed, rather than storms that close coastal roads.</p>
+                <p>So the useful question is which days lose the least when a storm lands. This route keeps two-night bases at Zion, Torrey, and Moab, a Capitol Reef day that can be dropped, and slack on Jan 1 in Salt Lake City.</p>
               </div>
             </div>
           </div>
 
-          <div className="nino-table" role="table" aria-label="El Niño exposure by route">
+          <div className="nino-table" role="table" aria-label="Weather risk by stop">
             <div className="comparison-row comparison-head" role="row">
-              <div role="columnheader">Route</div>
-              <div role="columnheader">What the outlook points to</div>
+              <div role="columnheader">Stop</div>
+              <div role="columnheader">Dates</div>
               <div role="columnheader">What can go wrong</div>
-              <div role="columnheader">Exposure</div>
+              <div role="columnheader">Fallback</div>
             </div>
-            {ninoRows.map(([route, signal, risk, exposure]) => (
-              <div className="comparison-row" role="row" key={route}>
-                <div role="rowheader">{route}</div>
-                <div role="cell">{signal}</div>
+            {ninoRows.map(([stop, dates, risk, fallback]) => (
+              <div className="comparison-row" role="row" key={stop}>
+                <div role="rowheader">{stop}</div>
+                <div role="cell">{dates}</div>
                 <div role="cell">{risk}</div>
-                <div role="cell"><strong>{exposure}</strong></div>
+                <div role="cell">{fallback}</div>
               </div>
             ))}
           </div>
@@ -790,7 +485,7 @@ export default function Home() {
             </div>
             <h2 id="crowd-heading">Winter keeps most parks quiet. Zion is the exception.</h2>
             <p className="route-deck">
-              December is a small fraction of peak season at every park on these routes except Zion.
+              December is a small fraction of peak season at every park on this route except Zion.
               Monthly averages hide the holiday week, though, and Dec 26 to Jan 1 usually runs busier than they suggest.
             </p>
           </header>
@@ -805,7 +500,7 @@ export default function Home() {
             </div>
             {crowdRows.map((row) => (
               <div className="comparison-row" role="row" key={row.park}>
-                <div role="rowheader">{row.park}<small>Option {row.route}</small></div>
+                <div role="rowheader">{row.park}</div>
                 <div role="cell">{row.visits.toLocaleString('en-US')}</div>
                 <div role="cell">≈ {perDay(row.visits)}</div>
                 <div role="cell">
@@ -823,281 +518,87 @@ export default function Home() {
             <div>
               <p className="kicker">What the numbers say</p>
               <ul className="nino-list">
-                <li>Yellowstone’s December count, about 30,000, is 3% of July’s, and most of it is the northern road and the snowcoach season that starts Dec 15.</li>
                 <li>December runs near twice January at the Utah parks (Zion 1.9 times, Bryce 2.0, Arches 1.7, Capitol Reef 2.1, Canyonlands 3.3), which points to a holiday surge in the last week of the month.</li>
-                <li>Crater Lake is nearly empty in December. Zion is the only park here above a third of its peak.</li>
+                <li>Zion is the only park here above a third of its peak. Visit it on Dec 25, before the shuttle starts, and at sunrise.</li>
+                <li>NPS does not count Grand Canyon West, which the Hualapai Tribe runs, so there is no comparable figure. Expect it to be busy with tour groups from Las Vegas in the middle of the day and quiet after 3 pm.</li>
               </ul>
             </div>
             <div>
               <p className="kicker">What the numbers miss</p>
               <div className="prose-stack">
-                <p>The gateways are busier than the parks. Bozeman, Bend, and Salt Lake City are ski towns, so flights, rental cars, and hotels are tight and expensive in holiday week. Springdale fills up for Zion, and Las Vegas peaks around New Year’s Eve.</p>
-                <p>This is a general pattern, not something the counts measure. Book flights, cars, and the first night of lodging early, and be at the main viewpoints and trailheads at sunrise.</p>
+                <p>The gateways are busier than the parks. Springdale fills up for Zion, Las Vegas peaks around New Year’s Eve, and downtown Salt Lake City is expensive on Dec 31. Flights, cars, and hotels are tight and costly in holiday week.</p>
+                <p>This is a general pattern, not something the counts measure. Book early and be at the main viewpoints and trailheads at sunrise.</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="more-section" id="more" aria-labelledby="more-heading">
-          <div className="section-label">What changed</div>
-          <div className="brief-copy">
-            <h2 id="more-heading">The options moved to the dry side.</h2>
-            <p>
-              You have already been to Death Valley, Joshua Tree, the Grand Canyon, and the Tetons, and El Niño is
-              the main concern. The earlier plans, which ran through the wettest part of the outlook, are replaced by
-              routes in the northern Rockies and the interior Northwest, with Utah kept as the warm, higher-exposure comparison.
-            </p>
-          </div>
-          <div className="more-notes">
-            <p className="kicker">Considered and set aside</p>
-            <ul className="nino-list">
-              <li>The Pacific coast from Oregon to San Diego: the strongest wet tilt on the West Coast, and slides and surf can close its main road.</li>
-              <li>Glacier National Park in winter: road access is limited, and flights usually connect through another hub.</li>
-              <li>Colorado, Tahoe, and Sun Valley: built around skiing, which you do not want, and not on the dry side.</li>
-            </ul>
-          </div>
-        </section>
-
-        <section className="route-section yellowstone-section" id="yellowstone" aria-labelledby="yellowstone-heading">
-          <header className="route-header">
+        <section className="plan-section" id="plan" aria-labelledby="plan-heading">
+          <header className="nino-header">
             <div>
-              <p className="route-number">Option 01</p>
-              <p className="kicker">Wildlife · geysers · hot springs</p>
+              <p className="route-number">The plan</p>
+              <p className="kicker">Bookings · rules · packing</p>
             </div>
-            <h2 id="yellowstone-heading">Yellowstone in winter</h2>
+            <h2 id="plan-heading">What to book, and what to know.</h2>
             <p className="route-deck">
-              The park at its quietest: wolves and bison in the Lamar Valley, Old Faithful by snowcoach,
-              and hot springs to thaw in. Short drives, a lot of cold, and the driest, warmest side of the El Niño outlook.
+              The bookings with the earliest deadlines come first. Everything here is a planning note, so confirm hours,
+              prices, and rules with the official sites linked throughout.
             </p>
           </header>
 
-          <div className="route-stats" aria-label="Yellowstone route statistics">
-            <div><span>Planning distance</span><strong>≈ 650 mi</strong></div>
-            <div><span>Longest normal leg</span><strong>2 hr</strong></div>
-            <div><span>Full-family bases</span><strong>4</strong></div>
-            <div><span>Airports</span><strong>SFO · BZN</strong></div>
-          </div>
+          <ol className="booking-steps">
+            {bookingSteps.map(([when, text]) => (
+              <li key={when}><span>{when}</span><p>{text}</p></li>
+            ))}
+          </ol>
 
-          <figure className="panorama panorama-yellowstone">
-            <img src={`${siteBasePath}/photos/yellowstone-old-faithful.jpg`} alt="Old Faithful erupting against a blue sky above a snow-covered geyser basin" />
-            <figcaption>Old Faithful in winter. Photo: YellowstoneNPS, public domain. <a href="https://commons.wikimedia.org/wiki/File:Winter_Old_Faithful_eruption_(54366091548).jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
-          </figure>
-
-          <div className="route-summary-grid">
-            <div>
-              <p className="kicker">Why this route</p>
-              <h3>The quietest season in America’s busiest wildlife park.</h3>
-            </div>
-            <div className="prose-stack">
-              <p>The first three days are Paradise Valley hot springs, Mammoth, and the Lamar Valley, the one road in the park that stays open to cars. Shelly and Maia land in Bozeman on Dec 24, and all six ride the snowcoach to Old Faithful for two nights.</p>
-              <p>The cost is cold and lodging. Nights can fall below zero, and the two lodges inside the park, which have limited rooms, may already be sold out for holiday week. Check them first. If they are, base in Gardiner and West Yellowstone and add a day snowcoach tour.</p>
-            </div>
-          </div>
-
-          <Itinerary days={yellowstoneDays} tone="yellowstone" />
-
-          <RoutePhotoAtlas
-            photos={yellowstonePhotoStory}
-            tone="yellowstone"
-            heading="A quiet park under snow."
-            description="Four views follow the route in order, from the Mammoth terraces to the frozen Upper Falls."
-          />
-
-          <div className="rule-row">
-            <aside className="weather-card">
-              <p className="kicker">The Yellowstone rule</p>
-              <blockquote>Dress for the night, not the afternoon.</blockquote>
-              <p>Pack layers that work below zero, hand and foot warmers, and a full tank. Keep the wildlife distances: 25 yards from bison and elk, 100 yards from wolves and bears.</p>
-            </aside>
-          </div>
-
-          <aside className="compressed-plan">
-            <div>
-              <p className="kicker">If the park lodges are full</p>
-              <h3>Base outside, ride in by day.</h3>
-            </div>
-            <p>Stay in Gardiner for the Lamar Valley days and in West Yellowstone for the Old Faithful days, and book a full-day snowcoach tour in place of the overnight at the Snow Lodge. Keep Bozeman and Paradise Valley as they are.</p>
-          </aside>
-        </section>
-
-        <section className="route-section oregon-section" id="oregon" aria-labelledby="oregon-heading">
-          <header className="route-header">
-            <div>
-              <p className="route-number">Option 02</p>
-              <p className="kicker">High desert · crater · hot springs</p>
-            </div>
-            <h2 id="oregon-heading">Central Oregon to Portland</h2>
-            <p className="route-deck">
-              Volcanic desert, Crater Lake under snow, remote hot springs, and wintering eagles. Milder than Montana,
-              also on the dry side of the outlook, with fewer headline sights.
-            </p>
-          </header>
-
-          <div className="route-stats" aria-label="Central Oregon route statistics">
-            <div><span>Planning distance</span><strong>≈ 900 mi</strong></div>
-            <div><span>Longest normal leg</span><strong>3½ hr</strong></div>
-            <div><span>Full-family bases</span><strong>4 + PDX</strong></div>
-            <div><span>Airports</span><strong>SFO · RDM · PDX</strong></div>
-          </div>
-
-          <figure className="panorama panorama-oregon">
-            <img src={`${siteBasePath}/photos/oregon-crater-lake.jpg`} alt="Wizard Island in Crater Lake under low cloud, with snow in the foreground" />
-            <figcaption>Crater Lake in winter. Photo: National Park Service, public domain. <a href="https://commons.wikimedia.org/wiki/File:Crater_Lake_in_Winter_3,_Crater_Lake_National_Park.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
-          </figure>
-
-          <div className="route-summary-grid">
-            <div>
-              <p className="kicker">Why this route</p>
-              <h3>A volcanic desert on the dry side of the Cascades.</h3>
-            </div>
-            <div className="prose-stack">
-              <p>Four nights in Bend before the girls arrive give the group a base with restaurants and day trips, then the road runs through high-desert hot springs and the Klamath Basin to Crater Lake and back, ending in the Columbia Gorge and Portland.</p>
-              <p>The weak points are ice on passes and in the Gorge, and the Rim Village road at Crater Lake, which can close in storms. It is also a quieter set of sights than Yellowstone, so it works best as the milder fallback.</p>
-            </div>
-          </div>
-
-          <Itinerary days={oregonDays} tone="oregon" />
-
-          <div className="photo-grid oregon-photos">
-            <figure className="photo-tall">
-              <img src={`${siteBasePath}/photos/oregon-eagles.jpg`} alt="Bald eagles feeding on an icy surface at Lower Klamath National Wildlife Refuge" />
-              <figcaption>Bald eagles, Klamath Basin, Dec 26. Photo: U.S. Fish and Wildlife Service, public domain. <a href="https://commons.wikimedia.org/wiki/File:Bald_eagles_on_Lower_Klamath_NWR,_Siskiyou_County,_California_(5710534166).jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
-            </figure>
-            <figure>
-              <img src={`${siteBasePath}/photos/oregon-fort-rock.jpg`} alt="A tall tuff cliff and rocky ridge under a blue sky at Fort Rock State Natural Area" />
-              <figcaption>Fort Rock, Dec 25. Photo: U.S. Forest Service, public domain. <a href="https://commons.wikimedia.org/wiki/File:Fort_Rock,_Fort_Rock_State_Natural_Area,_Oregon_States_Parks_%26_Recreation_(35941871990).jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
-            </figure>
-            <aside className="weather-card">
-              <p className="kicker">The Oregon rule</p>
-              <blockquote>Cold and clear is the good case. Freezing rain is the bad one.</blockquote>
-              <p>Check TripCheck each morning, carry chains, and trade a long drive for a local one whenever ice is forecast on a pass.</p>
-            </aside>
-          </div>
-
-          <aside className="compressed-plan">
-            <div>
-              <p className="kicker">If an ice storm sits on the Gorge</p>
-              <h3>Stay in Bend, skip the Gorge.</h3>
-            </div>
-            <p>If I-84 is closed on Dec 29, stay in Bend, shorten the route to Portland by a day, and take US-26 over the Cascades only after the highway is clear. The Dec 28 Bend night and the Jan 1 Portland day are the slack.</p>
-          </aside>
-        </section>
-
-        <section className="route-section utah-section" id="utah" aria-labelledby="utah-heading">
-          <header className="route-header">
-            <div>
-              <p className="route-number">Option 03</p>
-              <p className="kicker">Plateau · red rock · high desert</p>
-            </div>
-            <h2 id="utah-heading">Zion to the Utah parks</h2>
-            <p className="route-deck">
-              The most dramatic scenery of the three and the warmest days, and the highest exposure to the El Niño
-              wet tilt. Treat Highway 12 as a weather gate, not a commitment.
-            </p>
-          </header>
-
-          <div className="route-stats" aria-label="Utah route statistics">
-            <div><span>Planning distance</span><strong>≈ 1,100 mi</strong></div>
-            <div><span>Longest normal leg</span><strong>4½ hr</strong></div>
-            <div><span>Full-family bases</span><strong>3 + SLC</strong></div>
-            <div><span>Airports</span><strong>SFO · LAS · SLC</strong></div>
-          </div>
-
-          <figure className="panorama panorama-utah">
-            <img src={`${siteBasePath}/photos/utah-arches.jpg`} alt="Delicate Arch surrounded by winter snow in Arches National Park" />
-            <figcaption>Arches after snow. Photo: Guyyoung1966, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Delicate_Arch_in_Arches_National_Park_draped_in_a_winter_snow.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
-          </figure>
-
-          <div className="route-summary-grid">
-            <div>
-              <p className="kicker">Why this route</p>
-              <h3>Cold, clear, and genuinely different every two days.</h3>
-            </div>
-            <div className="prose-stack">
-              <p>The first three days are Zion Canyon and its quieter edges, then the girls land in St. George and all six climb to Bryce for Christmas. From there the road runs through Capitol Reef and Moab, with two-night bases at Bryce and Torrey and three nights in Moab.</p>
-              <p>The weak point is high-elevation weather on Dec 24 to 26 and a four-hour drive on Dec 31. Southern Utah sits at the edge of the Four Corners wet tilt, so it carries more El Niño uncertainty than the northern options, and the girls’ St. George flights need checking.</p>
-            </div>
-          </div>
-
-          <Itinerary days={utahDays} tone="utah" />
-
-          <RoutePhotoAtlas
-            photos={utahPhotoStory}
-            tone="utah"
-            heading="From Zion’s canyon walls to the Great Salt Lake."
-            description="Six views follow the road in order, so the landscape changes with the itinerary instead of appearing as a disconnected gallery."
-          />
-
-          <aside className="compressed-plan">
-            <div>
-              <p className="kicker">If a storm closes Highway 12</p>
-              <h3>Hold in Bryce, not on the pass.</h3>
-            </div>
-            <p>If Boulder Mountain is closed on Dec 26, stay another night at Bryce, then take a US-89 alternative to Torrey when roads allow. Capitol Reef is the day to sacrifice: you still reach Moab on Dec 28, and the Jan 1 slack in Salt Lake City absorbs the rest.</p>
-          </aside>
-        </section>
-
-        <section className="decision-section" id="decision" aria-labelledby="decision-heading">
-          <div className="section-intro">
-            <p className="kicker">The decision</p>
-            <h2 id="decision-heading">Pick the risk you prefer.</h2>
-            <p>All three options fit the family calendar. The choice is cold and short days on the dry side, a milder dry-side fallback, or warmer days and more exposure. A strong El Niño changes the odds on each.</p>
-          </div>
-
-          <div className="comparison-table" role="table" aria-label="Route comparison">
-            <div className="comparison-row comparison-head" role="row">
-              <div role="columnheader">Question</div>
-              <div role="columnheader">01 Yellowstone in winter</div>
-              <div role="columnheader">02 Central Oregon</div>
-              <div role="columnheader">03 Utah red rock</div>
-            </div>
-            {[
-              ['Visual payoff', 'Highest: geysers, steam, wildlife, deep snow', 'Medium-high: Crater Lake, desert, hot springs', 'Highest: red rock, snow, immense scale'],
-              ['Solitude', 'Very high in winter; quiet park', 'High; remote high desert', 'High between parks; mixed in Zion and Arches'],
-              ['Crowds', 'Very low: about 1,000 park visitors a day in December; the limit is rooms and snowcoach seats', 'Low in the parks (Crater Lake ≈ 160 to 370 a day); Bend is a ski town with a busy holiday week', 'Mixed: Zion ≈ 7,600 a day in December, the other parks quiet'],
-              ['Weather exposure', 'Cold, snow, and Gallatin Canyon avalanche closures', 'Ice on passes and in the Gorge', 'Snow and ice on high roads; flash floods'],
-              ['El Niño exposure', 'Lowest; dry and warm side of the outlook', 'Low; dry tilt, but the Cascades are unreliable', 'Moderate; edge of the Four Corners wet tilt'],
-              ['Driving', 'Short: nothing over 2 hr', 'Medium: up to 3½ hr', 'Long: up to 4½ hr'],
-              ['Hotel rhythm', 'Two-night bases at Mammoth, Old Faithful, Bozeman, Chico', 'Four nights in Bend, then mostly short stays', 'Two-night bases at Bryce and Torrey, three each at Springdale and Moab'],
-              ['Flights', 'You fly SFO to BZN; girls land BZN; home from BZN, so no one-way fee', 'You fly SFO to RDM; girls land RDM; home from PDX', 'You fly SFO to LAS; girls land SGU (or LAS); home from SLC'],
-              ['Biggest booking risk', 'Park lodging and snowcoaches may already be full', 'Summer Lake cabins are limited', 'St. George flights are limited'],
-              ['Can it switch late?', 'No; flights commit it by mid-November', 'No; flights commit it by mid-November', 'No; flights commit it by mid-November'],
-              ['Best for', 'Wildlife and a true winter, with the safest El Niño odds', 'A milder dry-side fallback', 'Scenery and warmer days, with more exposure'],
-            ].map(([label, yellowstone, oregon, utah]) => (
-              <div className="comparison-row" role="row" key={label}>
-                <div role="rowheader">{label}</div>
-                <div role="cell">{yellowstone}</div>
-                <div role="cell">{oregon}</div>
-                <div role="cell">{utah}</div>
-              </div>
+          <div className="plan-grid">
+            {planCards.map((card) => (
+              <article className="plan-card" key={card.title}>
+                <h3>{card.title}</h3>
+                <ul>
+                  {card.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
             ))}
           </div>
-
-          <div className="recommendation">
-            <p className="kicker">Current lean</p>
-            <h3>Lead with Yellowstone, if the lodging can be booked now.</h3>
-            <p>It sits on the dry, warm side of the El Niño outlook, keeps every drive near two hours, has the most solitude and wildlife, and needs no one-way rental. The trade-off is real cold, and holiday-week rooms inside the park that may already be full. If they are, central Oregon is the fallback, also on the dry side and milder, with fewer headline sights. Utah is the most scenic but the most exposed. This is our reading of the outlook, not NOAA’s. Revisit after the Oct 15 and Nov 12 updates, and before booking flights.</p>
-          </div>
         </section>
 
-        <section className="checklist-section" aria-labelledby="checklist-heading">
-          <div>
-            <p className="kicker">Before anything becomes nonrefundable</p>
-            <h2 id="checklist-heading">Four decisions unlock the bookings.</h2>
+        <section className="photo-section" id="photos" aria-labelledby="photos-heading">
+          <div className="photo-atlas photo-atlas-utah">
+            <header className="atlas-header">
+              <p className="kicker">The route in pictures</p>
+              <h3 id="photos-heading">From the Hualapai rim to Temple Square.</h3>
+              <p>Twelve views follow the road in order. All are licensed photographs with credits and source links.</p>
+            </header>
+            <div className="atlas-grid">
+              {photos.map((photo) => (
+                <figure className="atlas-photo" key={photo.src}>
+                  <div className="atlas-image">
+                    <img src={`${siteBasePath}/photos/${photo.src}`} alt={photo.alt} loading="lazy" decoding="async" />
+                    <span>{photo.stop}</span>
+                  </div>
+                  <figcaption>
+                    <strong>{photo.title}</strong>
+                    <span>{photo.note}</span>
+                    <small>
+                      Photo: {photo.credit}, {photo.license}.{' '}
+                      <a href={photo.source} target="_blank" rel="noreferrer">Source ↗</a>
+                    </small>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
-          <ol className="booking-list">
-            <li><span>01</span><p>This week, check Yellowstone lodging and snowcoach availability. Mammoth Hotel and Old Faithful Snow Lodge open Dec 15 and 16, and both sell out. Without in-park rooms, base in Gardiner and West Yellowstone and book a day snowcoach.</p></li>
-            <li><span>02</span><p>Pick the route by mid-November, then price flights: you from SFO, and Ayelet and Tal, to the first airport on Dec 21 (BZN, RDM, or LAS); Shelly and Maia to the Dec 24 airport (BZN, RDM, or SGU); everyone home Jan 2. SFO to BZN and SFO to RDM appear to have nonstop service, but I have not confirmed winter schedules.</p></li>
-            <li><span>03</span><p>Reserve cars early, because Bozeman, Redmond, Las Vegas, and Salt Lake City are busy ski and holiday airports. Compare six-person vehicle capacity with luggage, winter tires or chains, and the rental company’s traction-device policy. Only options 02 (RDM to PDX) and 03 (LAS to SLC) carry a one-way fee; Yellowstone starts and ends at Bozeman.</p></li>
-            <li><span>04</span><p>Set the weather calls: the NOAA dates in the forecast section, seven days out for major rerouting, and every morning for roads, trails, daylight, and cold. For Yellowstone, pack for below-zero nights.</p></li>
-          </ol>
         </section>
 
         <section className="sources-section" aria-labelledby="sources-heading">
           <div>
             <p className="kicker">Planning sources</p>
             <h2 id="sources-heading">Use live official conditions, not this page, on travel day.</h2>
-            <p>Mileage and drive times are rounded planning estimates without major weather delays. The itinerary was assembled in August 2026 and revised in October 2026 for travel from Dec 21, 2026 to Jan 2, 2027. The forecast section reflects NOAA products issued Sept 17 and Oct 8, 2026 and will be out of date after the next releases. Yellowstone’s 2026-27 winter season dates are from the park lodges and may shift with weather.</p>
+            <p>Mileage and drive times are rounded planning estimates without major weather delays. The itinerary was assembled in August 2026 and revised in October 2026 for travel from Dec 21, 2026 to Jan 2, 2027. The forecast section reflects NOAA products issued Sept 17 and Oct 8, 2026 and will be out of date after the next releases. Lodging and hours were checked against public listings in October 2026 and can change.</p>
           </div>
           <div className="source-links">
             {sources.map(([label, href]) => (
@@ -1109,7 +610,7 @@ export default function Home() {
 
       <footer>
         <div>
-          <p className="kicker">Three airports, three roads</p>
+          <p className="kicker">West rim to red rock</p>
           <p>A working family plan for winter break 2026.</p>
         </div>
         <a href="#top">Back to top ↑</a>

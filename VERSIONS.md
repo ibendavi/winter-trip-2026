@@ -1,5 +1,13 @@
 # Version manifest
 
+## 20261011d revision (single-trip site: West Rim to Red Rock)
+
+- Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/`
+- Canonical source: this project folder
+- Complete editable source: yes
+- Predecessor: the published three-option site (Yellowstone, Central Oregon, Hualapai + Utah) with crowds section, archived in `versions/20261011_160511/` (`source/` and rendered `site/`) and in git at commit `173a4ba`
+- Material differences: scrapped the multi-option comparison and rebuilt the site around the Las Vegas to Salt Lake City trip: day-by-day itinerary with directions and links, seven suggested stays with alternatives, a detailed interactive map (road geometry, stays, sights, airports, day zoom), typical weather for each stop with El Niño-winter comparison and a live forecast, daylight and time zones, stop-by-stop El Niño risks, crowds for the Utah parks, booking steps and trip notes, twelve credited photos, a new social preview image, and generation scripts in `tools/`
+
 ## 20261011c revision (crowds)
 
 - Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/`

@@ -1,0 +1,134 @@
+"""Build app/weather-data.ts: typical Dec 21 - Jan 2 weather at each destination.
+
+Source: Open-Meteo historical archive (ERA5-based reanalysis, ~10-25 km grid, temperature
+downscaled to the stated elevation). Reanalysis is not a station record, so mountain
+numbers are approximate. Run: py -3 tools/build_weather.py
+"""
+import json
+import os
+import statistics
+import time
+import urllib.parse
+import urllib.request
+
+OUT = os.path.join(os.path.dirname(__file__), "..", "app", "weather-data.ts")
+
+# key, label, option, lat, lon, elevation (ft)
+PLACES = [
+    ("bozeman", "Bozeman", "yellowstone", 45.7775, -111.1528, 4470),
+    ("mammoth", "Mammoth Hot Springs", "yellowstone", 44.9769, -110.6976, 6239),
+    ("oldfaithful", "Old Faithful", "yellowstone", 44.4605, -110.8281, 7349),
+    ("bend", "Bend", "oregon", 44.0582, -121.3153, 3625),
+    ("summerlake", "Summer Lake", "oregon", 42.7167, -120.6633, 4300),
+    ("klamath", "Klamath Falls", "oregon", 42.2249, -121.7817, 4100),
+    ("craterlake", "Crater Lake rim", "oregon", 42.9114, -122.1096, 7100),
+    ("hoodriver", "Hood River", "oregon", 45.7054, -121.5215, 100),
+    ("portland", "Portland", "oregon", 45.5898, -122.5951, 30),
+    ("lasvegas", "Las Vegas", "utah", 36.1699, -115.1398, 2000),
+    ("gcwest", "Grand Canyon West", "utah", 35.9987, -113.8113, 4800),
+    ("springdale", "Springdale (Zion)", "utah", 37.1889, -112.9986, 3900),
+    ("bryce", "Bryce Canyon", "utah", 37.6283, -112.1677, 8000),
+    ("torrey", "Torrey", "utah", 38.2983, -111.4199, 6840),
+    ("moab", "Moab", "utah", 38.5733, -109.5498, 4025),
+    ("slc", "Salt Lake City", "utah", 40.7884, -111.9778, 4226),
+]
+
+NORMAL_WINTERS = list(range(1994, 2024))  # window starts Dec 21 of these years
+ANALOG_WINTERS = [1982, 1997, 2015]  # CPC's "Big Three" strong El Ninos
+WET_IN = 0.04  # a day with at least 1 mm of precipitation
+SNOW_IN = 0.4  # a day with at least 1 cm of snowfall
+
+
+CACHE = os.path.join(os.path.dirname(__file__), ".cache")
+os.makedirs(CACHE, exist_ok=True)
+
+
+def fetch(key, lat, lon, elev_ft, start, end):  # one winter window per call keeps the request weight low
+    cache_path = os.path.join(CACHE, f"{key}_{start}_{end}.json")
+    if os.path.exists(cache_path):
+        with open(cache_path, encoding="utf-8") as f:
+            return json.load(f)
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "elevation": round(elev_ft * 0.3048),
+        "start_date": start,
+        "end_date": end,
+        "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum",
+        "temperature_unit": "fahrenheit",
+        "precipitation_unit": "inch",
+        "timezone": "America/Denver",
+    }
+    url = "https://archive-api.open-meteo.com/v1/archive?" + urllib.parse.urlencode(params)
+    for attempt in range(40):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "winter-trip-planner/1.0"})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                daily = json.load(r)["daily"]
+            with open(cache_path, "w", encoding="utf-8") as f:
+                json.dump(daily, f)
+            time.sleep(0.4)
+            return daily
+        except Exception as exc:  # noqa: BLE001
+            wait = 150 if "429" in str(exc) else 20
+            print("  retry", attempt, exc, "wait", wait, flush=True)
+            time.sleep(wait)
+    raise RuntimeError("fetch failed")
+
+
+def merge(a, b):
+    return {k: a[k] + b[k] for k in a}
+
+
+def window(daily, year):
+    start, end = f"{year}-12-21", f"{year + 1}-01-02"
+    idx = [i for i, d in enumerate(daily["time"]) if start <= d <= end]
+    pick = lambda k: [daily[k][i] for i in idx if daily[k][i] is not None]  # noqa: E731
+    hi, lo, pr, sn = pick("temperature_2m_max"), pick("temperature_2m_min"), pick("precipitation_sum"), pick("snowfall_sum")
+    return {
+        "high": statistics.mean(hi),
+        "low": statistics.mean(lo),
+        "coldest": min(lo),
+        "precip": sum(pr),
+        "snow": sum(sn),
+        "wetDays": sum(1 for v in pr if v >= WET_IN),
+        "snowDays": sum(1 for v in sn if v >= SNOW_IN),
+    }
+
+
+def mean_of(rows, key):
+    return statistics.mean(r[key] for r in rows)
+
+
+result = {}
+for key, label, option, lat, lon, elev in PLACES:
+    print("fetching", label, flush=True)
+    by_year = {y: fetch(key, lat, lon, elev, f"{y}-12-21", f"{y + 1}-01-02") for y in sorted(set(NORMAL_WINTERS + ANALOG_WINTERS))}
+    normal = [window(by_year[y], y) for y in NORMAL_WINTERS]
+    analog = [window(by_year[y], y) for y in ANALOG_WINTERS]
+    result[key] = {
+        "label": label,
+        "option": option,
+        "lat": lat,
+        "lon": lon,
+        "elevationFt": elev,
+        "normal": {k: round(mean_of(normal, k), 1) for k in normal[0]},
+        "analog": {k: round(mean_of(analog, k), 1) for k in analog[0]},
+        "analogYears": {str(y): {k: round(v, 1) for k, v in w.items()} for y, w in zip(ANALOG_WINTERS, analog)},
+    }
+
+ts = (
+    "// Generated by tools/build_weather.py. Do not edit by hand.\n"
+    "// Typical Dec 21 to Jan 2 weather from ERA5-based reanalysis (Open-Meteo archive).\n"
+    "export type WeatherStats = { high: number; low: number; coldest: number; precip: number; snow: number; wetDays: number; snowDays: number };\n"
+    "export type PlaceWeather = {\n"
+    "  label: string; option: 'yellowstone' | 'oregon' | 'utah'; lat: number; lon: number; elevationFt: number;\n"
+    "  normal: WeatherStats; analog: WeatherStats; analogYears: Record<string, WeatherStats>;\n"
+    "};\n"
+    "export const weatherNormalWinters = '1994 to 2023';\n"
+    "export const weatherAnalogWinters = ['1982-83', '1997-98', '2015-16'];\n"
+    "export const placeWeather: Record<string, PlaceWeather> = " + json.dumps(result, indent=2) + ";\n"
+)
+with open(OUT, "w", encoding="utf-8") as f:
+    f.write(ts)
+print("wrote", OUT)

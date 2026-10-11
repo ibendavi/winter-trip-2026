@@ -1,5 +1,17 @@
 # Decisions
 
+## 2026-10-11 (final): one trip, West Rim to Red Rock
+
+- The three-option site (Yellowstone, Central Oregon, Hualapai + Utah) is scrapped and archived in `versions/20261011_160511/` (source and rendered site, commit `173a4ba`). The site now covers only the Las Vegas to Salt Lake City trip. Do NOT re-add the other options unless asked.
+- Route: Dec 21 LAS to Grand Canyon West (Hualapai Reservation), Dec 22 canyon day, Dec 23 Hoover Dam to Boulder City, Dec 24 girls at LAS then to Springdale, Dec 25 Zion, Dec 26 Bryce, Dec 27 Highway 12 to Torrey, Dec 28 Capitol Reef, Dec 29 Moab, Dec 30 Arches and Canyonlands, Dec 31 Salt Lake City, Jan 1 slack, Jan 2 fly home. The user asked to skip Las Vegas the city: only the airport and Boulder City.
+- Stays are top picks plus alternatives per stop (`app/trip-data.ts`). Winter status was checked against search results only and is labeled on the page. Known closed for winter: Bryce Canyon Lodge, Under Canvas Moab (and Zion). Conflicting: Sorrel River Ranch (2026 water-system shutdown, then reopened). Hoodoo Moab, Red Cliffs Lodge, Capitol Reef Resort, Broken Spur, Red River Ranch were not confirmed and Hoodoo/Red Cliffs are marked "call".
+- Zion: secondary sources say no shuttle and private cars allowed through Dec 25, holiday shuttle Dec 26 to Jan 2. Unconfirmed against NPS for 2026; the page says to confirm.
+- Arches has no timed entry in 2026. Hoover Dam visitor center and tours close only on Thanksgiving and Christmas. Temple Square lights are listed through Jan 1, 2027 by a third-party blog only. Time zones: Las Vegas, Boulder City, and Hoover Dam Pacific; Grand Canyon West and Utah Mountain Standard.
+- Weather: typical conditions are 30 winters (1994 to 2023) of ERA5 reanalysis via Open-Meteo, windowed to Dec 21 to Jan 2, plus the three strong El Niño winters (1982-83, 1997-98, 2015-16). Reanalysis runs a few degrees colder than station normals (Las Vegas and Salt Lake City looked 2 to 5 F low), and the page says so. Finding: those three winters were 3 to 6 F colder than normal along the route in this window, with 2015-16 snowier and 1997-98 dry. n=3, so hints only.
+- The weather data file still contains Yellowstone and Oregon stops from the earlier options. They are unused; regenerate only if those options return.
+- Map lines are real road geometry from OSRM (free-flow estimates; the Zion to Bryce leg looked slow because of the tunnel, so the page uses about 2½ hr). Lodging pins use Nominatim geocodes; the Hualapai cabins and Zion Lodge pins are approximate.
+- Live forecast: browser call to Open-Meteo, active only inside the 16-day horizon of the trip dates; `?forecastTest` shows the next 13 days for checking the display.
+
 ## 2026-10-11 (later): El Niño drives the route set; supersedes the routes below
 
 - User said they have already been to Death Valley, Joshua Tree, the Grand Canyon, Grand Teton, and Jackson, do no winter sports, and are concerned about El Niño. Snow and cold are acceptable.

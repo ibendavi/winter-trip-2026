@@ -549,6 +549,32 @@ figcaption {
 .crowd-table [role="cell"] b { min-width: 34px; font-size: 14px; }
 .crowd-section .nino-grid { padding-bottom: 0; }
 
+.weather-section {
+  padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px);
+  background: var(--paper-deep);
+}
+
+.weather-group { margin-top: clamp(60px, 7vw, 100px); }
+.weather-group h3 { margin: 0 0 22px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 3vw, 42px); font-weight: 500; letter-spacing: -.03em; }
+.weather-group h3 span { margin-right: 10px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 850; letter-spacing: .17em; text-transform: uppercase; }
+.weather-table { border-top: 1px solid var(--ink); }
+.weather-table .comparison-row { grid-template-columns: 1.1fr .8fr .55fr .55fr .55fr 1.6fr .45fr; }
+.weather-table .comparison-row > div { min-height: 64px; padding: 16px 18px; font-size: 14px; }
+.weather-table .comparison-head > div { min-height: auto; font-size: 10px; }
+.weather-table [role="rowheader"] { flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; }
+.weather-table [role="rowheader"] small { font-size: 11px; font-weight: 600; color: var(--ink-soft); }
+.weather-method { max-width: 920px; margin: clamp(50px, 6vw, 80px) 0 0; color: var(--ink-soft); font-size: 13px; }
+
+.forecast-note { margin: 18px 0 0; font-size: 14px; color: var(--ink-soft); }
+.forecast-note code { padding: 1px 5px; background: rgba(26, 36, 32, .1); font-size: 12px; }
+.forecast-scroll { margin-top: 12px; overflow-x: auto; }
+.forecast-table { border-collapse: collapse; font-size: 13px; }
+.forecast-table th,
+.forecast-table td { padding: 8px 10px; border: 1px solid var(--rule); text-align: center; white-space: nowrap; }
+.forecast-table thead th { background: var(--ink); color: var(--paper); font-size: 11px; letter-spacing: .08em; }
+.forecast-table tbody th { text-align: left; font-weight: 800; background: rgba(255, 255, 255, .35); }
+.forecast-table td small { display: block; font-size: 10px; color: var(--ink-soft); }
+
 .decision-section {
   padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px);
   background: var(--paper);
@@ -600,6 +626,90 @@ figcaption {
 .source-links a:hover { color: var(--utah-dark); }
 .source-links span { font-size: 20px; }
 
+/* West rim to red rock: single-trip layout */
+.hero-facts {
+  margin: 0 calc(clamp(22px, 5vw, 76px) * -1);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--ink);
+  color: var(--paper);
+}
+.hero-facts div {
+  min-height: 132px;
+  padding: 26px clamp(22px, 5vw, 76px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid var(--white-rule);
+}
+.hero-facts div:first-child { border-left: 0; }
+.hero-facts strong { font-family: Georgia, serif; font-size: clamp(26px, 3vw, 44px); font-weight: 500; letter-spacing: -.03em; }
+.hero-facts span { font-size: 10px; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
+
+.map-section-wide { grid-template-columns: 1fr; align-items: start; }
+.trip-map { min-width: 0; }
+.trip-map-bar { display: grid; gap: 4px; }
+.trip-map-canvas { min-height: 740px; }
+.trip-pin-shell { background: transparent; border: 0; }
+.trip-pin { display: inline-block; width: 16px; height: 16px; border: 3px solid #fffaf0; box-shadow: 0 1px 4px rgba(0,0,0,.4); vertical-align: middle; }
+.trip-pin-stay { background: #2f6f9f; border-radius: 3px; }
+.trip-pin-pick { background: #123d6a; width: 20px; height: 20px; margin: -2px; }
+.trip-pin-sight { background: #e9b44c; border-radius: 50%; }
+.trip-pin-airport { background: #1a2420; border-radius: 50%; width: 20px; height: 20px; margin: -2px; }
+.trip-legend { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 22px; color: rgba(242, 238, 228, .85); font-size: 12px; font-weight: 700; }
+.trip-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.trip-legend .trip-pin { width: 14px; height: 14px; margin: 0; border-width: 2px; }
+.legend-line { display: inline-block; width: 28px; height: 0; border-top: 4px solid #c7502f; }
+.legend-line.dashed { border-top: 3px dotted #c7502f; }
+.trip-popup { max-width: 260px; font-size: 13px; line-height: 1.45; }
+.trip-popup small { display: block; font-size: 10px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.trip-popup strong { display: block; margin: 2px 0 4px; font-family: Georgia, serif; font-size: 17px; font-weight: 500; }
+.trip-popup p { margin: 0 0 6px; }
+.trip-popup em { display: block; margin-bottom: 6px; color: var(--ink-soft); font-size: 12px; }
+.trip-popup a { font-weight: 800; }
+
+.day-extras { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 12px; font-weight: 750; }
+.day-extras a { text-underline-offset: 3px; }
+.weather-chip { padding: 5px 9px; background: rgba(26, 36, 32, .08); border-left: 3px solid var(--utah); font-weight: 750; }
+
+.stays-section { padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px); background: var(--paper); border-top: 1px solid var(--rule); }
+.stay-block { margin-top: clamp(50px, 6vw, 84px); display: grid; grid-template-columns: .8fr 1.6fr; gap: clamp(28px, 4vw, 64px); padding-top: 34px; border-top: 1px solid var(--ink); }
+.stay-head h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 3vw, 42px); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
+.stay-head .kicker { margin-bottom: 14px; }
+.stay-area { margin: 12px 0 0; font-size: 13px; font-weight: 800; }
+.stay-note { margin: 14px 0 0; padding-left: 12px; border-left: 3px solid var(--utah); font-size: 13px; color: var(--ink-soft); }
+.stay-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-content: start; }
+.stay-card { padding: 22px; display: flex; flex-direction: column; gap: 8px; background: rgba(255, 255, 255, .45); border: 1px solid var(--rule); }
+.stay-card h4 { margin: 0; font-family: Georgia, serif; font-size: 22px; font-weight: 500; letter-spacing: -.02em; line-height: 1.12; }
+.stay-card p { margin: 0; font-size: 14px; }
+.stay-card a { margin-top: auto; font-size: 12px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+.stay-tag { font-size: 10px; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); }
+.stay-card .stay-status { font-size: 12px; color: var(--ink-soft); }
+.stay-pick { background: var(--utah-paper); border: 2px solid var(--utah); }
+.stay-pick .stay-tag { color: var(--utah-dark); }
+
+.daylight-table { border-top: 1px solid var(--ink); }
+.daylight-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.daylight-row > div { padding: 12px 10px 12px 0; }
+.daylight-row small { display: block; font-size: 11px; color: var(--ink-soft); }
+.daylight-head > div { font-size: 10px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+
+.plan-section { padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px); background: var(--ink); color: var(--paper); }
+.plan-section .nino-header h2 { color: var(--paper); }
+.plan-section .route-number { color: rgba(242, 238, 228, .7); }
+.booking-steps { margin: clamp(60px, 7vw, 96px) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--white-rule); }
+.booking-steps li { padding: 26px 0; display: grid; grid-template-columns: 200px 1fr; gap: 28px; border-bottom: 1px solid var(--white-rule); }
+.booking-steps li span { font-family: Georgia, serif; font-size: 24px; color: var(--sun); }
+.booking-steps li p { margin: 0; max-width: 820px; }
+.plan-grid { margin-top: clamp(50px, 6vw, 80px); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+.plan-card { padding: 26px; border: 1px solid var(--white-rule); }
+.plan-card h3 { margin: 0 0 14px; font-family: Georgia, serif; font-size: 26px; font-weight: 500; letter-spacing: -.02em; }
+.plan-card ul { margin: 0; padding-left: 18px; font-size: 14px; }
+.plan-card li { margin-bottom: 9px; }
+
+.photo-section { padding: 0 clamp(22px, 5vw, 76px) clamp(95px, 11vw, 150px); background: var(--utah-paper); }
+.photo-section .photo-atlas { margin-top: 0; border-top: 0; padding-top: clamp(95px, 11vw, 150px); }
+
 footer {
   padding: 42px clamp(22px, 5vw, 76px);
   display: flex;
@@ -622,13 +732,18 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .leaflet-map { min-height: 560px; }
   .route-header { grid-template-columns: .5fr 1.5fr; }
   .route-header .route-deck { grid-column: 2; }
+  .hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-facts div:nth-child(3) { border-left: 0; }
+  .stay-block { grid-template-columns: 1fr; }
   .nino-header { grid-template-columns: .5fr 1.5fr; }
   .nino-header .route-deck { grid-column: 2; }
   .more-section { grid-template-columns: .5fr 1.5fr; }
   .more-notes { grid-column: 2; }
   .comparison-table,
   .crowd-table,
+  .weather-table,
   .nino-table { overflow-x: auto; }
+  .weather-table .comparison-row { min-width: 900px; }
   .crowd-table .comparison-row { min-width: 820px; }
   .comparison-table .comparison-row { min-width: 860px; }
   .nino-table .comparison-row { min-width: 820px; }
@@ -646,9 +761,12 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .topline { display: flex; justify-content: space-between; }
   .nav-links { gap: 13px; }
   .nav-links a:nth-child(1),
-  .nav-links a:nth-child(3),
-  .nav-links a:nth-child(4),
-  .nav-links a:nth-child(5) { display: none; }
+  .nav-links a:nth-child(2),
+  .nav-links a:nth-child(5),
+  .nav-links a:nth-child(6),
+  .nav-links a:nth-child(7) { display: none; }
+  .booking-steps li { grid-template-columns: 1fr; gap: 8px; }
+  .trip-map-canvas { min-height: 520px; }
   .hero-choice { min-height: 96px; }
   .hero-copy { padding-top: 80px; }
   .hero h1 { font-size: clamp(58px, 17vw, 92px); }
