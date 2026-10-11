@@ -1,10 +1,10 @@
 # Two Roads West
 
-A family winter-break planner comparing three road trips for December 21, 2026 through January 2, 2027, weighed against the NOAA El Niño outlook. The family visits the grandparents in Menlo Park Dec 18 to 20, then meets at a western airport on Dec 21:
+A family winter-break planner comparing three trips for December 21, 2026 through January 2, 2027, weighed against the NOAA El Niño outlook. The family visits the grandparents in Menlo Park Dec 18 to 20, then meets at a western airport on Dec 21:
 
-1. Las Vegas, Death Valley, Zion, Bryce, Capitol Reef, and Moab to Salt Lake City
-2. Portland, the Columbia Gorge, and the Oregon and Northern California coast to Menlo Park
-3. San Diego, Anza-Borrego, Joshua Tree, the Channel Islands, and Monterey to Menlo Park
+1. Yellowstone in winter from Bozeman (round trip): Paradise Valley hot springs, Mammoth, the Lamar Valley, and an Old Faithful snowcoach stay
+2. Central Oregon from Redmond to Portland: Bend, Summer Lake Hot Springs, Klamath Basin, Crater Lake, and the Columbia Gorge
+3. Utah red rock from Las Vegas to Salt Lake City: Zion, Bryce, Capitol Reef, Arches, and Canyonlands
 
 The published site is [ibendavi.github.io/winter-trip-2026](https://ibendavi.github.io/winter-trip-2026/).
 

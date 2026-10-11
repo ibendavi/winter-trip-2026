@@ -4,10 +4,10 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://ibendavi.github.io'),
   title: 'Two Roads West | Winter Break 2026',
-  description: 'Three family road-trip options for Dec 21, 2026 to Jan 2, 2027, weighed against the NOAA El Niño outlook: Death Valley and Utah, Portland down the coast, or San Diego north through the deserts.',
+  description: 'Three family trip options for Dec 21, 2026 to Jan 2, 2027, weighed against the NOAA El Niño outlook: Yellowstone in winter, Central Oregon, or Utah red rock.',
   openGraph: {
     title: 'Two Roads West | Winter Break 2026',
-    description: 'Three family road-trip options for Dec 21, 2026 to Jan 2, 2027, weighed against the NOAA El Niño outlook.',
+    description: 'Three family trip options for Dec 21, 2026 to Jan 2, 2027, weighed against the NOAA El Niño outlook.',
     url: 'https://ibendavi.github.io/winter-trip-2026/',
     siteName: 'Two Roads West',
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Two Roads West | Winter Break 2026',
-    description: 'Death Valley and Utah, the Pacific coast, or the southern deserts: three family road-trip plans.',
+    description: 'Yellowstone in winter, Central Oregon, or Utah red rock: three family trip plans.',
     images: ['/winter-trip-2026/og.png'],
   },
 };

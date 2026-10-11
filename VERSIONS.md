@@ -1,5 +1,13 @@
 # Version manifest
 
+## 20261011b revision (El Niño dry-side routes)
+
+- Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after branch `dates-dec21-elnino` is merged; not yet published when written)
+- Canonical source: this project folder
+- Complete editable source: yes
+- Predecessor: the 20261011 revision below, commit `37be21d` on the same branch
+- Material differences: the three routes are replaced because Death Valley and Joshua Tree were already visited and El Niño is the main concern: 01 Yellowstone in winter (Bozeman round trip), 02 Central Oregon (Redmond to Portland), 03 Utah red rock (Las Vegas to Salt Lake City, Zion start). All coast and Southern California content and photos removed; new Yellowstone and Oregon photos added; El Niño table, comparison, checklist, sources, and map rewritten
+
 ## 20261011 revision (12/21 meet-up, three routes from western airports)
 
 - Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after branch `dates-dec21-elnino` is merged; not yet published when written)

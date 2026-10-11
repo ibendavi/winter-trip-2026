@@ -9,12 +9,12 @@
   --utah: #c54e2e;
   --utah-dark: #632d20;
   --utah-paper: #eee2d3;
-  --coast: #1d5c55;
-  --coast-dark: #123d39;
-  --coast-paper: #dfe7e1;
-  --south: #2f6f9f;
-  --south-dark: #1c3f5c;
-  --south-paper: #dce6ee;
+  --oregon: #1d5c55;
+  --oregon-dark: #123d39;
+  --oregon-paper: #dfe7e1;
+  --yellowstone: #2f6f9f;
+  --yellowstone-dark: #1c3f5c;
+  --yellowstone-paper: #dce6ee;
   --nino-paper: #d8e2e6;
   --sun: #e9b44c;
   --rule: rgba(26, 36, 32, 0.22);
@@ -163,8 +163,8 @@ figure { margin: 0; }
 .hero-choice span { font-size: 10px; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
 .hero-choice strong { font-family: Georgia, serif; font-size: clamp(20px, 1.9vw, 28px); font-weight: 500; line-height: 1.15; }
 .hero-utah { background: var(--utah); }
-.hero-coast { background: var(--coast); }
-.hero-south { background: var(--south); }
+.hero-oregon { background: var(--oregon); }
+.hero-yellowstone { background: var(--yellowstone); }
 
 .brief-section {
   padding: clamp(90px, 11vw, 160px) clamp(22px, 5vw, 76px);
@@ -263,8 +263,8 @@ figure { margin: 0; }
 
 .route-section { padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px); }
 .utah-section { background: var(--utah-paper); }
-.coast-section { background: var(--coast-paper); }
-.south-section { background: var(--south-paper); }
+.oregon-section { background: var(--oregon-paper); }
+.yellowstone-section { background: var(--yellowstone-paper); }
 
 .route-header {
   display: grid;
@@ -300,8 +300,8 @@ figure { margin: 0; }
 .panorama { position: relative; }
 .panorama img { height: clamp(400px, 58vw, 760px); object-fit: cover; }
 .panorama-utah img { object-position: center 52%; }
-.panorama-coast img { object-position: center 58%; }
-.panorama-south img { object-position: center 62%; }
+.panorama-oregon img { object-position: center 58%; }
+.panorama-yellowstone img { object-position: center 62%; }
 figcaption {
   padding-top: 9px;
   color: var(--ink-soft);
@@ -335,11 +335,13 @@ figcaption {
 .day-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .group-pill { flex: none; padding: 5px 8px; border: 1px solid var(--ink); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
 .timeline-utah .group-pill.all-six { background: var(--utah); border-color: var(--utah); color: #fff8ef; }
-.timeline-coast .group-pill.all-six { background: var(--coast); border-color: var(--coast); color: #f5f8f3; }
-.timeline-south .group-pill.all-six { background: var(--south); border-color: var(--south); color: #f4f8fb; }.day-detail { padding-left: 14px; border-left: 3px solid currentColor; color: var(--ink-soft); font-size: 13px; }
+.timeline-oregon .group-pill.all-six { background: var(--oregon); border-color: var(--oregon); color: #f5f8f3; }
+.timeline-yellowstone .group-pill.all-six { background: var(--yellowstone); border-color: var(--yellowstone); color: #f4f8fb; }
+.day-detail { padding-left: 14px; border-left: 3px solid currentColor; color: var(--ink-soft); font-size: 13px; }
 .timeline-utah .day-detail { border-color: var(--utah); }
-.timeline-coast .day-detail { border-color: var(--coast); }
-.timeline-south .day-detail { border-color: var(--south); }.day-logistics { margin: 0; display: grid; gap: 18px; align-content: start; }
+.timeline-oregon .day-detail { border-color: var(--oregon); }
+.timeline-yellowstone .day-detail { border-color: var(--yellowstone); }
+.day-logistics { margin: 0; display: grid; gap: 18px; align-content: start; }
 .day-logistics div { padding-top: 7px; border-top: 1px solid var(--rule); }
 .day-logistics dt { color: var(--ink-soft); }
 .day-logistics dd { margin: 5px 0 0; font-size: 13px; font-weight: 700; line-height: 1.4; }
@@ -419,7 +421,8 @@ figcaption {
 }
 
 .photo-atlas-utah .atlas-image > span { border-left: 4px solid var(--utah); }
-.photo-atlas-coast .atlas-image > span { border-left: 4px solid var(--coast); }
+.photo-atlas-oregon .atlas-image > span { border-left: 4px solid var(--oregon); }
+.photo-atlas-yellowstone .atlas-image > span { border-left: 4px solid var(--yellowstone); }
 
 .atlas-photo figcaption {
   min-height: 112px;
@@ -453,7 +456,7 @@ figcaption {
 .photo-grid .photo-tall { grid-row: 1 / 3; }
 .photo-grid .photo-tall img { height: 720px; }
 .photo-grid .weather-card { grid-column: 2; }
-.coast-photos .photo-tall img { object-position: 52% center; }
+.oregon-photos .photo-tall img { object-position: 52% center; }
 .weather-card {
   min-height: 265px;
   padding: clamp(26px, 3vw, 42px);
@@ -463,8 +466,8 @@ figcaption {
   justify-content: space-between;
 }
 .utah-section .weather-card { background: var(--utah-dark); }
-.coast-section .weather-card { background: var(--coast-dark); }
-.south-section .weather-card { background: var(--south-dark); }
+.oregon-section .weather-card { background: var(--oregon-dark); }
+.yellowstone-section .weather-card { background: var(--yellowstone-dark); }
 .rule-row { margin-top: clamp(90px, 10vw, 145px); max-width: 760px; }
 .weather-card blockquote { margin: 8px 0 28px; font-family: Georgia, serif; font-size: clamp(29px, 3vw, 44px); letter-spacing: -.035em; line-height: 1.03; }
 .weather-card > p:last-child { margin: 0; color: rgba(255,248,239,.76); }

@@ -1,6 +1,15 @@
 # Decisions
 
-## 2026-10-11: current structure (supersedes the 10-10 SFO-start plan)
+## 2026-10-11 (later): El Niño drives the route set; supersedes the routes below
+
+- User said they have already been to Death Valley, Joshua Tree, the Grand Canyon, Grand Teton, and Jackson, do no winter sports, and are concerned about El Niño. Snow and cold are acceptable.
+- Do NOT propose again: Death Valley, Joshua Tree, Grand Canyon, Grand Teton/Jackson, or any winter-sports destination.
+- Rationale: NOAA's wet tilt covers the southern half of California, the Southwest, and the Four Corners, and may reach central Oregon. The dry/warm side is the interior Northwest and northern tier. So the options are 01 Yellowstone in winter (BZN round trip), 02 Central Oregon (RDM to PDX), 03 Utah red rock (LAS to SLC, kept as the warm, more exposed comparison). All coast and Southern California options were removed.
+- Yellowstone facts used: oversnow season opens Dec 15, Mammoth Hotel opens Dec 15, Old Faithful Snow Lodge Dec 16 (park lodges' winter page); only the Gardiner to Mammoth to Cooke City road is open to cars. The West Yellowstone to Mammoth route through the park is closed to cars, so the car cannot hop between them. The plan returns the car to Bozeman between the north and the Old Faithful stay.
+- Unverified and flagged on the page: holiday-week lodging at Mammoth and Old Faithful may be sold out; nonstop SFO to BZN and SFO to RDM exist in summer 2026 listings but winter 2026-27 schedules were not confirmed; St. George (SGU) flights for the girls are unconfirmed.
+- Lean: Yellowstone if lodging can be booked now, Central Oregon as the fallback. The "private forecasters" claim about northwest Wyoming comes from Powder Chasers and similar secondary sources, not NOAA; the page says NOAA does not name Yellowstone.
+
+## 2026-10-11: previous structure (superseded above)
 
 - Calendar: the user visits the grandparents in Menlo Park Dec 18 to 20 alone, flies from SFO on Dec 21, and meets Ayelet and Tal at the route's first airport. Shelly and Maia still join Dec 24. Everyone flies home Jan 2. I read "ayelet at tal" as "Ayelet and Tal" and assumed the party before Dec 24 is the same as before; pills say "Before the girls" instead of a head count.
 - Routes are no longer tied to SFO. Three options, each with its own first airport: 01 Las Vegas to Salt Lake City (Death Valley, Zion, Bryce, Capitol Reef, Moab); 02 Portland to Menlo Park (Gorge, Oregon and California coast, reverse of the old coast route); 03 San Diego to Menlo Park (Anza-Borrego, Palm Springs, Joshua Tree, Channel Islands, Morro Bay, Monterey).
