@@ -15,9 +15,6 @@
   --south: #2f6f9f;
   --south-dark: #1c3f5c;
   --south-paper: #dce6ee;
-  --desert: #7b4b94;
-  --desert-dark: #442a54;
-  --desert-paper: #e7dfeb;
   --nino-paper: #d8e2e6;
   --sun: #e9b44c;
   --rule: rgba(26, 36, 32, 0.22);
@@ -147,7 +144,7 @@ figure { margin: 0; }
 
 .hero-choices {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0 calc(clamp(22px, 5vw, 76px) * -1);
 }
 
@@ -168,7 +165,6 @@ figure { margin: 0; }
 .hero-utah { background: var(--utah); }
 .hero-coast { background: var(--coast); }
 .hero-south { background: var(--south); }
-.hero-desert { background: var(--desert); }
 
 .brief-section {
   padding: clamp(90px, 11vw, 160px) clamp(22px, 5vw, 76px);
@@ -269,7 +265,6 @@ figure { margin: 0; }
 .utah-section { background: var(--utah-paper); }
 .coast-section { background: var(--coast-paper); }
 .south-section { background: var(--south-paper); }
-.desert-section { background: var(--desert-paper); }
 
 .route-header {
   display: grid;
@@ -307,7 +302,6 @@ figure { margin: 0; }
 .panorama-utah img { object-position: center 52%; }
 .panorama-coast img { object-position: center 58%; }
 .panorama-south img { object-position: center 62%; }
-.panorama-desert img { object-position: center 45%; }
 figcaption {
   padding-top: 9px;
   color: var(--ink-soft);
@@ -342,14 +336,10 @@ figcaption {
 .group-pill { flex: none; padding: 5px 8px; border: 1px solid var(--ink); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
 .timeline-utah .group-pill.all-six { background: var(--utah); border-color: var(--utah); color: #fff8ef; }
 .timeline-coast .group-pill.all-six { background: var(--coast); border-color: var(--coast); color: #f5f8f3; }
-.timeline-south .group-pill.all-six { background: var(--south); border-color: var(--south); color: #f4f8fb; }
-.timeline-desert .group-pill.all-six { background: var(--desert); border-color: var(--desert); color: #f8f4fa; }
-.day-detail { padding-left: 14px; border-left: 3px solid currentColor; color: var(--ink-soft); font-size: 13px; }
+.timeline-south .group-pill.all-six { background: var(--south); border-color: var(--south); color: #f4f8fb; }.day-detail { padding-left: 14px; border-left: 3px solid currentColor; color: var(--ink-soft); font-size: 13px; }
 .timeline-utah .day-detail { border-color: var(--utah); }
 .timeline-coast .day-detail { border-color: var(--coast); }
-.timeline-south .day-detail { border-color: var(--south); }
-.timeline-desert .day-detail { border-color: var(--desert); }
-.day-logistics { margin: 0; display: grid; gap: 18px; align-content: start; }
+.timeline-south .day-detail { border-color: var(--south); }.day-logistics { margin: 0; display: grid; gap: 18px; align-content: start; }
 .day-logistics div { padding-top: 7px; border-top: 1px solid var(--rule); }
 .day-logistics dt { color: var(--ink-soft); }
 .day-logistics dd { margin: 5px 0 0; font-size: 13px; font-weight: 700; line-height: 1.4; }
@@ -474,6 +464,8 @@ figcaption {
 }
 .utah-section .weather-card { background: var(--utah-dark); }
 .coast-section .weather-card { background: var(--coast-dark); }
+.south-section .weather-card { background: var(--south-dark); }
+.rule-row { margin-top: clamp(90px, 10vw, 145px); max-width: 760px; }
 .weather-card blockquote { margin: 8px 0 28px; font-family: Georgia, serif; font-size: clamp(29px, 3vw, 44px); letter-spacing: -.035em; line-height: 1.03; }
 .weather-card > p:last-child { margin: 0; color: rgba(255,248,239,.76); }
 
@@ -545,7 +537,7 @@ figcaption {
 .decision-section .section-intro > p:last-child { margin: 0; }
 
 .comparison-table { margin-top: 80px; border-top: 1px solid var(--ink); }
-.comparison-row { display: grid; grid-template-columns: .6fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--ink); }
+.comparison-row { display: grid; grid-template-columns: .6fr 1fr 1fr 1fr; border-bottom: 1px solid var(--ink); }
 .comparison-row > div { min-height: 108px; padding: 22px; border-right: 1px solid var(--ink); display: flex; align-items: center; font-size: 15px; }
 .comparison-row > div:first-child { border-left: 1px solid var(--ink); font-weight: 800; }
 .comparison-head > div { min-height: auto; background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
@@ -607,7 +599,6 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .constraint-grid { grid-column: 2; }
   .map-section { grid-template-columns: 1fr; }
   .leaflet-map { min-height: 560px; }
-  .hero-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .route-header { grid-template-columns: .5fr 1.5fr; }
   .route-header .route-deck { grid-column: 2; }
   .nino-header { grid-template-columns: .5fr 1.5fr; }
@@ -616,7 +607,7 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .more-notes { grid-column: 2; }
   .comparison-table,
   .nino-table { overflow-x: auto; }
-  .comparison-table .comparison-row { min-width: 980px; }
+  .comparison-table .comparison-row { min-width: 860px; }
   .nino-table .comparison-row { min-width: 820px; }
   .atlas-header { grid-template-columns: .5fr 1.5fr; }
   .atlas-header > p:last-child { grid-column: 2; }
@@ -634,6 +625,7 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .nav-links a:nth-child(1),
   .nav-links a:nth-child(4),
   .nav-links a:nth-child(5) { display: none; }
+  .hero-choice { min-height: 96px; }
   .hero-copy { padding-top: 80px; }
   .hero h1 { font-size: clamp(58px, 17vw, 92px); }
   .lede { margin-left: 0; }

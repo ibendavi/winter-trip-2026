@@ -1,11 +1,10 @@
 # Two Roads West
 
-A family winter-break planner comparing four road trips for December 21, 2026 through January 2, 2027, weighed against the NOAA El Niño outlook:
+A family winter-break planner comparing three road trips for December 21, 2026 through January 2, 2027, weighed against the NOAA El Niño outlook. The family visits the grandparents in Menlo Park Dec 18 to 20, then meets at a western airport on Dec 21:
 
-1. Fly SFO to Salt Lake City, then the Utah national parks to Las Vegas
-2. Menlo Park through Mendocino, the redwoods, and the Oregon coast to Portland
-3. Menlo Park through Morro Bay, the Channel Islands, Joshua Tree, and Anza-Borrego to San Diego
-4. Menlo Park through Sequoia, Death Valley, and Zion to Las Vegas
+1. Las Vegas, Death Valley, Zion, Bryce, Capitol Reef, and Moab to Salt Lake City
+2. Portland, the Columbia Gorge, and the Oregon and Northern California coast to Menlo Park
+3. San Diego, Anza-Borrego, Joshua Tree, the Channel Islands, and Monterey to Menlo Park
 
 The published site is [ibendavi.github.io/winter-trip-2026](https://ibendavi.github.io/winter-trip-2026/).
 

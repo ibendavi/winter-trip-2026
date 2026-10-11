@@ -1,5 +1,13 @@
 # Version manifest
 
+## 20261011 revision (12/21 meet-up, three routes from western airports)
+
+- Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after branch `dates-dec21-elnino` is merged; not yet published when written)
+- Canonical source: this project folder
+- Complete editable source: yes
+- Predecessor: the 20261010 revision below, commit `fa56ff4` on the same branch (not archived separately; the original published site is in `versions/20261010_222909/` and commit `1b56e9f`)
+- Material differences: the user visits the grandparents Dec 18 to 20 and meets Ayelet and Tal at a western airport on Dec 21, so routes are no longer tied to SFO; the four SFO-start options are replaced by three: Las Vegas to Salt Lake City (Death Valley and Utah), Portland to Menlo Park, San Diego to Menlo Park; map, El Niño table, comparison, checklist, and photos updated to match
+
 ## 20261010 revision (dates, El Niño, two added routes)
 
 - Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after the branch `dates-dec21-elnino` is merged to `main`; not yet published when written)
