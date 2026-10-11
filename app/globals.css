@@ -531,6 +531,24 @@ figcaption {
 
 .more-notes .nino-list li { font-size: 15px; }
 
+.crowd-section {
+  padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px);
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+}
+
+.crowd-table { margin-top: clamp(60px, 7vw, 96px); border-top: 1px solid var(--ink); }
+.crowd-table .comparison-row { grid-template-columns: .7fr .6fr .45fr .9fr 1.8fr; }
+.crowd-table .comparison-row > div { min-height: 84px; }
+.crowd-table .comparison-head > div { min-height: auto; }
+.crowd-table [role="rowheader"] { flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; }
+.crowd-table [role="rowheader"] small { font-size: 10px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.crowd-table [role="cell"]:nth-child(4) { gap: 12px; }
+.crowd-meter { flex: 1; height: 12px; background: rgba(26, 36, 32, .12); }
+.crowd-meter span { display: block; height: 100%; background: var(--ink); }
+.crowd-table [role="cell"] b { min-width: 34px; font-size: 14px; }
+.crowd-section .nino-grid { padding-bottom: 0; }
+
 .decision-section {
   padding: clamp(95px, 11vw, 165px) clamp(22px, 5vw, 76px);
   background: var(--paper);
@@ -609,7 +627,9 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .more-section { grid-template-columns: .5fr 1.5fr; }
   .more-notes { grid-column: 2; }
   .comparison-table,
+  .crowd-table,
   .nino-table { overflow-x: auto; }
+  .crowd-table .comparison-row { min-width: 820px; }
   .comparison-table .comparison-row { min-width: 860px; }
   .nino-table .comparison-row { min-width: 820px; }
   .atlas-header { grid-template-columns: .5fr 1.5fr; }
@@ -626,6 +646,7 @@ footer a { font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transf
   .topline { display: flex; justify-content: space-between; }
   .nav-links { gap: 13px; }
   .nav-links a:nth-child(1),
+  .nav-links a:nth-child(3),
   .nav-links a:nth-child(4),
   .nav-links a:nth-child(5) { display: none; }
   .hero-choice { min-height: 96px; }

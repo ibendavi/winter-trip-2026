@@ -1,5 +1,13 @@
 # Version manifest
 
+## 20261011c revision (crowds)
+
+- Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/`
+- Canonical source: this project folder
+- Complete editable source: yes
+- Predecessor: the published 20261011b revision, archived in `versions/20261011_152410/` (`source/` and `site/`) and in git at commit `8307c43`
+- Material differences: added a "How busy it will be" section with December 2024 NPS visitation by park, a Crowds row in the comparison table, a nav link, two sources, and a rental-car reservation note in the checklist
+
 ## 20261011b revision (El Niño dry-side routes)
 
 - Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after branch `dates-dec21-elnino` is merged; not yet published when written)

@@ -9,6 +9,13 @@
 - Unverified and flagged on the page: holiday-week lodging at Mammoth and Old Faithful may be sold out; nonstop SFO to BZN and SFO to RDM exist in summer 2026 listings but winter 2026-27 schedules were not confirmed; St. George (SGU) flights for the girls are unconfirmed.
 - Lean: Yellowstone if lodging can be booked now, Central Oregon as the fallback. The "private forecasters" claim about northwest Wyoming comes from Powder Chasers and similar secondary sources, not NOAA; the page says NOAA does not name Yellowstone.
 
+## 2026-10-11 (latest): crowds section
+
+- Numbers are December 2024 recreation visits from NPS counts, read from the public mirror publiclandsdata.com (Yellowstone's 2024 annual total, 4,744,353, matches the figure NPS reported). Share is December over each park's busiest month; per-day is December / 31.
+- Dec/Jan ratios (Zion 1.9, Bryce 2.0, Arches 1.7, Capitol Reef 2.1, Canyonlands 3.3) are quoted as "points to a holiday surge", an inference, not a count of the holiday week. Yellowstone's January is higher than December because oversnow travel starts Dec 15.
+- Gateway statements (Bozeman, Bend, Salt Lake City are ski towns; Springdale fills; Las Vegas peaks at New Year's Eve) are general patterns, labeled as such on the page. No measured Christmas-week data was found for Bend, Springdale, or the snowcoaches.
+- Refresh with 2025 monthly counts when published.
+
 ## 2026-10-11: previous structure (superseded above)
 
 - Calendar: the user visits the grandparents in Menlo Park Dec 18 to 20 alone, flies from SFO on Dec 21, and meets Ayelet and Tal at the route's first airport. Shelly and Maia still join Dec 24. Everyone flies home Jan 2. I read "ayelet at tal" as "Ayelet and Tal" and assumed the party before Dec 24 is the same as before; pills say "Before the girls" instead of a head count.

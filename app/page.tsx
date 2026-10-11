@@ -522,7 +522,26 @@ const ninoDates = [
   ['Dec 17', 'CPC’s December outlook, and a first look at the 8 to 14 day outlook for Dec 21 to 31. Use it to settle cold gear, car class, and traction, not to change airports.'],
 ];
 
+function perDay(monthlyVisits: number) {
+  const daily = monthlyVisits / 31;
+  const step = daily >= 1000 ? 100 : 10;
+  return (Math.round(daily / step) * step).toLocaleString('en-US');
+}
+
+// December 2024 recreation visits (NPS counts, via publiclandsdata.com). Share is of each park's busiest month.
+const crowdRows: Array<{ route: string; park: string; visits: number; share: number; feel: string }> = [
+  { route: '01', park: 'Yellowstone', visits: 30410, share: 3, feel: 'Very quiet. Oversnow travel starts Dec 15 and cars reach only the northern road, so capacity (rooms and snowcoach seats) is the limit, not crowds.' },
+  { route: '02', park: 'Crater Lake', visits: 5005, share: 3, feel: 'Nearly empty. The count was 11,432 in 2023, so it swings with snow and road closures.' },
+  { route: '03', park: 'Zion', visits: 235404, share: 38, feel: 'The busy one. About 7,600 a day on average, with December nearly twice January, and the holiday week above that.' },
+  { route: '03', park: 'Bryce Canyon', visits: 65379, share: 18, feel: 'Quiet, with a crowd at the rim at sunset.' },
+  { route: '03', park: 'Arches', visits: 48845, share: 25, feel: 'Quiet, with more people at Delicate Arch around sunset.' },
+  { route: '03', park: 'Capitol Reef', visits: 43772, share: 21, feel: 'Quiet. Fruita and Scenic Drive have room.' },
+  { route: '03', park: 'Canyonlands', visits: 20062, share: 17, feel: 'Very quiet. Overlooks are mostly empty.' },
+];
+
 const sources = [
+  ['NPS visitor use statistics', 'https://irma.nps.gov/STATS/'],
+  ['Monthly park visitation data (public mirror of NPS counts)', 'https://publiclandsdata.com/national-park-visitation/zion/2024'],
   ['NOAA ENSO diagnostic discussion, Oct 8 2026', 'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'],
   ['NOAA seasonal outlook discussion, Sept 17 2026', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/fxus05.html'],
   ['NOAA seasonal outlook maps', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/'],
@@ -637,6 +656,7 @@ export default function Home() {
           <div className="nav-links">
             <a href="#map">Map</a>
             <a href="#elnino">El Niño</a>
+            <a href="#crowds">Crowds</a>
             <a href="#yellowstone">Yellowstone</a>
             <a href="#oregon">Oregon</a>
             <a href="#utah">Utah</a>
@@ -759,6 +779,62 @@ export default function Home() {
                 <li key={date}><span>{date}</span><p>{text}</p></li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        <section className="crowd-section" id="crowds" aria-labelledby="crowd-heading">
+          <header className="nino-header">
+            <div>
+              <p className="route-number">How busy</p>
+              <p className="kicker">NPS visitor counts · December 2024</p>
+            </div>
+            <h2 id="crowd-heading">Winter keeps most parks quiet. Zion is the exception.</h2>
+            <p className="route-deck">
+              December is a small fraction of peak season at every park on these routes except Zion.
+              Monthly averages hide the holiday week, though, and Dec 26 to Jan 1 usually runs busier than they suggest.
+            </p>
+          </header>
+
+          <div className="crowd-table" role="table" aria-label="December visitation by park">
+            <div className="comparison-row comparison-head" role="row">
+              <div role="columnheader">Park</div>
+              <div role="columnheader">Dec 2024 visits</div>
+              <div role="columnheader">Per day</div>
+              <div role="columnheader">Share of busiest month</div>
+              <div role="columnheader">What it feels like</div>
+            </div>
+            {crowdRows.map((row) => (
+              <div className="comparison-row" role="row" key={row.park}>
+                <div role="rowheader">{row.park}<small>Option {row.route}</small></div>
+                <div role="cell">{row.visits.toLocaleString('en-US')}</div>
+                <div role="cell">≈ {perDay(row.visits)}</div>
+                <div role="cell">
+                  <div className="crowd-meter" aria-label={`${row.share}% of the busiest month`}>
+                    <span style={{ width: `${row.share}%` }} />
+                  </div>
+                  <b>{row.share}%</b>
+                </div>
+                <div role="cell">{row.feel}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="nino-grid">
+            <div>
+              <p className="kicker">What the numbers say</p>
+              <ul className="nino-list">
+                <li>Yellowstone’s December count, about 30,000, is 3% of July’s, and most of it is the northern road and the snowcoach season that starts Dec 15.</li>
+                <li>December runs near twice January at the Utah parks (Zion 1.9 times, Bryce 2.0, Arches 1.7, Capitol Reef 2.1, Canyonlands 3.3), which points to a holiday surge in the last week of the month.</li>
+                <li>Crater Lake is nearly empty in December. Zion is the only park here above a third of its peak.</li>
+              </ul>
+            </div>
+            <div>
+              <p className="kicker">What the numbers miss</p>
+              <div className="prose-stack">
+                <p>The gateways are busier than the parks. Bozeman, Bend, and Salt Lake City are ski towns, so flights, rental cars, and hotels are tight and expensive in holiday week. Springdale fills up for Zion, and Las Vegas peaks around New Year’s Eve.</p>
+                <p>This is a general pattern, not something the counts measure. Book flights, cars, and the first night of lodging early, and be at the main viewpoints and trailheads at sunrise.</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -978,6 +1054,7 @@ export default function Home() {
             {[
               ['Visual payoff', 'Highest: geysers, steam, wildlife, deep snow', 'Medium-high: Crater Lake, desert, hot springs', 'Highest: red rock, snow, immense scale'],
               ['Solitude', 'Very high in winter; quiet park', 'High; remote high desert', 'High between parks; mixed in Zion and Arches'],
+              ['Crowds', 'Very low: about 1,000 park visitors a day in December; the limit is rooms and snowcoach seats', 'Low in the parks (Crater Lake ≈ 160 to 370 a day); Bend is a ski town with a busy holiday week', 'Mixed: Zion ≈ 7,600 a day in December, the other parks quiet'],
               ['Weather exposure', 'Cold, snow, and Gallatin Canyon avalanche closures', 'Ice on passes and in the Gorge', 'Snow and ice on high roads; flash floods'],
               ['El Niño exposure', 'Lowest; dry and warm side of the outlook', 'Low; dry tilt, but the Cascades are unreliable', 'Moderate; edge of the Four Corners wet tilt'],
               ['Driving', 'Short: nothing over 2 hr', 'Medium: up to 3½ hr', 'Long: up to 4½ hr'],
@@ -1011,7 +1088,7 @@ export default function Home() {
           <ol className="booking-list">
             <li><span>01</span><p>This week, check Yellowstone lodging and snowcoach availability. Mammoth Hotel and Old Faithful Snow Lodge open Dec 15 and 16, and both sell out. Without in-park rooms, base in Gardiner and West Yellowstone and book a day snowcoach.</p></li>
             <li><span>02</span><p>Pick the route by mid-November, then price flights: you from SFO, and Ayelet and Tal, to the first airport on Dec 21 (BZN, RDM, or LAS); Shelly and Maia to the Dec 24 airport (BZN, RDM, or SGU); everyone home Jan 2. SFO to BZN and SFO to RDM appear to have nonstop service, but I have not confirmed winter schedules.</p></li>
-            <li><span>03</span><p>Compare six-person vehicle capacity with luggage, winter tires or chains, and the rental company’s traction-device policy. Only options 02 (RDM to PDX) and 03 (LAS to SLC) carry a one-way fee; Yellowstone starts and ends at Bozeman.</p></li>
+            <li><span>03</span><p>Reserve cars early, because Bozeman, Redmond, Las Vegas, and Salt Lake City are busy ski and holiday airports. Compare six-person vehicle capacity with luggage, winter tires or chains, and the rental company’s traction-device policy. Only options 02 (RDM to PDX) and 03 (LAS to SLC) carry a one-way fee; Yellowstone starts and ends at Bozeman.</p></li>
             <li><span>04</span><p>Set the weather calls: the NOAA dates in the forecast section, seven days out for major rerouting, and every morning for roads, trails, daylight, and cold. For Yellowstone, pack for below-zero nights.</p></li>
           </ol>
         </section>
