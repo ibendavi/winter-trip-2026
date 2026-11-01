@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-11-01 (latest): Phoenix to Tucson round trip drafted
+
+- User screenshot (Google Maps, Organ Pipe pinned): they want a PHX-TUS round trip in the Arizona low desert and have NOT been to most of it. Already visited in AZ: Sedona, Phoenix, Saguaro NP. Do NOT propose those again.
+- Draft in `PLAN-sonoran-roundtrip.md` (fly in and out of PHX, girls to PHX Dec 24, Apache Trail/Globe, Ajo and Organ Pipe over Christmas, Tucson, Tumacacori/Tombstone/Bisbee, Kartchner). Live site still shows the Utah trip; the site has not been rebuilt for this plan. Nothing pushed.
+- Organ Pipe has a temporary border closure order since Aug 24, 2026 (crossover roads and a 150 ft strip); South Puerto Blanco Drive listed open. Christmas Day closes Kartchner, Tumacacori, Boyce Thompson and the Organ Pipe visitor center.
+
 ## 2026-11-01 (later): Ayelet finds the Utah temperatures too low
 
 - New constraint from the user: daytime highs around 50 F, as insulated from El Niño as possible, and nowhere east of Dallas. The Utah trip on the live site is NOT replaced yet; this is a proposal pending the user's choice.
