@@ -1,5 +1,12 @@
 # Decisions
 
+## 2026-11-01 (later): Ayelet finds the Utah temperatures too low
+
+- New constraint from the user: daytime highs around 50 F, as insulated from El Niño as possible, and nowhere east of Dallas. The Utah trip on the live site is NOT replaced yet; this is a proposal pending the user's choice.
+- Already visited, do not propose: the 2023 New Mexico + Texas loop (Albuquerque, Santa Fe, Roswell, Carlsbad, Big Bend/Marfa, San Antonio, Austin), plus the earlier list (Death Valley, Joshua Tree, Grand Canyon, Teton/Jackson). Sedona, Santa Fe and Santa Barbara appear in 2017-2019 plan files; unclear if done.
+- Evidence (ERA5 via Open-Meteo, Dec 21-Jan 2, normal = 29 winters 1994-2022, big three = 1982/1997/2015): Texas and the southern plains are the most El Niño-affected in this window (Dallas precip 2.66 in vs 1.43 normal; El Paso, Las Cruces, Amarillo wetter and 8-11 F colder). The lower Colorado/Sonoran low desert (Las Vegas, Lake Havasu, Ajo, Phoenix, Tucson) showed no wet signal in those three Decembers, with highs 51-59 F, but ran 3-6 F cooler than normal. Mountains (Sedona, Silver City, Denver, Colorado Springs) are 31-47 F and snowier. Dry-side north (Bozeman) is 25 F. n=3, reanalysis runs a few degrees cold.
+- Proposal: Phoenix to Tucson (PHX in Dec 21, girls to PHX Dec 24, out of TUS Jan 2), staying below about 3,500 ft.
+
 ## 2026-11-01: forecast refresh, route unchanged
 
 - Read NOAA CPC ENSO discussion (still the Oct 8 issue: Niño-3.4 +2.1 C, >83% strong-to-very strong through JFM) and the Oct 15 seasonal outlook discussion. Oct 15: wetter favored for the West Coast (to the Oregon coast) and Southwest, with lower odds than the Southeast; Southwest temperatures at equal chances (below-normal only FMA/MAM); warm lean for the western third, strongest Pacific Northwest to northern Plains; northern Rockies favored drier. No state is named. Press (Townlift) reports Utah DJF precipitation at equal chances, near the boundary.
