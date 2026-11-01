@@ -28,52 +28,38 @@ function elNinoNote(place: PlaceWeather) {
   return `${sign(dHigh)}${Math.abs(dHigh)}° highs, ${sign(dLow)}${Math.abs(dLow)}° lows${snowNote}`;
 }
 
-function perDay(monthlyVisits: number) {
-  const daily = monthlyVisits / 31;
-  const step = daily >= 1000 ? 100 : 10;
-  return (Math.round(daily / step) * step).toLocaleString('en-US');
-}
-
-// December 2024 recreation visits (NPS counts, via publiclandsdata.com). Share is of each park's busiest month.
-const crowdRows: Array<{ park: string; visits: number; share: number; feel: string }> = [
-  { park: 'Zion', visits: 235404, share: 38, feel: 'The busy one. About 7,600 a day on average, with December nearly twice January, and the holiday week above that. Go at sunrise.' },
-  { park: 'Bryce Canyon', visits: 65379, share: 18, feel: 'Quiet, with a crowd at the rim at sunset.' },
-  { park: 'Arches', visits: 48845, share: 25, feel: 'Quiet, with more people at Delicate Arch around sunset. No timed entry in 2026.' },
-  { park: 'Capitol Reef', visits: 43772, share: 21, feel: 'Quiet. Fruita and Scenic Drive have room.' },
-  { park: 'Canyonlands', visits: 20062, share: 17, feel: 'Very quiet. Overlooks are mostly empty, except Mesa Arch at sunrise.' },
-];
-
 const ninoStats = [
   ['Niño-3.4 index in the Oct 8 update', '+2.1 °C'],
   ['Chance of a strong-to-very strong El Niño through Jan–Mar 2027', '> 83%'],
   ['Chance Nov–Jan is a record event, stronger than any since 1950', '70%'],
-  ['October 2026 rain at Escalante, Utah: a record, about 6 in', 'Record'],
+  ['Typical high at Phoenix, Ajo, and Tucson in the three big El Niño winters', '55–58 °F'],
 ];
 
 const ninoRows: Array<[string, string, string, string]> = [
-  ['Grand Canyon West', 'Dec 21–22', 'Rain or ice on the access road, wind at the rim, and attractions that close for weather. Northwest Arizona is near the Southwest wet tilt.', 'Swap days: do Hoover Dam and Lake Mead first and the rim on Dec 23 morning, or skip the Skywalk.'],
-  ['Hoover Dam and Boulder City', 'Dec 23', 'Low risk. Southern Nevada is the driest stop.', 'None needed.'],
-  ['Las Vegas to Springdale', 'Dec 24', 'Ice or rockfall in the Virgin River Gorge on I-15 during storms.', 'Leave earlier, or sleep in St. George or Mesquite and finish in the morning.'],
-  ['Zion', 'Dec 24–25', 'Rain, snow, and flash floods in canyons. Southern Utah is at the edge of the Four Corners wet tilt.', 'Kolob Canyons or Snow Canyon State Park for dry short walks; stay out of narrow canyons.'],
-  ['Zion to Bryce', 'Dec 26', 'Snow on the Zion–Mount Carmel Highway and US-89. Bryce is above 8,000 ft.', 'Wait a few hours for the plows, or hold a night in Springdale.'],
-  ['Highway 12', 'Dec 27', 'The main weather gate: Boulder Mountain reaches about 9,600 ft, with ice and closures.', 'Hold a night in Bryce and sacrifice the Capitol Reef day, or take a US-89 alternative.'],
-  ['Capitol Reef and Moab', 'Dec 28–30', 'Dry on average, but slickrock is dangerous when icy and washes flood when it rains.', 'Overlooks and short walks instead of Delicate Arch.'],
-  ['Moab to Salt Lake City', 'Dec 31', 'Ice on US-6 over Soldier Summit, and storms along the Wasatch.', 'Start at 9 am, or leave Dec 30 evening if a storm is forecast.'],
+  ['Apache Trail and Tortilla Flat', 'Dec 21–22', 'Rain or ice and rockfall on the road, and a possibly closed gravel stretch beyond Tortilla Flat. The paved road to Canyon Lake and Tortilla Flat is low risk when dry.', 'Skip the trail and do Boyce Thompson and Globe only.'],
+  ['Globe and Tonto', 'Dec 22–23', 'Cold mornings at about 3,500 ft, with rain or a dusting of snow possible.', 'Drop Tonto and drive straight to the Phoenix area on Dec 23.'],
+  ['Phoenix airport nights', 'Dec 23, Jan 1', 'Low risk. Phoenix averaged 58 °F, with almost no extra rain, in the three big El Niño Decembers.', 'None needed.'],
+  ['Gila Bend to Ajo', 'Dec 24', 'Low risk. Wind and blowing dust are the usual problems.', 'None needed.'],
+  ['Organ Pipe', 'Dec 25–26', 'Unpaved roads can run with water after rain, and a border closure order restricts some roads.', 'Walk near the visitor center and the Ajo plaza, and call the park first.'],
+  ['Ajo to Tucson', 'Dec 26', 'Low risk, except flooded washes on State Route 86 after heavy rain.', 'Check 511 and use AZ-85, I-8, and I-10 if State Route 86 is closed.'],
+  ['Tucson', 'Dec 26–28, 30–31', 'Cold more than wet: highs averaged 55 °F in the three big El Niño Decembers, and 51 °F in 1982.', 'Swap museum days with outdoor days.'],
+  ['Tubac, Tombstone, Bisbee', 'Dec 29–30', 'The high, cold stop at 4,500 to 5,300 ft: highs about 47 °F in the big El Niños, with a little snow. Ice is possible on State Route 82 near Sonoita.', 'Do Tumacacori and Tombstone as a day trip from Tucson and skip the Bisbee night.'],
+  ['Tucson to Phoenix', 'Jan 1', 'Low risk. I-10 is a major road.', 'None needed.'],
 ];
 
 const ninoDates = [
-  ['Oct 15 (done)', 'Seasonal outlook: Southwest wetter, Southwest temperatures at equal chances, northern Rockies drier. The route stays as planned.'],
+  ['Oct 15 (done)', 'Seasonal outlook: Southwest wetter, Southwest temperatures at equal chances, northern Rockies drier. Arizona is not named.'],
   ['Nov 12', 'NOAA’s next ENSO update. Book flights, the rental, and lodging with free cancellation soon after.'],
-  ['Nov 19', 'NOAA’s November seasonal outlook, with a shorter lead for Dec–Feb. Check whether Utah moves off equal chances.'],
+  ['Nov 19', 'NOAA’s November seasonal outlook, with a shorter lead for Dec–Feb. Check whether Arizona moves off the Southwest wet tilt.'],
   ['Dec 5', 'The 16-day forecast reaches Dec 21. The live forecast on this page starts filling in.'],
-  ['Dec 17', 'NOAA’s December outlook, and a first look at the 8 to 14 day outlook for Dec 21 to 31. Use it to settle traction gear and which days are slack.'],
-  ['Dec 20', 'Last look before you leave Menlo. If a storm hits the Southwest on Dec 21 to 23, swap the order of the Hualapai and Hoover Dam days.'],
+  ['Dec 17', 'NOAA’s December outlook, and a first look at the 8 to 14 day outlook for Dec 21 to 31. Use it to settle which days are slack.'],
+  ['Dec 20', 'Last look before you leave Menlo. If a storm hits Arizona on Dec 21 to 23, do the Apache Trail on a later dry day or skip it.'],
 ];
 
 const bookingSteps: Array<[string, string]> = [
-  ['This week', 'Hold lodging with free cancellation: Cabins at Grand Canyon West, Boulder Dam Hotel, Zion Lodge or Springdale, Ruby’s Inn, Red Sands, the Dead Horse Point yurts, and Hotel Monaco. Holiday week fills first, and the Dead Horse yurts and Zion Lodge fill earliest.'],
-  ['By mid-November', 'Book flights: you SFO to LAS and Ayelet and Tal to LAS on Dec 21; Shelly and Maia to LAS on Dec 24; everyone SLC home on Jan 2. Book one six-person vehicle for LAS to SLC and compare one-way fees, winter tires, and the traction policy.'],
-  ['Before Dec 21', 'Buy Grand Canyon West tickets online, and check Hoover Dam, the Zion shuttle schedule, and Temple Square dates. An America the Beautiful pass usually covers the five national park fees, so compare it with the per-vehicle fees.'],
+  ['This week', 'Book the Kartchner Caverns tour for Dec 30 first, because holiday slots sell out. Hold lodging with free cancellation: the Sonoran Desert Inn in Ajo (very few rooms), the Copper Queen in Bisbee, a Tucson base, and the Apache Junction, Globe, and airport-area nights. Holiday week fills first.'],
+  ['By mid-November', 'Book flights: you SFO to PHX and Ayelet and Tal to PHX on Dec 21; Shelly and Maia to PHX on Dec 24; everyone home from PHX on Jan 2. Book one six-person vehicle round trip from PHX, which avoids a one-way fee.'],
+  ['Before Dec 21', 'Call Organ Pipe (520-387-6849) about Ajo Mountain Drive and the border closures, the Queen Mine (520-432-2071), and Tonto National Monument. Check 511 for the Apache Trail. An America the Beautiful pass usually covers the national park site fees, so compare it with the per-vehicle fees.'],
   ['Dec 5 and Dec 17', 'Check the live forecast on this page, then NOAA’s outlook, and set the slack-day plan.'],
 ];
 
@@ -81,37 +67,36 @@ const planCards: Array<{ title: string; items: string[] }> = [
   {
     title: 'Time zones',
     items: [
-      'Las Vegas, Boulder City, and Hoover Dam are on Pacific time.',
-      'Grand Canyon West keeps Arizona time, which is Mountain Standard in winter, one hour ahead of Las Vegas.',
-      'Utah is on Mountain Standard Time, so Arizona and Utah match in December.',
+      'Arizona stays on Mountain Standard Time all year and does not observe daylight saving time, so in winter it matches Pacific time.',
+      'Every stop on this route is in Arizona, so there is no time-zone change.',
     ],
   },
   {
     title: 'Driving',
     items: [
-      'One-way rental from LAS to SLC. Carry chains or traction devices the rental allows.',
-      'Fuel up before Bryce, Highway 12, and Hanksville. Services are thin in winter.',
-      'The Zion–Mount Carmel tunnel has NPS size limits (about 11 ft 4 in tall and 7 ft 10 in wide) for large vehicles.',
-      'Cell coverage is patchy on Highway 12, around Capitol Reef, and on the Hualapai Reservation. Download offline maps.',
-      'Deer and wildlife are active on Highway 12 and US-89 at dusk.',
+      'One round-trip rental from PHX, with a six-seat vehicle.',
+      'Fuel up at Gila Bend, before State Route 86 from Ajo, and before the Apache Trail. Services are thin.',
+      'Cell coverage is patchy at Organ Pipe, on State Route 86, and in the Apache Trail canyons. Download offline maps.',
+      'Watch for wildlife at dusk, and never drive into a running wash.',
+      'Expect a Border Patrol checkpoint on I-19 near Tubac and a Border Patrol presence near the border. Carry passports or photo IDs.',
     ],
   },
   {
-    title: 'Pack for the cold',
+    title: 'Pack for the desert',
     items: [
-      'Layers that work from 15 °F nights to 45 °F days, plus hats, gloves, and hand warmers.',
-      'Microspikes or similar traction for icy trails, and trekking poles.',
-      'A headlamp: the sun sets before 5:30 pm everywhere.',
-      'A cooler, water, and snacks, because many park-town restaurants close for winter.',
+      'Layers that work from 30 °F nights to 55–60 °F days, and a warmer layer, hat, and gloves for Bisbee.',
+      'Sun protection, because the desert sun is strong even in December.',
+      'A headlamp: the sun sets by 5:30 pm everywhere.',
+      'Water and snacks for Organ Pipe and the Apache Trail.',
     ],
   },
   {
     title: 'Rules worth knowing',
     items: [
-      'Grand Canyon West: no phones or cameras on the Skywalk and no alcohol on the property.',
-      'Hoover Dam’s visitor center and tours close on Christmas Day.',
-      'Arches has no timed-entry system in 2026, but parking can still fill.',
-      'Stay out of slot canyons and washes when rain is forecast anywhere upstream.',
+      'Organ Pipe: the visitor center is closed Dec 25, but the monument is open 24 hours. A border closure order covers some roads, so call first.',
+      'Tumacacori, Kartchner Caverns, and Boyce Thompson Arboretum are closed on Dec 25.',
+      'Kartchner tours need advance reservations.',
+      'Stay out of washes and slot canyons when rain is forecast upstream.',
     ],
   },
 ];
@@ -121,24 +106,18 @@ const sources: Array<[string, string]> = [
   ['NOAA seasonal outlook discussion, Oct 15 2026', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/fxus05.html'],
   ['NOAA seasonal outlook maps', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/'],
   ['NOAA 8 to 14 day outlook', 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/'],
-  ['NWS Las Vegas forecast', 'https://www.weather.gov/vef/'],
-  ['NWS Salt Lake City forecast', 'https://www.weather.gov/slc/'],
-  ['NWS Grand Junction forecast (Moab)', 'https://www.weather.gov/gjt/'],
-  ['Grand Canyon West hours and tickets', 'https://grandcanyonwest.com/plan-your-visit/'],
-  ['Hoover Dam', 'https://www.usbr.gov/lc/hooverdam/'],
-  ['Zion shuttle and conditions', 'https://www.nps.gov/zion/planyourvisit/zion-canyon-shuttle-system.htm'],
-  ['Bryce Canyon in winter', 'https://www.nps.gov/brca/planyourvisit/winter.htm'],
-  ['Capitol Reef hours', 'https://www.nps.gov/care/planyourvisit/hours.htm'],
-  ['Capitol Reef directions and Highway 12', 'https://home.nps.gov/care/planyourvisit/directions.htm'],
-  ['Arches conditions', 'https://www.nps.gov/arch/planyourvisit/conditions.htm'],
-  ['Canyonlands conditions', 'https://www.nps.gov/cany/planyourvisit/conditions.htm'],
-  ['Dead Horse Point State Park', 'https://stateparks.utah.gov/parks/dead-horse/'],
-  ['Temple Square', 'https://www.templesquare.com/'],
-  ['Utah road conditions (UDOT)', 'https://www.udottraffic.utah.gov/'],
-  ['Arizona road conditions', 'https://az511.com/'],
+  ['NWS Phoenix forecast', 'https://www.weather.gov/psr/'],
+  ['NWS Tucson forecast', 'https://www.weather.gov/twc/'],
+  ['Organ Pipe alerts and conditions', 'https://home.nps.gov/orpi/planyourvisit/conditions.htm'],
+  ['Organ Pipe hours and seasons', 'https://home.nps.gov/orpi/planyourvisit/hours.htm'],
+  ['Tumacacori hours', 'https://www.nps.gov/tuma/planyourvisit/hours.htm'],
+  ['Tonto National Monument hours', 'https://www.nps.gov/tont/planyourvisit/hours.htm'],
+  ['Kartchner Caverns State Park', 'https://azstateparks.com/kartchner'],
+  ['Boyce Thompson Arboretum', 'https://btarboretum.org/visit'],
+  ['Lost Dutchman State Park', 'https://azstateparks.com/lost-dutchman'],
+  ['Arizona road conditions (511)', 'https://az511.com/'],
+  ['Phoenix Sky Harbor airport', 'https://www.skyharbor.com/'],
   ['NPS passes', 'https://www.nps.gov/planyourvisit/passes.htm'],
-  ['NPS visitor use statistics', 'https://irma.nps.gov/STATS/'],
-  ['Monthly park visitation data (public mirror of NPS counts)', 'https://publiclandsdata.com/national-park-visitation/zion/2024'],
 ];
 
 function DayCard({ day, index }: { day: Day; index: number }) {
@@ -187,7 +166,7 @@ function DayCard({ day, index }: { day: Day; index: number }) {
 }
 
 export default function Home() {
-  const weatherPlaces = weatherKeys.map((key) => ({ key, ...placeWeather[key] }));
+  const weatherPlaces = weatherKeys.filter((key) => placeWeather[key]).map((key) => ({ key, ...placeWeather[key] }));
 
   return (
     <main>
@@ -202,26 +181,26 @@ export default function Home() {
             <a href="#stays">Stays</a>
             <a href="#weather">Weather</a>
             <a href="#elnino">El Niño</a>
-            <a href="#crowds">Crowds</a>
             <a href="#plan">Plan</a>
           </div>
           <span>Dec 21, 2026 · Jan 2, 2027</span>
         </nav>
 
         <div className="hero-copy" id="top">
-          <p className="kicker">Winter break 2026 · Las Vegas to Salt Lake City</p>
-          <h1>West rim<br />to red rock.</h1>
+          <p className="kicker">Winter break 2026 · Phoenix to Tucson</p>
+          <h1>The warm<br />desert loop.</h1>
           <p className="lede">
-            Thirteen days from the Hualapai canyon rim at Grand Canyon West, past Hoover Dam, through Zion, Bryce,
-            Capitol Reef, Arches, and Canyonlands, to Salt Lake City. Six travelers from Dec 24, one one-way rental.
+            Thirteen days in the Arizona low desert: the Superstition Mountains and the Apache Trail, Globe and the Tonto
+            cliff dwellings, Organ Pipe Cactus National Monument, Tucson, Tombstone, Bisbee, and Kartchner Caverns.
+            Six travelers from Dec 24, one rental, one airport.
           </p>
         </div>
 
         <div className="hero-facts" aria-label="Trip at a glance">
           <div><strong>12</strong><span>nights on the road</span></div>
-          <div><strong>≈ 1,150</strong><span>miles of driving</span></div>
-          <div><strong>7</strong><span>stays to book</span></div>
-          <div><strong>LAS → SLC</strong><span>fly in, fly out</span></div>
+          <div><strong>≈ 1,050</strong><span>miles of driving</span></div>
+          <div><strong>6</strong><span>stays to book</span></div>
+          <div><strong>PHX ↔ PHX</strong><span>fly in, fly out</span></div>
         </div>
       </section>
 
@@ -229,19 +208,20 @@ export default function Home() {
         <section className="brief-section" aria-labelledby="brief-heading">
           <div className="section-label">The shape of it</div>
           <div className="brief-copy">
-            <h2 id="brief-heading">Two canyons, five parks, one road north.</h2>
+            <h2 id="brief-heading">Warm days, dark skies, one airport.</h2>
             <p>
-              You spend Dec 18 to 20 with the grandparents, then fly from SFO on Dec 21 to meet Ayelet and Tal at Las Vegas.
-              The first three days are the Hualapai canyon rim and Hoover Dam, with no time in the city. Shelly and Maia land at
-              the Las Vegas airport on Dec 24 and all six drive north through Utah, ending in Salt Lake City for New Year’s Eve.
-              Everyone flies home from there on Jan 2.
+              Ayelet found the Utah plan too cold, so this version stays in the Arizona low desert: highs near 60 °F in a normal
+              winter and about 55 to 58 °F in the three big El Niño winters. You spend Dec 18 to 20 with the grandparents, then fly from SFO
+              on Dec 21 to meet Ayelet and Tal in Phoenix. The first three days circle east of the airport, through the Superstitions,
+              the Apache Trail, Globe, and Tonto. Shelly and Maia land in Phoenix on Dec 24 and all six drive to Ajo and Organ Pipe for
+              Christmas, then to Tucson with one night in Bisbee. Everyone flies home from Phoenix on Jan 2.
             </p>
           </div>
           <div className="constraint-grid">
             <div><strong>6</strong><span>travelers after Dec 24</span></div>
-            <div><strong>4½h</strong><span>longest drive</span></div>
+            <div><strong>2¾h</strong><span>longest single leg</span></div>
             <div><strong>0</strong><span>ski days</span></div>
-            <div><strong>2</strong><span>slack days built in</span></div>
+            <div><strong>3</strong><span>flexible or slack days</span></div>
           </div>
         </section>
 
@@ -268,15 +248,15 @@ export default function Home() {
           </header>
 
           <div className="route-stats" aria-label="Route statistics">
-            <div><span>Planning distance</span><strong>≈ 1,150 mi</strong></div>
-            <div><span>Longest normal leg</span><strong>4½ hr</strong></div>
-            <div><span>Full-family bases</span><strong>4 + SLC</strong></div>
-            <div><span>Airports</span><strong>SFO · LAS · SLC</strong></div>
+            <div><span>Planning distance</span><strong>≈ 1,050 mi</strong></div>
+            <div><span>Longest single leg</span><strong>2¾ hr</strong></div>
+            <div><span>Full-family bases</span><strong>Ajo · Tucson · Bisbee</strong></div>
+            <div><span>Airports</span><strong>SFO · PHX</strong></div>
           </div>
 
           <figure className="panorama panorama-utah">
-            <img src={`${siteBasePath}/photos/utah-arches.jpg`} alt="Delicate Arch surrounded by winter snow in Arches National Park" />
-            <figcaption>Arches after snow. Photo: Guyyoung1966, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Delicate_Arch_in_Arches_National_Park_draped_in_a_winter_snow.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
+            <img src={`${siteBasePath}/photos/az-superstitions.jpg`} alt="The jagged cliffs of the Superstition Mountains above the desert at Lost Dutchman State Park" />
+            <figcaption>The Superstition Mountains. Photo: Beyond My Ken, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:2021_Superstition_Mountains_from_Lost_Dutchman_State_Park_1.jpg" target="_blank" rel="noreferrer">Source ↗</a></figcaption>
           </figure>
 
           <ol className="timeline timeline-utah">
@@ -287,10 +267,10 @@ export default function Home() {
 
           <aside className="compressed-plan">
             <div>
-              <p className="kicker">If a storm closes Highway 12</p>
-              <h3>Hold in Bryce, not on the pass.</h3>
+              <p className="kicker">If a storm is forecast for Dec 29</p>
+              <h3>Stay low, and skip Bisbee.</h3>
             </div>
-            <p>If Boulder Mountain is closed on Dec 27, stay another night at Bryce, then take a US-89 alternative to Torrey when roads allow. Capitol Reef is the day to sacrifice: you still reach Moab on Dec 29, and the Jan 1 slack in Salt Lake City absorbs the rest.</p>
+            <p>Bisbee is the one high, cold stop. If rain or snow is forecast, do Tumacacori and Tombstone as a day trip from Tucson and skip the Bisbee night. Dec 28, Dec 31, and Jan 1 are flexible or slack days, so a bad-weather day can move without losing a stop.</p>
           </aside>
         </section>
 
@@ -298,12 +278,12 @@ export default function Home() {
           <header className="nino-header">
             <div>
               <p className="route-number">Where to sleep</p>
-              <p className="kicker">Seven stays · top pick and alternatives</p>
+              <p className="kicker">Six stays · top pick and alternatives</p>
             </div>
-            <h2 id="stays-heading">Cool places to spend the night.</h2>
+            <h2 id="stays-heading">Places to spend the night.</h2>
             <p className="route-deck">
-              One memorable top pick for each stop, with alternatives if it is full. All are listed as open in winter by their owners or
-              listings, but I could not confirm December 2026 availability, so check before booking, and book with free cancellation.
+              A top pick for each stop, with alternatives if it is full. Picks come from public listings and search results, and none has been
+              confirmed for December 2026. The two airport-area nights are not researched. Check before booking, and book with free cancellation.
             </p>
           </header>
 
@@ -341,7 +321,7 @@ export default function Home() {
             <h2 id="weather-heading">What to expect at each stop.</h2>
             <p className="route-deck">
               No forecast reaches Dec 21 yet. Until the 16-day forecast opens on Dec 5, these are the typical conditions for the
-              trip dates over the last 30 winters, and how the three strongest El Niño winters compared.
+              trip dates over the last 30 winters, and how the three strongest El Niño winters compared. Only some stops are measured so far.
               The live forecast loads below once it exists.
             </p>
           </header>
@@ -380,9 +360,9 @@ export default function Home() {
             <div>
               <p className="kicker">What the history says</p>
               <ul className="nino-list">
-                <li>Typical days are cold: highs in the 30s and 40s and lows in the teens and 20s from Zion to Salt Lake City, with Bryce and Torrey the coldest. The Las Vegas and Hoover Dam days are the mildest, in the 50s.</li>
-                <li>Over this exact window in the three biggest El Niño winters, highs ran about 3 to 6 degrees below normal along the route, and 2015–16 was snowier (about 7 inches at Springdale and 5 at Moab), while 1997–98 was mild and dry. Late December is early in the El Niño storm season.</li>
-                <li>Plan for cold first, then for a possible storm. Snow totals here are model estimates over 13 days, and a single storm can matter more than the average.</li>
+                <li>Typical days are mild: highs near 60 °F at Phoenix, Ajo, and Tucson, with lows in the upper 30s to low 40s. Bisbee at 5,300 ft is the cold stop, with highs around 54 °F. Globe and Apache Junction are cooler or warmer by elevation and are added once their data load.</li>
+                <li>Over this exact window in the three biggest El Niño winters, highs ran about 4 to 8 degrees below normal at the stops measured (Phoenix 58 °F, Ajo 58, Tucson 55, Bisbee 47), with almost no extra rain at the low stops. 1982–83 was the coldest of the three (Tucson 51 °F, Bisbee 42). Late December is early in the El Niño storm season.</li>
+                <li>Plan for cool nights first, then for a possible storm. Snow totals here are model estimates over 13 days, and a single storm can matter more than the average.</li>
               </ul>
             </div>
             <div>
@@ -420,7 +400,7 @@ export default function Home() {
               <p className="route-number">The forecast</p>
               <p className="kicker">NOAA Climate Prediction Center · Oct 8 and Oct 15, 2026</p>
             </div>
-            <h2 id="nino-heading">A very strong El Niño is building. Stop by stop, here is what it means.</h2>
+            <h2 id="nino-heading">A very strong El Niño is building. Here is how it touches southern Arizona.</h2>
             <p className="route-deck">
               NOAA says El Niño is still strengthening. Dec 21 to Jan 2 falls in the Nov–Jan window where
               it gives 70% odds of a record-strength event. The odds describe a three-month average, not these 13 days.
@@ -437,17 +417,16 @@ export default function Home() {
             <div>
               <p className="kicker">What the outlook says for the West</p>
               <ul className="nino-list">
-                <li>The Oct 15 outlook favors wetter than normal for much of the West Coast (as far north as the Oregon coast) and the Southwest, with somewhat lower odds than the Southeast. NOAA’s text does not name Nevada, Arizona, or Utah. Press coverage of the Dec–Feb map puts Utah near the boundary, with equal chances of wet, normal, or dry for the Intermountain West. Check the CPC map directly.</li>
-                <li>The western third of the country leans warmer, strongest from the Pacific Northwest to the northern Plains. The Southwest is at equal chances for temperature, with below-normal odds appearing only in Feb–May. Below-normal precipitation is favored for the northern Rockies, which is the dry side, and Yellowstone-type trips sit there.</li>
-                <li>The wet pattern has already started in the region: October rainfall set records in southeast Utah (Escalante, Monticello, Canyonlands), and Salt Lake City had more than twice its October average. El Niño’s jet-stream effects usually build in November and December, so late December is when the tilt is expected to matter. Soaked ground raises flash-flood and washout risk for the slot canyons and Highway 12.</li>
-                <li>A negative Pacific Decadal Oscillation may dampen the usual El Niño effects in places. NOAA says impacts are more likely, though not guaranteed.</li>
+                <li>The Oct 15 outlook favors wetter than normal for much of the West Coast and the Southwest, and says nothing about Arizona by name. In the three big El Niño Decembers in this exact window, Phoenix, Ajo, and Tucson were no wetter than normal. The wet signal is a season-long tilt, and late December is early.</li>
+                <li>The western third of the country leans warmer, but the Southwest is at equal chances for temperature. The three big El Niño winters ran 4 to 8 degrees colder than normal here, and that cold, not rain, is the bigger effect on this trip.</li>
+                <li>Southern Arizona is not the dry side (that is the northern Rockies, too cold for this trip). In an earlier comparison for this project, Texas and the southern plains were the most affected places in this window: Dallas had almost twice its normal rain, and El Paso ran 8 degrees colder.</li>
               </ul>
             </div>
             <div>
               <p className="kicker">How to use it</p>
               <div className="prose-stack">
                 <p>A strong El Niño tilts the storm track south. It does not schedule storms, and most winter precipitation arrives in a few large systems with dry stretches between them.</p>
-                <p>So the useful question is which days lose the least when a storm lands. This route keeps two-night bases at Zion, Torrey, and Moab, a Capitol Reef day that can be dropped, and slack on Jan 1 in Salt Lake City.</p>
+                <p>So the useful question is which days lose the least when a storm lands. This plan keeps the one high stop (Bisbee) to a single night, keeps Tucson as a five-night base, and leaves Dec 28, Dec 31, and Jan 1 flexible.</p>
               </div>
             </div>
           </div>
@@ -476,62 +455,6 @@ export default function Home() {
                 <li key={date}><span>{date}</span><p>{text}</p></li>
               ))}
             </ol>
-          </div>
-        </section>
-
-        <section className="crowd-section" id="crowds" aria-labelledby="crowd-heading">
-          <header className="nino-header">
-            <div>
-              <p className="route-number">How busy</p>
-              <p className="kicker">NPS visitor counts · December 2024</p>
-            </div>
-            <h2 id="crowd-heading">Winter keeps most parks quiet. Zion is the exception.</h2>
-            <p className="route-deck">
-              December is a small fraction of peak season at every park on this route except Zion.
-              Monthly averages hide the holiday week, though, and Dec 26 to Jan 1 usually runs busier than they suggest.
-            </p>
-          </header>
-
-          <div className="crowd-table" role="table" aria-label="December visitation by park">
-            <div className="comparison-row comparison-head" role="row">
-              <div role="columnheader">Park</div>
-              <div role="columnheader">Dec 2024 visits</div>
-              <div role="columnheader">Per day</div>
-              <div role="columnheader">Share of busiest month</div>
-              <div role="columnheader">What it feels like</div>
-            </div>
-            {crowdRows.map((row) => (
-              <div className="comparison-row" role="row" key={row.park}>
-                <div role="rowheader">{row.park}</div>
-                <div role="cell">{row.visits.toLocaleString('en-US')}</div>
-                <div role="cell">≈ {perDay(row.visits)}</div>
-                <div role="cell">
-                  <div className="crowd-meter" aria-label={`${row.share}% of the busiest month`}>
-                    <span style={{ width: `${row.share}%` }} />
-                  </div>
-                  <b>{row.share}%</b>
-                </div>
-                <div role="cell">{row.feel}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="nino-grid">
-            <div>
-              <p className="kicker">What the numbers say</p>
-              <ul className="nino-list">
-                <li>December runs near twice January at the Utah parks (Zion 1.9 times, Bryce 2.0, Arches 1.7, Capitol Reef 2.1, Canyonlands 3.3), which points to a holiday surge in the last week of the month.</li>
-                <li>Zion is the only park here above a third of its peak. Visit it on Dec 25, before the shuttle starts, and at sunrise.</li>
-                <li>NPS does not count Grand Canyon West, which the Hualapai Tribe runs, so there is no comparable figure. Expect it to be busy with tour groups from Las Vegas in the middle of the day and quiet after 3 pm.</li>
-              </ul>
-            </div>
-            <div>
-              <p className="kicker">What the numbers miss</p>
-              <div className="prose-stack">
-                <p>The gateways are busier than the parks. Springdale fills up for Zion, Las Vegas peaks around New Year’s Eve, and downtown Salt Lake City is expensive on Dec 31. Flights, cars, and hotels are tight and costly in holiday week.</p>
-                <p>This is a general pattern, not something the counts measure. Book early and be at the main viewpoints and trailheads at sunrise.</p>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -572,7 +495,7 @@ export default function Home() {
           <div className="photo-atlas photo-atlas-utah">
             <header className="atlas-header">
               <p className="kicker">The route in pictures</p>
-              <h3 id="photos-heading">From the Hualapai rim to Temple Square.</h3>
+              <h3 id="photos-heading">From the Superstitions to Bisbee.</h3>
               <p>Twelve views follow the road in order. All are licensed photographs with credits and source links.</p>
             </header>
             <div className="atlas-grid">
@@ -600,7 +523,7 @@ export default function Home() {
           <div>
             <p className="kicker">Planning sources</p>
             <h2 id="sources-heading">Use live official conditions, not this page, on travel day.</h2>
-            <p>Mileage and drive times are rounded planning estimates without major weather delays. The itinerary was assembled in August 2026 and revised in October 2026 for travel from Dec 21, 2026 to Jan 2, 2027. The forecast section reflects NOAA products issued Oct 8 and Oct 15, 2026 and will be out of date after the next releases. Lodging and hours were checked against public listings in October 2026 and can change.</p>
+            <p>Mileage and drive times are rounded planning estimates without major weather delays. This Phoenix to Tucson itinerary was assembled in November 2026 for travel from Dec 21, 2026 to Jan 2, 2027, replacing an earlier Utah version. The forecast section reflects NOAA products issued Oct 8 and Oct 15, 2026 and will be out of date after the next releases. Lodging and hours come from public listings and search results in November 2026 and can change; the day cards say which items were not checked.</p>
           </div>
           <div className="source-links">
             {sources.map(([label, href]) => (
@@ -612,7 +535,7 @@ export default function Home() {
 
       <footer>
         <div>
-          <p className="kicker">West rim to red rock</p>
+          <p className="kicker">The warm desert loop</p>
           <p>A working family plan for winter break 2026.</p>
         </div>
         <a href="#top">Back to top ↑</a>

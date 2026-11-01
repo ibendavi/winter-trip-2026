@@ -160,8 +160,8 @@ export default function TripMap() {
         <span><i className="trip-pin trip-pin-airport" /> Airport</span>
       </div>
       <p className="map-disclaimer">
-        Road lines follow real highways (OpenStreetMap routing, simplified). Tap a pin for details and a link. Lodging pins use street addresses,
-        or approximate spots for the Hualapai cabins and Zion Lodge. Check winter hours before relying on any stop.
+        Road lines follow real highways (OpenStreetMap routing, simplified). Tap a pin for details and a link. Lodging pins are approximate
+        spots near each address, and the airport-area hotel pin is a placeholder. Check winter hours before relying on any stop.
       </p>
     </div>
   );

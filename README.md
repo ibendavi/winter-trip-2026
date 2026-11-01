@@ -1,6 +1,6 @@
-# West Rim to Red Rock
+# The Warm Desert Loop (branch `sonoran-roundtrip`)
 
-A 13-day family winter road trip, Dec 21, 2026 to Jan 2, 2027, from Las Vegas to Salt Lake City: the Hualapai canyon rim at Grand Canyon West, Hoover Dam, Zion, Bryce, Capitol Reef, Arches, and Canyonlands. The site has a day-by-day itinerary, seven suggested stays, a detailed map, typical and live weather, the NOAA El Niño outlook, crowd data, and booking notes.
+A 13-day family winter road trip, Dec 21, 2026 to Jan 2, 2027, round trip from Phoenix: the Superstition Mountains and Apache Trail, Globe and Tonto, Organ Pipe Cactus National Monument, Tucson, Tombstone, Bisbee, and Kartchner Caverns. The site has a day-by-day itinerary, six suggested stays, a detailed map, typical and live weather, the NOAA El Niño outlook, and booking notes. The Utah version (Las Vegas to Salt Lake City, "West Rim to Red Rock") is on `main`.
 
 The published site is [ibendavi.github.io/winter-trip-2026](https://ibendavi.github.io/winter-trip-2026/).
 

@@ -2,873 +2,225 @@
 // Typical Dec 21 to Jan 2 weather from ERA5-based reanalysis (Open-Meteo archive).
 export type WeatherStats = { high: number; low: number; coldest: number; precip: number; snow: number; wetDays: number; snowDays: number };
 export type PlaceWeather = {
-  label: string; option: 'yellowstone' | 'oregon' | 'utah'; lat: number; lon: number; elevationFt: number;
+  label: string; option: 'sonoran'; lat: number; lon: number; elevationFt: number;
   normal: WeatherStats; analog: WeatherStats; analogYears: Record<string, WeatherStats>;
 };
 export const weatherNormalWinters = '1994 to 2023';
 export const weatherAnalogWinters = ['1982-83', '1997-98', '2015-16'];
 export const placeWeather: Record<string, PlaceWeather> = {
-  "bozeman": {
-    "label": "Bozeman",
-    "option": "yellowstone",
-    "lat": 45.7775,
-    "lon": -111.1528,
-    "elevationFt": 4470,
+  "phoenix": {
+    "label": "Phoenix airport area",
+    "option": "sonoran",
+    "lat": 33.4342,
+    "lon": -112.0116,
+    "elevationFt": 1130,
     "normal": {
-      "high": 28.2,
-      "low": 10.4,
-      "coldest": -5.1,
+      "high": 62.6,
+      "low": 39.3,
+      "coldest": 32.0,
       "precip": 0.5,
-      "snow": 3.3,
-      "wetDays": 3.3,
-      "snowDays": 2.6
+      "snow": 0.0,
+      "wetDays": 1.5,
+      "snowDays": 0
     },
     "analog": {
-      "high": 24.4,
-      "low": 7.5,
-      "coldest": -2.7,
-      "precip": 0.3,
-      "snow": 2.3,
-      "wetDays": 1.3,
-      "snowDays": 1.3
+      "high": 57.9,
+      "low": 36.3,
+      "coldest": 27.9,
+      "precip": 0.6,
+      "snow": 0.0,
+      "wetDays": 2.3,
+      "snowDays": 0
     },
     "analogYears": {
       "1982": {
-        "high": 26.5,
-        "low": 9.1,
-        "coldest": 0.1,
-        "precip": 0.5,
-        "snow": 4.3,
-        "wetDays": 3,
-        "snowDays": 3
+        "high": 55.1,
+        "low": 35.2,
+        "coldest": 27.4,
+        "precip": 0.6,
+        "snow": 0.0,
+        "wetDays": 4,
+        "snowDays": 0
       },
       "1997": {
-        "high": 28.4,
-        "low": 9.9,
-        "coldest": -1.6,
-        "precip": 0.1,
-        "snow": 0.9,
+        "high": 58.9,
+        "low": 36.6,
+        "coldest": 27.5,
+        "precip": 1.1,
+        "snow": 0.0,
+        "wetDays": 3,
+        "snowDays": 0
+      },
+      "2015": {
+        "high": 59.6,
+        "low": 37.0,
+        "coldest": 28.9,
+        "precip": 0.0,
+        "snow": 0.0,
         "wetDays": 0,
         "snowDays": 0
-      },
-      "2015": {
-        "high": 18.1,
-        "low": 3.5,
-        "coldest": -6.7,
-        "precip": 0.1,
-        "snow": 1.6,
+      }
+    }
+  },
+  "ajo": {
+    "label": "Ajo and Organ Pipe",
+    "option": "sonoran",
+    "lat": 32.3717,
+    "lon": -112.8607,
+    "elevationFt": 1750,
+    "normal": {
+      "high": 63.1,
+      "low": 42.9,
+      "coldest": 34.7,
+      "precip": 0.3,
+      "snow": 0.0,
+      "wetDays": 1.4,
+      "snowDays": 0
+    },
+    "analog": {
+      "high": 58.0,
+      "low": 38.7,
+      "coldest": 31.7,
+      "precip": 0.3,
+      "snow": 0.1,
+      "wetDays": 1.3,
+      "snowDays": 0
+    },
+    "analogYears": {
+      "1982": {
+        "high": 55.9,
+        "low": 37.6,
+        "coldest": 31.9,
+        "precip": 0.2,
+        "snow": 0.0,
         "wetDays": 1,
-        "snowDays": 1
-      }
-    }
-  },
-  "mammoth": {
-    "label": "Mammoth Hot Springs",
-    "option": "yellowstone",
-    "lat": 44.9769,
-    "lon": -110.6976,
-    "elevationFt": 6239,
-    "normal": {
-      "high": 23.4,
-      "low": 6.9,
-      "coldest": -9.3,
-      "precip": 0.9,
-      "snow": 6.7,
-      "wetDays": 5.1,
-      "snowDays": 5.1
-    },
-    "analog": {
-      "high": 20.5,
-      "low": 3.8,
-      "coldest": -8.5,
-      "precip": 0.7,
-      "snow": 5.4,
-      "wetDays": 4.3,
-      "snowDays": 4.3
-    },
-    "analogYears": {
-      "1982": {
-        "high": 20.2,
-        "low": 4.5,
-        "coldest": -8.3,
-        "precip": 1.0,
-        "snow": 7.8,
-        "wetDays": 5,
-        "snowDays": 5
-      },
-      "1997": {
-        "high": 23.2,
-        "low": 5.8,
-        "coldest": -7.4,
-        "precip": 0.6,
-        "snow": 4.7,
-        "wetDays": 4,
-        "snowDays": 4
-      },
-      "2015": {
-        "high": 18.0,
-        "low": 1.2,
-        "coldest": -9.9,
-        "precip": 0.4,
-        "snow": 3.7,
-        "wetDays": 4,
-        "snowDays": 4
-      }
-    }
-  },
-  "oldfaithful": {
-    "label": "Old Faithful",
-    "option": "yellowstone",
-    "lat": 44.4605,
-    "lon": -110.8281,
-    "elevationFt": 7349,
-    "normal": {
-      "high": 21.2,
-      "low": 8.3,
-      "coldest": -5.5,
-      "precip": 1.5,
-      "snow": 10.8,
-      "wetDays": 5.6,
-      "snowDays": 5.7
-    },
-    "analog": {
-      "high": 17.9,
-      "low": 4.2,
-      "coldest": -6.8,
-      "precip": 1.2,
-      "snow": 9.0,
-      "wetDays": 4.7,
-      "snowDays": 4.7
-    },
-    "analogYears": {
-      "1982": {
-        "high": 17.6,
-        "low": 4.4,
-        "coldest": -6.4,
-        "precip": 1.7,
-        "snow": 12.2,
-        "wetDays": 5,
-        "snowDays": 5
-      },
-      "1997": {
-        "high": 20.4,
-        "low": 7.3,
-        "coldest": -6.2,
-        "precip": 0.8,
-        "snow": 6.1,
-        "wetDays": 4,
-        "snowDays": 4
-      },
-      "2015": {
-        "high": 15.8,
-        "low": 0.8,
-        "coldest": -7.8,
-        "precip": 1.2,
-        "snow": 8.7,
-        "wetDays": 5,
-        "snowDays": 5
-      }
-    }
-  },
-  "bend": {
-    "label": "Bend",
-    "option": "oregon",
-    "lat": 44.0582,
-    "lon": -121.3153,
-    "elevationFt": 3625,
-    "normal": {
-      "high": 37.3,
-      "low": 23.2,
-      "coldest": 11.9,
-      "precip": 1.7,
-      "snow": 5.4,
-      "wetDays": 5.6,
-      "snowDays": 3.8
-    },
-    "analog": {
-      "high": 32.6,
-      "low": 18.0,
-      "coldest": 7.5,
-      "precip": 0.8,
-      "snow": 5.1,
-      "wetDays": 4,
-      "snowDays": 4
-    },
-    "analogYears": {
-      "1982": {
-        "high": 29.8,
-        "low": 12.4,
-        "coldest": 2.4,
-        "precip": 0.9,
-        "snow": 4.7,
-        "wetDays": 4,
-        "snowDays": 4
-      },
-      "1997": {
-        "high": 40.2,
-        "low": 23.5,
-        "coldest": 13.8,
-        "precip": 0.4,
-        "snow": 1.4,
-        "wetDays": 2,
-        "snowDays": 2
-      },
-      "2015": {
-        "high": 27.9,
-        "low": 18.0,
-        "coldest": 6.3,
-        "precip": 1.2,
-        "snow": 9.1,
-        "wetDays": 6,
-        "snowDays": 6
-      }
-    }
-  },
-  "summerlake": {
-    "label": "Summer Lake",
-    "option": "oregon",
-    "lat": 42.7167,
-    "lon": -120.6633,
-    "elevationFt": 4300,
-    "normal": {
-      "high": 35.7,
-      "low": 21.3,
-      "coldest": 9.6,
-      "precip": 1.2,
-      "snow": 5.4,
-      "wetDays": 4.7,
-      "snowDays": 3.6
-    },
-    "analog": {
-      "high": 30.3,
-      "low": 15.6,
-      "coldest": 3.5,
-      "precip": 1.0,
-      "snow": 6.8,
-      "wetDays": 4,
-      "snowDays": 4
-    },
-    "analogYears": {
-      "1982": {
-        "high": 29.4,
-        "low": 13.6,
-        "coldest": 4.4,
-        "precip": 1.5,
-        "snow": 9.8,
-        "wetDays": 3,
-        "snowDays": 3
-      },
-      "1997": {
-        "high": 37.1,
-        "low": 18.7,
-        "coldest": 6.9,
-        "precip": 0.4,
-        "snow": 2.8,
-        "wetDays": 2,
-        "snowDays": 2
-      },
-      "2015": {
-        "high": 24.4,
-        "low": 14.5,
-        "coldest": -0.8,
-        "precip": 1.0,
-        "snow": 7.7,
-        "wetDays": 7,
-        "snowDays": 7
-      }
-    }
-  },
-  "klamath": {
-    "label": "Klamath Falls",
-    "option": "oregon",
-    "lat": 42.2249,
-    "lon": -121.7817,
-    "elevationFt": 4100,
-    "normal": {
-      "high": 36.4,
-      "low": 24.9,
-      "coldest": 15.7,
-      "precip": 1.6,
-      "snow": 6.7,
-      "wetDays": 5.3,
-      "snowDays": 4
-    },
-    "analog": {
-      "high": 31.1,
-      "low": 19.5,
-      "coldest": 9.4,
-      "precip": 1.2,
-      "snow": 8.0,
-      "wetDays": 4,
-      "snowDays": 4.7
-    },
-    "analogYears": {
-      "1982": {
-        "high": 28.7,
-        "low": 15.7,
-        "coldest": 5.4,
-        "precip": 1.5,
-        "snow": 9.5,
-        "wetDays": 3,
-        "snowDays": 4
-      },
-      "1997": {
-        "high": 35.6,
-        "low": 21.8,
-        "coldest": 15.9,
-        "precip": 0.4,
-        "snow": 2.5,
-        "wetDays": 2,
-        "snowDays": 2
-      },
-      "2015": {
-        "high": 29.0,
-        "low": 21.0,
-        "coldest": 6.9,
-        "precip": 1.7,
-        "snow": 12.0,
-        "wetDays": 7,
-        "snowDays": 8
-      }
-    }
-  },
-  "craterlake": {
-    "label": "Crater Lake rim",
-    "option": "oregon",
-    "lat": 42.9114,
-    "lon": -122.1096,
-    "elevationFt": 7100,
-    "normal": {
-      "high": 28.9,
-      "low": 18.6,
-      "coldest": 9.1,
-      "precip": 3.2,
-      "snow": 17.7,
-      "wetDays": 6.8,
-      "snowDays": 6.1
-    },
-    "analog": {
-      "high": 25.4,
-      "low": 12.8,
-      "coldest": 0.1,
-      "precip": 1.9,
-      "snow": 13.5,
-      "wetDays": 5.3,
-      "snowDays": 5.3
-    },
-    "analogYears": {
-      "1982": {
-        "high": 25.6,
-        "low": 11.0,
-        "coldest": 0.3,
-        "precip": 1.7,
-        "snow": 11.8,
-        "wetDays": 5,
-        "snowDays": 5
-      },
-      "1997": {
-        "high": 30.2,
-        "low": 15.3,
-        "coldest": 0.9,
-        "precip": 0.8,
-        "snow": 6.1,
-        "wetDays": 3,
-        "snowDays": 3
-      },
-      "2015": {
-        "high": 20.4,
-        "low": 12.1,
-        "coldest": -0.9,
-        "precip": 3.2,
-        "snow": 22.4,
-        "wetDays": 8,
-        "snowDays": 8
-      }
-    }
-  },
-  "hoodriver": {
-    "label": "Hood River",
-    "option": "oregon",
-    "lat": 45.7054,
-    "lon": -121.5215,
-    "elevationFt": 100,
-    "normal": {
-      "high": 40.9,
-      "low": 32.4,
-      "coldest": 24.2,
-      "precip": 3.4,
-      "snow": 9.6,
-      "wetDays": 7.2,
-      "snowDays": 4.1
-    },
-    "analog": {
-      "high": 39.6,
-      "low": 29.9,
-      "coldest": 21.2,
-      "precip": 1.4,
-      "snow": 6.4,
-      "wetDays": 5.3,
-      "snowDays": 4
-    },
-    "analogYears": {
-      "1982": {
-        "high": 36.7,
-        "low": 27.8,
-        "coldest": 19.8,
-        "precip": 1.1,
-        "snow": 4.4,
-        "wetDays": 5,
-        "snowDays": 5
-      },
-      "1997": {
-        "high": 45.1,
-        "low": 31.4,
-        "coldest": 24.5,
-        "precip": 0.8,
-        "snow": 1.4,
-        "wetDays": 5,
-        "snowDays": 2
-      },
-      "2015": {
-        "high": 37.1,
-        "low": 30.4,
-        "coldest": 19.3,
-        "precip": 2.5,
-        "snow": 13.6,
-        "wetDays": 6,
-        "snowDays": 5
-      }
-    }
-  },
-  "portland": {
-    "label": "Portland",
-    "option": "oregon",
-    "lat": 45.5898,
-    "lon": -122.5951,
-    "elevationFt": 30,
-    "normal": {
-      "high": 44.5,
-      "low": 34.2,
-      "coldest": 26.6,
-      "precip": 4.0,
-      "snow": 2.4,
-      "wetDays": 7.9,
-      "snowDays": 1.6
-    },
-    "analog": {
-      "high": 42.5,
-      "low": 31.8,
-      "coldest": 26.0,
-      "precip": 1.9,
-      "snow": 1.7,
-      "wetDays": 5.7,
-      "snowDays": 1.3
-    },
-    "analogYears": {
-      "1982": {
-        "high": 42.1,
-        "low": 30.1,
-        "coldest": 24.9,
-        "precip": 1.1,
-        "snow": 0.2,
-        "wetDays": 5,
         "snowDays": 0
       },
       "1997": {
-        "high": 44.9,
-        "low": 33.1,
-        "coldest": 28.7,
-        "precip": 1.6,
-        "snow": 0.9,
-        "wetDays": 6,
-        "snowDays": 1
-      },
-      "2015": {
-        "high": 40.5,
-        "low": 32.1,
-        "coldest": 24.4,
-        "precip": 3.0,
-        "snow": 3.9,
-        "wetDays": 6,
-        "snowDays": 3
-      }
-    }
-  },
-  "lasvegas": {
-    "label": "Las Vegas",
-    "option": "utah",
-    "lat": 36.1699,
-    "lon": -115.1398,
-    "elevationFt": 2000,
-    "normal": {
-      "high": 54.2,
-      "low": 37.3,
-      "coldest": 29.5,
-      "precip": 0.4,
-      "snow": 0.2,
-      "wetDays": 1.1,
-      "snowDays": 0.1
-    },
-    "analog": {
-      "high": 51.0,
-      "low": 34.5,
-      "coldest": 26.7,
-      "precip": 0.2,
-      "snow": 0.4,
-      "wetDays": 1,
-      "snowDays": 0.3
-    },
-    "analogYears": {
-      "1982": {
-        "high": 49.8,
-        "low": 33.8,
-        "coldest": 27.5,
-        "precip": 0.3,
+        "high": 58.9,
+        "low": 39.5,
+        "coldest": 30.4,
+        "precip": 0.6,
         "snow": 0.0,
         "wetDays": 2,
         "snowDays": 0
       },
-      "1997": {
-        "high": 54.2,
-        "low": 36.9,
-        "coldest": 26.6,
-        "precip": 0.2,
-        "snow": 1.2,
-        "wetDays": 1,
-        "snowDays": 1
-      },
       "2015": {
-        "high": 49.2,
-        "low": 32.9,
-        "coldest": 26.1,
+        "high": 59.1,
+        "low": 38.8,
+        "coldest": 32.7,
         "precip": 0.1,
-        "snow": 0.1,
-        "wetDays": 0,
+        "snow": 0.3,
+        "wetDays": 1,
         "snowDays": 0
       }
     }
   },
-  "gcwest": {
-    "label": "Grand Canyon West",
-    "option": "utah",
-    "lat": 35.9987,
-    "lon": -113.8113,
-    "elevationFt": 4800,
+  "tucson": {
+    "label": "Tucson",
+    "option": "sonoran",
+    "lat": 32.2217,
+    "lon": -110.9265,
+    "elevationFt": 2400,
     "normal": {
-      "high": 45.7,
-      "low": 30.5,
-      "coldest": 22.1,
-      "precip": 0.5,
-      "snow": 1.0,
-      "wetDays": 2.2,
-      "snowDays": 0.9
+      "high": 61.4,
+      "low": 38.0,
+      "coldest": 29.6,
+      "precip": 0.6,
+      "snow": 0.2,
+      "wetDays": 2.0,
+      "snowDays": 0.1
     },
     "analog": {
-      "high": 41.6,
-      "low": 25.9,
-      "coldest": 17.2,
-      "precip": 0.5,
-      "snow": 1.5,
-      "wetDays": 2,
-      "snowDays": 1.3
+      "high": 55.1,
+      "low": 34.9,
+      "coldest": 25.8,
+      "precip": 0.4,
+      "snow": 0.3,
+      "wetDays": 1.3,
+      "snowDays": 0.3
     },
     "analogYears": {
       "1982": {
-        "high": 40.8,
-        "low": 24.9,
-        "coldest": 17.3,
-        "precip": 0.7,
+        "high": 51.3,
+        "low": 33.8,
+        "coldest": 24.7,
+        "precip": 0.6,
         "snow": 0.6,
         "wetDays": 2,
         "snowDays": 1
       },
       "1997": {
-        "high": 43.3,
-        "low": 26.0,
-        "coldest": 15.2,
+        "high": 56.5,
+        "low": 34.4,
+        "coldest": 24.7,
         "precip": 0.6,
-        "snow": 2.8,
+        "snow": 0.4,
         "wetDays": 2,
-        "snowDays": 2
+        "snowDays": 0
       },
       "2015": {
-        "high": 40.8,
-        "low": 26.8,
-        "coldest": 19.0,
-        "precip": 0.3,
-        "snow": 1.0,
-        "wetDays": 2,
-        "snowDays": 1
+        "high": 57.5,
+        "low": 36.5,
+        "coldest": 27.9,
+        "precip": 0.0,
+        "snow": 0.0,
+        "wetDays": 0,
+        "snowDays": 0
       }
     }
   },
-  "springdale": {
-    "label": "Springdale (Zion)",
-    "option": "utah",
-    "lat": 37.1889,
-    "lon": -112.9986,
-    "elevationFt": 3900,
+  "bisbee": {
+    "label": "Bisbee",
+    "option": "sonoran",
+    "lat": 31.4482,
+    "lon": -109.9284,
+    "elevationFt": 5300,
     "normal": {
-      "high": 44.7,
-      "low": 23.7,
-      "coldest": 10.8,
-      "precip": 0.9,
-      "snow": 3.9,
-      "wetDays": 2.6,
-      "snowDays": 1.9
-    },
-    "analog": {
-      "high": 39.9,
-      "low": 15.5,
-      "coldest": 3.7,
-      "precip": 0.9,
-      "snow": 4.1,
+      "high": 54.2,
+      "low": 32.5,
+      "coldest": 23.9,
+      "precip": 0.4,
+      "snow": 0.6,
       "wetDays": 1.7,
-      "snowDays": 1.3
-    },
-    "analogYears": {
-      "1982": {
-        "high": 39.3,
-        "low": 11.3,
-        "coldest": -2.5,
-        "precip": 1.5,
-        "snow": 5.1,
-        "wetDays": 2,
-        "snowDays": 1
-      },
-      "1997": {
-        "high": 47.2,
-        "low": 26.4,
-        "coldest": 16.6,
-        "precip": 0.0,
-        "snow": 0.3,
-        "wetDays": 0,
-        "snowDays": 0
-      },
-      "2015": {
-        "high": 33.1,
-        "low": 8.6,
-        "coldest": -3.0,
-        "precip": 1.1,
-        "snow": 6.8,
-        "wetDays": 3,
-        "snowDays": 3
-      }
-    }
-  },
-  "bryce": {
-    "label": "Bryce Canyon",
-    "option": "utah",
-    "lat": 37.6283,
-    "lon": -112.1677,
-    "elevationFt": 8000,
-    "normal": {
-      "high": 29.9,
-      "low": 11.0,
-      "coldest": -2.8,
-      "precip": 0.6,
-      "snow": 4.0,
-      "wetDays": 2.4,
-      "snowDays": 2.3
+      "snowDays": 0.3
     },
     "analog": {
-      "high": 26.1,
-      "low": 6.5,
-      "coldest": -6.3,
-      "precip": 0.4,
-      "snow": 3.3,
-      "wetDays": 1.3,
-      "snowDays": 1.3
-    },
-    "analogYears": {
-      "1982": {
-        "high": 23.9,
-        "low": 4.3,
-        "coldest": -9.4,
-        "precip": 0.6,
-        "snow": 4.8,
-        "wetDays": 2,
-        "snowDays": 2
-      },
-      "1997": {
-        "high": 33.8,
-        "low": 16.3,
-        "coldest": 6.1,
-        "precip": 0.0,
-        "snow": 0.5,
-        "wetDays": 0,
-        "snowDays": 0
-      },
-      "2015": {
-        "high": 20.6,
-        "low": -1.2,
-        "coldest": -15.7,
-        "precip": 0.6,
-        "snow": 4.6,
-        "wetDays": 2,
-        "snowDays": 2
-      }
-    }
-  },
-  "torrey": {
-    "label": "Torrey",
-    "option": "utah",
-    "lat": 38.2983,
-    "lon": -111.4199,
-    "elevationFt": 6840,
-    "normal": {
-      "high": 34.1,
-      "low": 13.1,
-      "coldest": 0.0,
+      "high": 46.7,
+      "low": 27.1,
+      "coldest": 18.3,
       "precip": 0.5,
-      "snow": 3.4,
-      "wetDays": 2.5,
-      "snowDays": 2.2
-    },
-    "analog": {
-      "high": 29.9,
-      "low": 8.8,
-      "coldest": -5.6,
-      "precip": 0.4,
-      "snow": 3.4,
-      "wetDays": 2.7,
-      "snowDays": 2.7
+      "snow": 1.8,
+      "wetDays": 2.3,
+      "snowDays": 0.7
     },
     "analogYears": {
       "1982": {
-        "high": 29.8,
-        "low": 8.9,
-        "coldest": -6.6,
-        "precip": 0.4,
-        "snow": 3.5,
-        "wetDays": 2,
-        "snowDays": 3
-      },
-      "1997": {
-        "high": 36.9,
-        "low": 16.0,
-        "coldest": 0.7,
-        "precip": 0.2,
-        "snow": 1.6,
-        "wetDays": 2,
-        "snowDays": 2
-      },
-      "2015": {
-        "high": 23.1,
-        "low": 1.5,
-        "coldest": -11.0,
+        "high": 41.9,
+        "low": 23.7,
+        "coldest": 15.1,
         "precip": 0.7,
-        "snow": 5.1,
-        "wetDays": 4,
-        "snowDays": 3
-      }
-    }
-  },
-  "moab": {
-    "label": "Moab",
-    "option": "utah",
-    "lat": 38.5733,
-    "lon": -109.5498,
-    "elevationFt": 4025,
-    "normal": {
-      "high": 39.4,
-      "low": 20.5,
-      "coldest": 7.9,
-      "precip": 0.5,
-      "snow": 2.1,
-      "wetDays": 2.5,
-      "snowDays": 1.6
-    },
-    "analog": {
-      "high": 36.4,
-      "low": 17.7,
-      "coldest": 6.9,
-      "precip": 0.5,
-      "snow": 3.0,
-      "wetDays": 2.7,
-      "snowDays": 2
-    },
-    "analogYears": {
-      "1982": {
-        "high": 38.0,
-        "low": 21.9,
-        "coldest": 14.0,
-        "precip": 0.5,
-        "snow": 2.8,
-        "wetDays": 2,
-        "snowDays": 2
-      },
-      "1997": {
-        "high": 41.2,
-        "low": 22.3,
-        "coldest": 13.3,
-        "precip": 0.1,
-        "snow": 0.9,
-        "wetDays": 1,
-        "snowDays": 1
-      },
-      "2015": {
-        "high": 30.1,
-        "low": 9.0,
-        "coldest": -6.7,
-        "precip": 0.8,
-        "snow": 5.3,
-        "wetDays": 5,
-        "snowDays": 3
-      }
-    }
-  },
-  "slc": {
-    "label": "Salt Lake City",
-    "option": "utah",
-    "lat": 40.7884,
-    "lon": -111.9778,
-    "elevationFt": 4226,
-    "normal": {
-      "high": 34.0,
-      "low": 19.8,
-      "coldest": 7.5,
-      "precip": 1.0,
-      "snow": 4.9,
-      "wetDays": 4.1,
-      "snowDays": 3.2
-    },
-    "analog": {
-      "high": 28.3,
-      "low": 14.5,
-      "coldest": -2.0,
-      "precip": 0.8,
-      "snow": 4.2,
-      "wetDays": 3,
-      "snowDays": 2.7
-    },
-    "analogYears": {
-      "1982": {
-        "high": 29.8,
-        "low": 16.0,
-        "coldest": 3.8,
-        "precip": 1.0,
         "snow": 3.7,
-        "wetDays": 4,
-        "snowDays": 2
+        "wetDays": 3,
+        "snowDays": 1
       },
       "1997": {
-        "high": 30.6,
-        "low": 14.7,
-        "coldest": -4.0,
-        "precip": 0.2,
-        "snow": 1.4,
-        "wetDays": 1,
+        "high": 47.8,
+        "low": 27.6,
+        "coldest": 17.7,
+        "precip": 0.7,
+        "snow": 1.2,
+        "wetDays": 3,
         "snowDays": 1
       },
       "2015": {
-        "high": 24.6,
-        "low": 12.8,
-        "coldest": -5.9,
-        "precip": 1.2,
-        "snow": 7.6,
-        "wetDays": 4,
-        "snowDays": 5
+        "high": 50.2,
+        "low": 29.9,
+        "coldest": 22.1,
+        "precip": 0.1,
+        "snow": 0.5,
+        "wetDays": 1,
+        "snowDays": 0
       }
     }
   }

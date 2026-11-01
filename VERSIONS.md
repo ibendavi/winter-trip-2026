@@ -1,5 +1,13 @@
 # Version manifest
 
+## 20261101b revision (branch sonoran-roundtrip: warm desert loop)
+
+- Canonical artifact: none published; this lives on branch `sonoran-roundtrip` (the live site still shows the Utah version from `main`)
+- Canonical source: this project folder, branch `sonoran-roundtrip`
+- Complete editable source: yes
+- Predecessor: `versions/20261101_170217/` (`source/` and `site/`, the Utah site with the Oct 15 forecast refresh) and `main`
+- Material differences: new Phoenix to Tucson itinerary (Superstitions, Apache Trail, Globe, Tonto, Ajo, Organ Pipe, Tucson, Tombstone, Bisbee, Kartchner), six stays, new map geometry, 12 new credited photos, new El Niño section for southern Arizona, new daylight table, partial weather data (four of seven places), crowds section removed
+
 ## 20261101 revision (forecast refresh)
 
 - Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after push; not yet published when written)

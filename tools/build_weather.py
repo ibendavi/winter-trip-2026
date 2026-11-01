@@ -6,6 +6,7 @@ numbers are approximate. Run: py -3 tools/build_weather.py
 """
 import json
 import os
+import sys
 import statistics
 import time
 import urllib.parse
@@ -15,22 +16,13 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "app", "weather-data.ts")
 
 # key, label, option, lat, lon, elevation (ft)
 PLACES = [
-    ("bozeman", "Bozeman", "yellowstone", 45.7775, -111.1528, 4470),
-    ("mammoth", "Mammoth Hot Springs", "yellowstone", 44.9769, -110.6976, 6239),
-    ("oldfaithful", "Old Faithful", "yellowstone", 44.4605, -110.8281, 7349),
-    ("bend", "Bend", "oregon", 44.0582, -121.3153, 3625),
-    ("summerlake", "Summer Lake", "oregon", 42.7167, -120.6633, 4300),
-    ("klamath", "Klamath Falls", "oregon", 42.2249, -121.7817, 4100),
-    ("craterlake", "Crater Lake rim", "oregon", 42.9114, -122.1096, 7100),
-    ("hoodriver", "Hood River", "oregon", 45.7054, -121.5215, 100),
-    ("portland", "Portland", "oregon", 45.5898, -122.5951, 30),
-    ("lasvegas", "Las Vegas", "utah", 36.1699, -115.1398, 2000),
-    ("gcwest", "Grand Canyon West", "utah", 35.9987, -113.8113, 4800),
-    ("springdale", "Springdale (Zion)", "utah", 37.1889, -112.9986, 3900),
-    ("bryce", "Bryce Canyon", "utah", 37.6283, -112.1677, 8000),
-    ("torrey", "Torrey", "utah", 38.2983, -111.4199, 6840),
-    ("moab", "Moab", "utah", 38.5733, -109.5498, 4025),
-    ("slc", "Salt Lake City", "utah", 40.7884, -111.9778, 4226),
+    ("phoenix", "Phoenix airport area", "sonoran", 33.4342, -112.0116, 1130),
+    ("apachejct", "Apache Junction", "sonoran", 33.4151, -111.5496, 1710),
+    ("globe", "Globe", "sonoran", 33.3942, -110.7865, 3500),
+    ("ajo", "Ajo and Organ Pipe", "sonoran", 32.3717, -112.8607, 1750),
+    ("tucson", "Tucson", "sonoran", 32.2217, -110.9265, 2400),
+    ("kartchner", "Kartchner Caverns", "sonoran", 31.8366, -110.3453, 4000),
+    ("bisbee", "Bisbee", "sonoran", 31.4482, -109.9284, 5300),
 ]
 
 NORMAL_WINTERS = list(range(1994, 2024))  # window starts Dec 21 of these years
@@ -57,7 +49,7 @@ def fetch(key, lat, lon, elev_ft, start, end):  # one winter window per call kee
         "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum",
         "temperature_unit": "fahrenheit",
         "precipitation_unit": "inch",
-        "timezone": "America/Denver",
+        "timezone": "America/Phoenix",
     }
     url = "https://archive-api.open-meteo.com/v1/archive?" + urllib.parse.urlencode(params)
     for attempt in range(40):
@@ -101,9 +93,18 @@ def mean_of(rows, key):
 
 
 result = {}
+ONLY = set(sys.argv[1:])  # optional: build just these place keys
 for key, label, option, lat, lon, elev in PLACES:
+    if ONLY and key not in ONLY:
+        continue
     print("fetching", label, flush=True)
-    by_year = {y: fetch(key, lat, lon, elev, f"{y}-12-21", f"{y + 1}-01-02") for y in sorted(set(NORMAL_WINTERS + ANALOG_WINTERS))}
+    long_cache = os.path.join(CACHE, f"{key}_1981-12-15_2024-01-05.json")
+    if os.path.exists(long_cache):  # a whole-period file, if present, serves every winter
+        with open(long_cache, encoding="utf-8") as f:
+            full = json.load(f)
+        by_year = {y: full for y in sorted(set(NORMAL_WINTERS + ANALOG_WINTERS))}
+    else:  # otherwise one 13-day window per call, which keeps the request weight low
+        by_year = {y: fetch(key, lat, lon, elev, f"{y}-12-21", f"{y + 1}-01-02") for y in sorted(set(NORMAL_WINTERS + ANALOG_WINTERS))}
     normal = [window(by_year[y], y) for y in NORMAL_WINTERS]
     analog = [window(by_year[y], y) for y in ANALOG_WINTERS]
     result[key] = {
@@ -122,7 +123,7 @@ ts = (
     "// Typical Dec 21 to Jan 2 weather from ERA5-based reanalysis (Open-Meteo archive).\n"
     "export type WeatherStats = { high: number; low: number; coldest: number; precip: number; snow: number; wetDays: number; snowDays: number };\n"
     "export type PlaceWeather = {\n"
-    "  label: string; option: 'yellowstone' | 'oregon' | 'utah'; lat: number; lon: number; elevationFt: number;\n"
+    "  label: string; option: 'sonoran'; lat: number; lon: number; elevationFt: number;\n"
     "  normal: WeatherStats; analog: WeatherStats; analogYears: Record<string, WeatherStats>;\n"
     "};\n"
     "export const weatherNormalWinters = '1994 to 2023';\n"
