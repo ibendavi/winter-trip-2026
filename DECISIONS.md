@@ -1,5 +1,13 @@
 # Decisions
 
+## 2026-11-01: forecast refresh, route unchanged
+
+- Read NOAA CPC ENSO discussion (still the Oct 8 issue: Niño-3.4 +2.1 C, >83% strong-to-very strong through JFM) and the Oct 15 seasonal outlook discussion. Oct 15: wetter favored for the West Coast (to the Oregon coast) and Southwest, with lower odds than the Southeast; Southwest temperatures at equal chances (below-normal only FMA/MAM); warm lean for the western third, strongest Pacific Northwest to northern Plains; northern Rockies favored drier. No state is named. Press (Townlift) reports Utah DJF precipitation at equal chances, near the boundary.
+- Observed: October 2026 record rain in southeast Utah (Escalante nearly 6 in; Monticello, Canyonlands records) and SLC over 2x October normal (KUER, Oct 27, citing NWS). Impacts usually build Nov-Dec.
+- Decision: keep the LAS to SLC trip. Do NOT switch to Yellowstone/northern Rockies (the dry side) unless asked; that option stays scrapped. Risk is rain, flash floods, Highway 12 ice, not cold. Hold the slack/swap plan and free-cancel bookings until after Nov 12 (ENSO) and Nov 19 (seasonal outlook).
+- Not trusted: a Newsweek/Karmactive "+3.3 C Niño-3.4" figure and viral snowfall maps (secondary, not NOAA); the page keeps +2.1 C.
+- Page changes: forecast section text, one stat swapped for the Escalante record, Nov 19 added to the dates list, Oct 15 sources. Prior build archived in `versions/20261101_143224/`. Committed locally, not pushed.
+
 ## 2026-10-11 (final): one trip, West Rim to Red Rock
 
 - The three-option site (Yellowstone, Central Oregon, Hualapai + Utah) is scrapped and archived in `versions/20261011_160511/` (source and rendered site, commit `173a4ba`). The site now covers only the Las Vegas to Salt Lake City trip. Do NOT re-add the other options unless asked.

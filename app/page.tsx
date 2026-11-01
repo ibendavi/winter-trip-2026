@@ -47,7 +47,7 @@ const ninoStats = [
   ['Niño-3.4 index in the Oct 8 update', '+2.1 °C'],
   ['Chance of a strong-to-very strong El Niño through Jan–Mar 2027', '> 83%'],
   ['Chance Nov–Jan is a record event, stronger than any since 1950', '70%'],
-  ['Above-normal precipitation odds near the California coast, Dec–Feb', '50–60%'],
+  ['October 2026 rain at Escalante, Utah: a record, about 6 in', 'Record'],
 ];
 
 const ninoRows: Array<[string, string, string, string]> = [
@@ -62,8 +62,9 @@ const ninoRows: Array<[string, string, string, string]> = [
 ];
 
 const ninoDates = [
-  ['Oct 15', 'NOAA releases its next seasonal outlooks. Check whether the Southwest and Four Corners wet tilt strengthens.'],
+  ['Oct 15 (done)', 'Seasonal outlook: Southwest wetter, Southwest temperatures at equal chances, northern Rockies drier. The route stays as planned.'],
   ['Nov 12', 'NOAA’s next ENSO update. Book flights, the rental, and lodging with free cancellation soon after.'],
+  ['Nov 19', 'NOAA’s November seasonal outlook, with a shorter lead for Dec–Feb. Check whether Utah moves off equal chances.'],
   ['Dec 5', 'The 16-day forecast reaches Dec 21. The live forecast on this page starts filling in.'],
   ['Dec 17', 'NOAA’s December outlook, and a first look at the 8 to 14 day outlook for Dec 21 to 31. Use it to settle traction gear and which days are slack.'],
   ['Dec 20', 'Last look before you leave Menlo. If a storm hits the Southwest on Dec 21 to 23, swap the order of the Hualapai and Hoover Dam days.'],
@@ -117,7 +118,7 @@ const planCards: Array<{ title: string; items: string[] }> = [
 
 const sources: Array<[string, string]> = [
   ['NOAA ENSO diagnostic discussion, Oct 8 2026', 'https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml'],
-  ['NOAA seasonal outlook discussion, Sept 17 2026', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/fxus05.html'],
+  ['NOAA seasonal outlook discussion, Oct 15 2026', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/fxus05.html'],
   ['NOAA seasonal outlook maps', 'https://www.cpc.ncep.noaa.gov/products/predictions/long_range/'],
   ['NOAA 8 to 14 day outlook', 'https://www.cpc.ncep.noaa.gov/products/predictions/814day/'],
   ['NWS Las Vegas forecast', 'https://www.weather.gov/vef/'],
@@ -417,7 +418,7 @@ export default function Home() {
           <header className="nino-header">
             <div>
               <p className="route-number">The forecast</p>
-              <p className="kicker">NOAA Climate Prediction Center · Oct 8, 2026</p>
+              <p className="kicker">NOAA Climate Prediction Center · Oct 8 and Oct 15, 2026</p>
             </div>
             <h2 id="nino-heading">A very strong El Niño is building. Stop by stop, here is what it means.</h2>
             <p className="route-deck">
@@ -436,8 +437,9 @@ export default function Home() {
             <div>
               <p className="kicker">What the outlook says for the West</p>
               <ul className="nino-list">
-                <li>Wetter than normal is favored across the southern half of California and the Four Corners. This route sits near the northern edge of that wet tilt, and NOAA’s text does not name Nevada, Arizona, or Utah itself, so check the CPC map before relying on it.</li>
-                <li>Most of the West leans warmer, and the warm tilt over the Southwest fades to equal chances as winter goes on.</li>
+                <li>The Oct 15 outlook favors wetter than normal for much of the West Coast (as far north as the Oregon coast) and the Southwest, with somewhat lower odds than the Southeast. NOAA’s text does not name Nevada, Arizona, or Utah. Press coverage of the Dec–Feb map puts Utah near the boundary, with equal chances of wet, normal, or dry for the Intermountain West. Check the CPC map directly.</li>
+                <li>The western third of the country leans warmer, strongest from the Pacific Northwest to the northern Plains. The Southwest is at equal chances for temperature, with below-normal odds appearing only in Feb–May. Below-normal precipitation is favored for the northern Rockies, which is the dry side, and Yellowstone-type trips sit there.</li>
+                <li>The wet pattern has already started in the region: October rainfall set records in southeast Utah (Escalante, Monticello, Canyonlands), and Salt Lake City had more than twice its October average. El Niño’s jet-stream effects usually build in November and December, so late December is when the tilt is expected to matter. Soaked ground raises flash-flood and washout risk for the slot canyons and Highway 12.</li>
                 <li>A negative Pacific Decadal Oscillation may dampen the usual El Niño effects in places. NOAA says impacts are more likely, though not guaranteed.</li>
               </ul>
             </div>
@@ -598,7 +600,7 @@ export default function Home() {
           <div>
             <p className="kicker">Planning sources</p>
             <h2 id="sources-heading">Use live official conditions, not this page, on travel day.</h2>
-            <p>Mileage and drive times are rounded planning estimates without major weather delays. The itinerary was assembled in August 2026 and revised in October 2026 for travel from Dec 21, 2026 to Jan 2, 2027. The forecast section reflects NOAA products issued Sept 17 and Oct 8, 2026 and will be out of date after the next releases. Lodging and hours were checked against public listings in October 2026 and can change.</p>
+            <p>Mileage and drive times are rounded planning estimates without major weather delays. The itinerary was assembled in August 2026 and revised in October 2026 for travel from Dec 21, 2026 to Jan 2, 2027. The forecast section reflects NOAA products issued Oct 8 and Oct 15, 2026 and will be out of date after the next releases. Lodging and hours were checked against public listings in October 2026 and can change.</p>
           </div>
           <div className="source-links">
             {sources.map(([label, href]) => (

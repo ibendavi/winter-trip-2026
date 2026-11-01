@@ -1,5 +1,13 @@
 # Version manifest
 
+## 20261101 revision (forecast refresh)
+
+- Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/` (after push; not yet published when written)
+- Canonical source: this project folder
+- Complete editable source: yes
+- Predecessor: `versions/20261101_143224/` (`source/` and `site/`) and commit `711c37c`
+- Material differences: El Niño section updated for the Oct 15 NOAA outlook and late-October Utah rainfall records; one stat replaced; Nov 19 outlook date added; sources and footer dated Oct 8 and Oct 15. Itinerary unchanged
+
 ## 20261011d revision (single-trip site: West Rim to Red Rock)
 
 - Canonical artifact: `https://ibendavi.github.io/winter-trip-2026/`
