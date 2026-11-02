@@ -3,7 +3,7 @@ import TripMap from './TripMap';
 import { daylight, days, photos, stayBlocks, weatherKeys, type Day, type Link } from './trip-data';
 import { placeWeather, weatherAnalogWinters, weatherNormalWinters, type PlaceWeather } from './weather-data';
 
-const siteBasePath = '/winter-trip-2026';
+const siteBasePath = process.env.BASE_PATH ?? '/winter-trip-2026';
 
 function mapsUrl(nav: NonNullable<Day['navigate']>) {
   const params = new URLSearchParams({ api: '1', origin: nav.from, destination: nav.to, travelmode: 'driving' });
