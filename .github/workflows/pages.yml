@@ -29,6 +29,22 @@ jobs:
         run: npm ci
       - name: Build static site
         run: npm run build:pages
+      - name: Check out the Arizona version
+        uses: actions/checkout@v4
+        with:
+          ref: sonoran-roundtrip
+          path: arizona-src
+      - name: Build the Arizona version at /arizona/
+        working-directory: arizona-src
+        env:
+          BASE_PATH: /winter-trip-2026/arizona
+        run: |
+          npm ci
+          npm run build:pages
+      - name: Add the Arizona version to the site
+        run: |
+          mkdir -p out/arizona
+          cp -R arizona-src/out/. out/arizona/
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
