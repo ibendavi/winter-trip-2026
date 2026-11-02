@@ -28,7 +28,7 @@ Party: Zahi, Ayelet, Tal from Dec 21; Shelly and Maia join Dec 24 at PHX. One si
 
 - Phoenix area 58 F high (63 normal), 36 F low. Ajo/Organ Pipe 58 F (63), 39 F low. Tucson 55 F (61), 35 F low.
 - Bisbee-type elevation (5,400 ft) 47 F (54 normal), 27 F low, a little snow. This is the cold stop; it gets one night only and a swap to Tucson if a storm is forecast.
-- Globe and Tonto NM were not measured; expect between the Phoenix and Tucson numbers.
+- Measured 2026-11-01 (normal / three big El Niños): Apache Junction 61 / 56 F, Globe 56 / 50 F (48 in 1982-83), Kartchner Caverns 58 / 50 F. Globe is colder than Tucson, not between Phoenix and Tucson. Tonto NM itself was not measured; it sits near Globe's elevation or lower.
 - Late December is early in the storm season. NOAA's Oct 15 outlook still favors a wetter Southwest overall, so rain days are possible; the Apache Trail, Organ Pipe dirt roads, and the Tubac to Tombstone drive are the pieces that suffer.
 
 ## Christmas-week closures (from search results; confirm before booking)

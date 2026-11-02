@@ -4,9 +4,9 @@
 
 - User asked for the Phoenix to Tucson round trip as a new branch on the existing website repo. `main` keeps the Utah site; this branch replaces its content with the Sonoran loop from `PLAN-sonoran-roundtrip.md`. GitHub Pages deploys only from `main`, so the branch is not published. Nothing pushed yet.
 - Removed from the branch: all Utah/Nevada photos (still on `main` and in `versions/`), the crowds section (it used Utah NPS counts; Organ Pipe, Tumacacori, and Tonto counts were not pulled).
-- Weather data (`app/weather-data.ts`): only Phoenix, Ajo, Tucson, and Bisbee are in, built from the 1981-2024 ERA5 pull. Apache Junction, Globe, and Kartchner are PENDING: Open-Meteo's daily request limit was exhausted (my fault: long-range requests are heavy). Fix after 8 PM EDT on 2026-11-01 (the limit resets at 00:00 UTC): run `python tools/build_weather.py` (it uses 13-day windows for places with no long-range cache, which is light) and rebuild. Until then those three days show no weather chip and the weather table has four rows.
+- Weather data (`app/weather-data.ts`) is now complete for all seven places (built 2026-11-01 evening after the Open-Meteo limit reset; Apache Junction, Globe, Kartchner via 13-day windows). Normal / three big El Niños highs: Apache Junction 61/56 F, Globe 56/50 F (48 in 1982-83), Kartchner 58/50 F. Globe and Kartchner sit right at the user's 50 F target in an El Niño; the low desert sits above it. Plan note: Globe is colder than Tucson, not between Phoenix and Tucson.
 - Not researched: the two airport-area hotels (Dec 23, Jan 1), Tonto National Monument hours, Desert Museum, Pima, San Xavier, Biosphere 2, and Picacho holiday hours. Stay pins are approximate geocodes by hand. The page labels these.
-- The page was only checked by building it and fetching the rendered HTML. No browser screenshot was possible (the browser tool could not open localhost).
+- Visually checked 2026-11-01 with the gstack /browse skill (desktop 1280 and mobile 390 wide): hero, map with all legs and pins, itinerary, stays, weather table, El Niño section, and photo atlas render; no console errors, no broken images, no horizontal scroll on mobile. Not checked: every day card, the live-forecast widget (no forecast exists yet), print.
 
 ## 2026-11-01 (latest): Phoenix to Tucson round trip drafted
 

@@ -62,6 +62,114 @@ export const placeWeather: Record<string, PlaceWeather> = {
       }
     }
   },
+  "apachejct": {
+    "label": "Apache Junction",
+    "option": "sonoran",
+    "lat": 33.4151,
+    "lon": -111.5496,
+    "elevationFt": 1710,
+    "normal": {
+      "high": 61.1,
+      "low": 39.0,
+      "coldest": 31.5,
+      "precip": 0.7,
+      "snow": 0.0,
+      "wetDays": 2.1,
+      "snowDays": 0
+    },
+    "analog": {
+      "high": 55.6,
+      "low": 35.4,
+      "coldest": 28.1,
+      "precip": 0.7,
+      "snow": 0.1,
+      "wetDays": 3.3,
+      "snowDays": 0
+    },
+    "analogYears": {
+      "1982": {
+        "high": 53.2,
+        "low": 34.0,
+        "coldest": 28.9,
+        "precip": 0.8,
+        "snow": 0.2,
+        "wetDays": 4,
+        "snowDays": 0
+      },
+      "1997": {
+        "high": 57.2,
+        "low": 36.1,
+        "coldest": 26.9,
+        "precip": 1.0,
+        "snow": 0.0,
+        "wetDays": 3,
+        "snowDays": 0
+      },
+      "2015": {
+        "high": 56.4,
+        "low": 35.9,
+        "coldest": 28.6,
+        "precip": 0.4,
+        "snow": 0.0,
+        "wetDays": 3,
+        "snowDays": 0
+      }
+    }
+  },
+  "globe": {
+    "label": "Globe",
+    "option": "sonoran",
+    "lat": 33.3942,
+    "lon": -110.7865,
+    "elevationFt": 3500,
+    "normal": {
+      "high": 55.6,
+      "low": 33.8,
+      "coldest": 25.8,
+      "precip": 0.8,
+      "snow": 0.1,
+      "wetDays": 2.2,
+      "snowDays": 0.1
+    },
+    "analog": {
+      "high": 49.8,
+      "low": 30.8,
+      "coldest": 24.2,
+      "precip": 1.0,
+      "snow": 0.1,
+      "wetDays": 3.3,
+      "snowDays": 0
+    },
+    "analogYears": {
+      "1982": {
+        "high": 48.2,
+        "low": 29.9,
+        "coldest": 25.1,
+        "precip": 0.9,
+        "snow": 0.0,
+        "wetDays": 4,
+        "snowDays": 0
+      },
+      "1997": {
+        "high": 50.8,
+        "low": 29.8,
+        "coldest": 20.4,
+        "precip": 1.3,
+        "snow": 0.3,
+        "wetDays": 3,
+        "snowDays": 0
+      },
+      "2015": {
+        "high": 50.4,
+        "low": 32.8,
+        "coldest": 27.2,
+        "precip": 0.7,
+        "snow": 0.0,
+        "wetDays": 3,
+        "snowDays": 0
+      }
+    }
+  },
   "ajo": {
     "label": "Ajo and Organ Pipe",
     "option": "sonoran",
@@ -163,6 +271,60 @@ export const placeWeather: Record<string, PlaceWeather> = {
         "high": 57.5,
         "low": 36.5,
         "coldest": 27.9,
+        "precip": 0.0,
+        "snow": 0.0,
+        "wetDays": 0,
+        "snowDays": 0
+      }
+    }
+  },
+  "kartchner": {
+    "label": "Kartchner Caverns",
+    "option": "sonoran",
+    "lat": 31.8366,
+    "lon": -110.3453,
+    "elevationFt": 4000,
+    "normal": {
+      "high": 57.8,
+      "low": 35.9,
+      "coldest": 27.6,
+      "precip": 0.5,
+      "snow": 0.1,
+      "wetDays": 1.9,
+      "snowDays": 0.0
+    },
+    "analog": {
+      "high": 50.4,
+      "low": 30.8,
+      "coldest": 21.9,
+      "precip": 0.5,
+      "snow": 0.4,
+      "wetDays": 2,
+      "snowDays": 0.3
+    },
+    "analogYears": {
+      "1982": {
+        "high": 45.6,
+        "low": 29.0,
+        "coldest": 18.0,
+        "precip": 0.8,
+        "snow": 1.1,
+        "wetDays": 3,
+        "snowDays": 1
+      },
+      "1997": {
+        "high": 52.0,
+        "low": 30.5,
+        "coldest": 21.3,
+        "precip": 0.7,
+        "snow": 0.2,
+        "wetDays": 3,
+        "snowDays": 0
+      },
+      "2015": {
+        "high": 53.7,
+        "low": 33.0,
+        "coldest": 26.5,
         "precip": 0.0,
         "snow": 0.0,
         "wetDays": 0,

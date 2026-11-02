@@ -321,7 +321,7 @@ export default function Home() {
             <h2 id="weather-heading">What to expect at each stop.</h2>
             <p className="route-deck">
               No forecast reaches Dec 21 yet. Until the 16-day forecast opens on Dec 5, these are the typical conditions for the
-              trip dates over the last 30 winters, and how the three strongest El Niño winters compared. Only some stops are measured so far.
+              trip dates over the last 30 winters, and how the three strongest El Niño winters compared.
               The live forecast loads below once it exists.
             </p>
           </header>
@@ -360,8 +360,8 @@ export default function Home() {
             <div>
               <p className="kicker">What the history says</p>
               <ul className="nino-list">
-                <li>Typical days are mild: highs near 60 °F at Phoenix, Ajo, and Tucson, with lows in the upper 30s to low 40s. Bisbee at 5,300 ft is the cold stop, with highs around 54 °F. Globe and Apache Junction are cooler or warmer by elevation and are added once their data load.</li>
-                <li>Over this exact window in the three biggest El Niño winters, highs ran about 4 to 8 degrees below normal at the stops measured (Phoenix 58 °F, Ajo 58, Tucson 55, Bisbee 47), with almost no extra rain at the low stops. 1982–83 was the coldest of the three (Tucson 51 °F, Bisbee 42). Late December is early in the El Niño storm season.</li>
+                <li>Typical days are mild: highs near 60 °F at Phoenix, Ajo, and Tucson, with lows in the upper 30s to low 40s. Apache Junction is about 61 °F. The higher stops run cooler: Kartchner Caverns about 58 °F, Globe about 56 °F, and Bisbee at 5,300 ft the coldest at about 54 °F.</li>
+                <li>Over this exact window in the three biggest El Niño winters, highs ran about 4 to 8 degrees below normal (Phoenix 58 °F, Apache Junction 56, Ajo 58, Tucson 55, Kartchner 50, Globe 50, Bisbee 47), with almost no extra rain at the low stops. 1982–83 was the coldest of the three (Tucson 51 °F, Globe 48, Bisbee 42). The low desert sits above the 50 °F target and the 3,500 to 5,300 ft stops sit right at it. Late December is early in the El Niño storm season.</li>
                 <li>Plan for cool nights first, then for a possible storm. Snow totals here are model estimates over 13 days, and a single storm can matter more than the average.</li>
               </ul>
             </div>
